@@ -2069,19 +2069,9 @@ p {
   width: 26px;
 }
 
-.roadmap-card.active::after {
-  background: rgba(252,252,250,0.95);
-  border-radius: 999px;
-  content: "";
-  height: 26px;
-  left: 28px;
-  position: absolute;
-  top: -62px;
-  width: 26px;
-}
-
-.roadmap-card.active::after {
-  box-shadow: 0 0 0 6px rgba(113,139,124,0.14);
+.roadmap-card.active::before {
+  background: var(--elevated);
+  box-shadow: 0 0 0 7px rgba(113,139,124,0.14);
 }
 
 .roadmap-meta {
@@ -2129,8 +2119,7 @@ p {
     padding-left: 72px;
   }
 
-  .roadmap-card::before,
-  .roadmap-card.active::after {
+  .roadmap-card::before {
     left: 28px;
     top: 28px;
   }
