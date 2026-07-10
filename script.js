@@ -7,7 +7,7 @@ const workspaceSticky = document.querySelector(".workspace-sticky");
 const stageCopy = document.querySelector("[data-stage-copy]");
 const stageDetail = document.querySelector("[data-stage-detail]");
 const disappearScene = document.querySelector("[data-disappear-scene]");
-const parallaxLayers = [...document.querySelectorAll("[data-speed]")];
+const parallaxLayers = [...document.querySelectorAll("[data-depth]")];
 const stageText = [
   {
     title: "Begin with only the page.",
@@ -24,6 +24,7 @@ const stageText = [
 ];
 
 document.body.classList.add("ready");
+initMotionLibraries();
 
 if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
   const params = new URLSearchParams(window.location.search);
@@ -99,6 +100,7 @@ async function getPosts() {
         title: post.title,
         date: post.date,
         excerpt: post.excerpt,
+        content: post.content,
         path: post.path,
         slug: post.slug || post.path.split("/").pop().replace(/\.md$/, "")
       }))
@@ -127,8 +129,15 @@ function renderBlogList(posts) {
 }
 
 async function renderArticle(post) {
-  const response = await fetch(post.path, { cache: "no-cache" });
-  if (!response.ok) {
+  let markdown = post.content || "";
+  try {
+    const response = await fetch(new URL(post.path, window.location.href), { cache: "no-cache" });
+    if (response.ok) markdown = await response.text();
+  } catch {
+    markdown = post.content || "";
+  }
+
+  if (!markdown) {
     articleMount.innerHTML = `
       <header>
         <p class="eyebrow">Devlog</p>
@@ -138,11 +147,9 @@ async function renderArticle(post) {
     `;
     return;
   }
-  const markdown = await response.text();
   const content = stripFrontmatter(markdown);
-  const html = window.DOMPurify
-    ? DOMPurify.sanitize(marked.parse(content))
-    : marked.parse(content);
+  const parsed = window.marked ? marked.parse(content) : basicMarkdown(content);
+  const html = window.DOMPurify ? DOMPurify.sanitize(parsed) : parsed;
 
   document.title = `${post.title} - Cabin Devlog`;
   setMeta("description", post.excerpt || "A Cabin development note.");
@@ -167,6 +174,20 @@ async function renderArticle(post) {
 
 function stripFrontmatter(markdown) {
   return markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
+}
+
+function basicMarkdown(markdown) {
+  return markdown
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/^### (.*)$/gm, "<h3>$1</h3>")
+    .replace(/^## (.*)$/gm, "<h2>$1</h2>")
+    .replace(/^# (.*)$/gm, "<h1>$1</h1>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .split(/\n{2,}/)
+    .map((block) => block.startsWith("<h") ? block : `<p>${block.replace(/\n/g, "<br>")}</p>`)
+    .join("");
 }
 
 function formatDate(date) {
@@ -204,7 +225,7 @@ function setCanonical(url) {
 }
 
 function initReveals() {
-  const revealItems = [...document.querySelectorAll(".reveal")];
+  const revealItems = [...document.querySelectorAll(".reveal, .roadmap-card, .philosophy-item, .blog-card")];
   if (!revealItems.length) return;
 
   if (prefersReducedMotion || !("IntersectionObserver" in window)) {
@@ -226,13 +247,47 @@ function initReveals() {
   });
 }
 
+function initMotionLibraries() {
+  if (prefersReducedMotion) return;
+  if (window.Lenis) {
+    const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+  }
+
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from(".approach-copy", { opacity: 0, y: 42, duration: 1.2, ease: "power4.out" });
+    gsap.utils.toArray(".principle-moment").forEach((item) => {
+      gsap.fromTo(item, { opacity: 0.35, y: 80, scale: 0.96 }, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1,
+        ease: "power4.out",
+        scrollTrigger: { trigger: item, start: "top 72%", end: "top 32%", scrub: 0.7 }
+      });
+    });
+    gsap.fromTo(".today-panel", { opacity: 0, y: 48 }, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power4.out",
+      scrollTrigger: { trigger: ".project-today", start: "top 70%" }
+    });
+  }
+}
+
 function updateScrollEffects() {
   ticking = false;
   const scrollY = window.scrollY;
 
   if (!prefersReducedMotion) {
     parallaxLayers.forEach((layer) => {
-      const speed = Number(layer.dataset.speed || 0);
+      const speed = Number(layer.dataset.depth || 0);
       layer.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
     });
   }

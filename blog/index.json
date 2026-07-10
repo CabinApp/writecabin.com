@@ -5,7 +5,8 @@
       "date": "2026-07-10",
       "excerpt": "A mock development note showing headings, lists, quotes, tables, links and highlighted code.",
       "path": "blog/welcome-to-cabin.md",
-      "slug": "welcome-to-cabin"
+      "slug": "welcome-to-cabin",
+      "content": "# Welcome to Cabin\n\nCabin is writing software built around a simple belief: the tool should grow at the same pace as the writer's project.\n\n## What the blog supports\n\nThis mock article exists so you can see the Markdown renderer in motion.\n\n- Headings\n- Paragraphs and emphasis\n- Ordered and unordered lists\n- Blockquotes\n- Tables\n- Links\n- Inline code\n- Syntax-highlighted code blocks\n\n1. Add a Markdown file to the `blog` folder.\n2. Give it frontmatter with `title`, `date` and `excerpt`.\n3. Add the title, date, excerpt, path and slug to `blog/index.json`.\n4. Push to GitHub Pages.\n\n> Cabin should feel like a quiet room prepared for thought, not a dashboard pretending to be progress.\n\n## Small table\n\n| Principle | Meaning |\n| --- | --- |\n| Local-first | The writer owns the folder. |\n| Progressive complexity | Structure appears when useful. |\n| AI as editor | The writer keeps the voice. |\n\n## Code block\n\n```js\nconst cabin = {\n  startsAs: \"one blank file\",\n  growsWhen: \"the writer asks\",\n  aiRole: \"editor, not co-author\"\n};\n\nconsole.log(`${cabin.startsAs}; ${cabin.growsWhen}.`);\n```\n\n## Link\n\nRead the [roadmap](roadmap.html) to see how the first alpha is taking shape."
     }
   ]
 }

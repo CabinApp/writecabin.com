@@ -33,33 +33,27 @@
   </header>
 
   <main id="main" class="home-journey">
-    <section class="scene scene-approach" data-scene="approach">
-      <div class="approach-art" aria-hidden="true">
-        <svg class="contours scenic-layer" data-speed="0.03" viewBox="0 0 1440 900" preserveAspectRatio="none">
-          <path d="M-80 645 C150 560 270 700 470 608 C720 492 910 610 1100 522 C1260 448 1370 486 1520 412" />
-          <path d="M-80 725 C210 612 360 772 610 666 C810 580 1020 674 1214 572 C1340 506 1448 510 1520 478" />
-          <path d="M-80 792 C170 708 348 826 586 744 C788 674 976 750 1190 674 C1320 628 1432 620 1520 590" />
-        </svg>
-        <div class="sun-wash scenic-layer" data-speed="0.015"></div>
-        <div class="mountain mountain-far scenic-layer" data-speed="0.045"></div>
-        <div class="mountain mountain-mid scenic-layer" data-speed="0.075"></div>
-        <div class="fog-sheet fog-one scenic-layer" data-speed="0.12"></div>
-        <div class="fog-sheet fog-two scenic-layer" data-speed="0.18"></div>
-        <div class="cabin-glow scenic-layer" data-speed="0.08"></div>
-        <div class="pine-band scenic-layer" data-speed="0.23"></div>
-        <div class="near-pines scenic-layer" data-speed="0.31"></div>
+    <section class="cabin-scene approach-scene">
+      <div class="atmosphere" aria-hidden="true">
+        <div class="morning-light scene-layer" data-depth="0.04"></div>
+        <div class="range range-a scene-layer" data-depth="0.08"></div>
+        <div class="range range-b scene-layer" data-depth="0.15"></div>
+        <div class="mist mist-a scene-layer" data-depth="0.22"></div>
+        <div class="mist mist-b scene-layer" data-depth="0.34"></div>
+        <div class="window-light scene-layer" data-depth="0.18"></div>
+        <div class="forest forest-mid scene-layer" data-depth="0.42"></div>
+        <div class="forest forest-near scene-layer" data-depth="0.62"></div>
       </div>
-      <div class="approach-copy reveal">
+      <div class="approach-copy">
         <p class="eyebrow">A local-first writing environment</p>
         <h1>A quiet place for stories to grow.</h1>
         <p>Cabin begins with a blank page and grows only when your story needs more.</p>
       </div>
     </section>
 
-    <section class="scene scene-grow" data-workspace-sequence>
+    <section class="workspace-sequence" data-workspace-sequence>
       <div class="workspace-sticky">
         <div class="workspace-copy">
-          <p class="eyebrow">Progressive complexity</p>
           <h2 data-stage-copy>Begin with only the page.</h2>
           <p data-stage-detail>The writing surface is quiet first. No chrome, no ceremony, no structure before it has earned a place.</p>
         </div>
@@ -95,51 +89,51 @@
       </div>
     </section>
 
-    <section class="scene principles-cinema" aria-label="Cabin principles">
-      <article class="principle-moment reveal">
+    <section class="principles-cinema" aria-label="Cabin principles">
+      <article class="principle-moment">
         <div class="moment-visual visual-page" aria-hidden="true"></div>
         <div>
-          <span>01</span>
+          <span>Manuscript</span>
           <h2>Writing comes first.</h2>
           <p>The manuscript remains central. Everything else is furniture around the work.</p>
         </div>
       </article>
-      <article class="principle-moment reveal">
+      <article class="principle-moment">
         <div>
-          <span>02</span>
+          <span>Structure</span>
           <h2>Complexity is invited, never imposed.</h2>
           <p>Panels arrive slowly, only when the story asks for structure.</p>
         </div>
         <div class="moment-visual visual-panels" aria-hidden="true"></div>
       </article>
-      <article class="principle-moment reveal">
+      <article class="principle-moment">
         <div class="moment-visual visual-folder" aria-hidden="true"></div>
         <div>
-          <span>03</span>
+          <span>Ownership</span>
           <h2>Your work stays yours.</h2>
           <p>Local folders, readable files and open exports keep ownership visible.</p>
         </div>
       </article>
-      <article class="principle-moment reveal">
+      <article class="principle-moment">
         <div>
-          <span>04</span>
+          <span>Quiet</span>
           <h2>Calm before clever.</h2>
           <p>Cabin should feel like a room prepared for thought, not a machine demanding management.</p>
         </div>
         <div class="moment-visual visual-retreat" aria-hidden="true"></div>
       </article>
-      <article class="principle-moment reveal">
+      <article class="principle-moment">
         <div class="moment-visual visual-annotation" aria-hidden="true"></div>
         <div>
-          <span>05</span>
+          <span>Editor</span>
           <h2>AI may question the work. It does not author it.</h2>
           <p>It can notice grammar, pacing and continuity. The voice stays human.</p>
         </div>
       </article>
     </section>
 
-    <section class="scene project-today">
-      <div class="today-panel reveal">
+    <section class="project-today">
+      <div class="today-panel">
         <p class="eyebrow">The project today</p>
         <h2>Cabin is currently in product design.</h2>
         <p>Its workflows, file model and interface are being defined before development begins.</p>
@@ -151,7 +145,7 @@
       </div>
     </section>
 
-    <section class="scene scene-disappear" data-disappear-scene>
+    <section class="disappear-scene" data-disappear-scene>
       <div class="disappear-workspace" aria-hidden="true">
         <div class="ghost-panel ghost-left"></div>
         <article class="final-page">
@@ -159,12 +153,15 @@
         </article>
         <div class="ghost-panel ghost-right"></div>
       </div>
-      <div class="disappear-copy reveal">
+      <div class="disappear-copy">
         <p>The software should disappear, leaving only the story.</p>
       </div>
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

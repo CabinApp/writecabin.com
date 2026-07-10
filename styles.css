@@ -214,11 +214,11 @@ h2 {
 }
 
 h1 {
-  font-size: clamp(4rem, 9vw, 9.8rem);
+  font-size: clamp(3.2rem, 7.4vw, 6rem);
 }
 
 h2 {
-  font-size: clamp(2.45rem, 6vw, 6.4rem);
+  font-size: clamp(2.2rem, 5.2vw, 5.2rem);
 }
 
 h3 {
@@ -875,6 +875,33 @@ p {
   padding-bottom: clamp(90px, 12vw, 150px);
 }
 
+.philosophy-room {
+  display: grid;
+  min-height: 58svh;
+  place-items: center;
+  padding: 0 clamp(20px, 6vw, 90px) clamp(60px, 10vw, 110px);
+}
+
+.philosophy-room-paper {
+  background:
+    linear-gradient(180deg, rgba(252,252,250,0.92), rgba(248,249,246,0.78)),
+    repeating-linear-gradient(0deg, transparent 0 42px, rgba(216,222,216,0.36) 43px 44px);
+  box-shadow: 0 28px 70px rgba(54,67,58,0.13);
+  display: grid;
+  gap: clamp(18px, 3vw, 34px);
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1180px;
+  padding: clamp(34px, 6vw, 82px);
+  width: 100%;
+}
+
+.philosophy-room-paper span {
+  color: var(--text);
+  font-family: "Lora", Georgia, serif;
+  font-size: clamp(1.35rem, 2.5vw, 2.4rem);
+  line-height: 1.14;
+}
+
 .philosophy-item {
   border-top: 1px solid var(--divider);
   display: grid;
@@ -885,6 +912,8 @@ p {
 
 .philosophy-item h2 {
   font-size: clamp(1.8rem, 3.8vw, 4rem);
+  max-width: 10ch;
+  text-wrap: balance;
 }
 
 .philosophy-item p {
@@ -982,10 +1011,11 @@ p {
 }
 
 .article-content blockquote {
-  border-left: 3px solid var(--accent);
+  background: rgba(216, 229, 220, 0.34);
+  box-shadow: inset 0 0 0 1px rgba(113,139,124,0.18);
   color: var(--secondary);
   margin: 2rem 0;
-  padding-left: 1.2rem;
+  padding: 1rem 1.2rem;
 }
 
 .article-content table {
@@ -1038,7 +1068,6 @@ p {
 }
 
 .roadmap-card {
-  animation: flowIn 780ms ease both;
   background: rgba(252,252,250,0.7);
   border: 1px solid var(--outline);
   box-shadow: var(--shadow-soft), var(--inset-soft);
@@ -1046,6 +1075,17 @@ p {
   padding: 26px;
   position: relative;
   z-index: 1;
+}
+
+.roadmap-card {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 760ms var(--ease), transform 760ms var(--ease), box-shadow 240ms ease;
+}
+
+.roadmap-card:not(.is-visible) {
+  opacity: 0.72;
+  transform: translateY(18px);
 }
 
 .roadmap-card:nth-child(2) { animation-delay: 90ms; }
@@ -1207,6 +1247,10 @@ p {
   .roadmap-card:nth-child(n) {
     grid-column: auto;
   }
+
+  .philosophy-room-paper {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1287,6 +1331,10 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .philosophy-room-paper {
+    grid-template-columns: 1fr;
+  }
+
   .final-page {
     width: min(76vw, 430px);
   }
@@ -1318,5 +1366,261 @@ p {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Impeccable pass: Cabin home as atmospheric product cinema. */
+.cabin-scene,
+.workspace-sequence,
+.principles-cinema,
+.project-today,
+.disappear-scene {
+  overflow: hidden;
+}
+
+.approach-scene {
+  align-items: end;
+  background:
+    radial-gradient(circle at 68% 42%, rgba(212, 180, 119, 0.16), transparent 9rem),
+    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.94), transparent 28rem),
+    linear-gradient(180deg, #F9FAF7 0%, #EEF3ED 54%, #DDE6DE 100%);
+  display: grid;
+  min-height: 100svh;
+  padding: 0 clamp(22px, 6vw, 108px) clamp(76px, 10vh, 126px);
+  position: relative;
+}
+
+.atmosphere {
+  contain: paint;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+}
+
+.scene-layer {
+  position: absolute;
+  will-change: transform;
+}
+
+.morning-light {
+  background:
+    radial-gradient(circle at 72% 38%, rgba(212,180,119,0.42), transparent 4.5rem),
+    radial-gradient(circle at 30% 8%, rgba(255,255,255,0.96), transparent 34rem);
+  inset: -8%;
+}
+
+.range {
+  left: -8vw;
+  right: -8vw;
+  clip-path: polygon(0 84%, 10% 62%, 18% 72%, 29% 44%, 39% 68%, 50% 52%, 61% 73%, 76% 43%, 88% 65%, 100% 54%, 100% 100%, 0 100%);
+}
+
+.range-a {
+  background: linear-gradient(180deg, rgba(216,222,216,0.04), rgba(200,212,201,0.72));
+  bottom: 17vh;
+  height: 48vh;
+}
+
+.range-b {
+  background: linear-gradient(180deg, rgba(184,199,187,0.08), rgba(127,153,134,0.46));
+  bottom: 4vh;
+  height: 45vh;
+  transform: scaleX(1.08);
+}
+
+.mist {
+  background:
+    linear-gradient(90deg, transparent, rgba(252,252,250,0.94) 18%, rgba(252,252,250,0.58) 46%, rgba(252,252,250,0.88) 72%, transparent);
+  filter: blur(18px);
+  height: 22vh;
+  left: -10vw;
+  right: -10vw;
+}
+
+.mist-a {
+  bottom: 31vh;
+  opacity: 0.78;
+}
+
+.mist-b {
+  bottom: 13vh;
+  opacity: 0.7;
+}
+
+.window-light {
+  background:
+    linear-gradient(90deg, transparent 0 34%, rgba(32,37,34,0.28) 34% 66%, transparent 66% 100%),
+    radial-gradient(circle, rgba(212,180,119,0.86) 0 7px, rgba(212,180,119,0.32) 8px 42px, transparent 76px);
+  bottom: 24vh;
+  height: 92px;
+  left: 66vw;
+  opacity: 0.9;
+  width: 92px;
+}
+
+.forest {
+  left: -4vw;
+  right: -4vw;
+}
+
+.forest-mid {
+  background:
+    linear-gradient(135deg, transparent 34%, rgba(64,93,75,0.34) 35% 44%, transparent 45%) 0 0 / 48px 150px,
+    linear-gradient(225deg, transparent 34%, rgba(64,93,75,0.28) 35% 44%, transparent 45%) 0 0 / 48px 150px;
+  bottom: 0;
+  height: 230px;
+}
+
+.forest-near {
+  background:
+    linear-gradient(135deg, transparent 31%, rgba(32,37,34,0.28) 32% 42%, transparent 43%) 0 0 / 80px 280px,
+    linear-gradient(225deg, transparent 31%, rgba(32,37,34,0.24) 32% 42%, transparent 43%) 0 0 / 80px 280px;
+  bottom: -58px;
+  height: 340px;
+  opacity: 0.78;
+}
+
+.approach-copy {
+  max-width: 780px;
+  position: relative;
+  z-index: 2;
+}
+
+.approach-copy h1 {
+  color: var(--text);
+  max-width: 11ch;
+  text-wrap: balance;
+}
+
+.approach-copy p:not(.eyebrow) {
+  color: #3f4d45;
+  font-size: clamp(1.12rem, 2vw, 1.45rem);
+  line-height: 1.6;
+  margin-top: 26px;
+  max-width: 620px;
+  text-wrap: pretty;
+}
+
+.workspace-sequence {
+  background:
+    radial-gradient(circle at 78% 26%, rgba(255,255,255,0.82), transparent 24rem),
+    linear-gradient(180deg, #E7EDE7 0%, #F7F8F4 36%, #E9EFE9 100%);
+  min-height: 460vh;
+}
+
+.workspace-sticky {
+  grid-template-columns: minmax(280px, 0.48fr) minmax(560px, 1fr);
+}
+
+.workspace-copy h2 {
+  font-size: clamp(2.3rem, 5vw, 5.3rem);
+  max-width: 9.5ch;
+  text-wrap: balance;
+}
+
+.assembling-workspace {
+  isolation: isolate;
+}
+
+.assembling-workspace::before {
+  background:
+    linear-gradient(90deg, rgba(185,163,126,0.14), transparent 22% 78%, rgba(64,93,75,0.12)),
+    rgba(252,252,250,0.32);
+  border: 1px solid rgba(216,222,216,0.72);
+  box-shadow: 0 18px 42px rgba(54,67,58,0.08);
+  content: "";
+  inset: 5% 0 3%;
+  position: absolute;
+  z-index: 0;
+}
+
+.manuscript-page {
+  border: 0;
+  box-shadow: 0 24px 56px rgba(54,67,58,0.16), inset 0 0 0 1px rgba(216,222,216,0.72);
+}
+
+.chapter-rail,
+.scene-rail,
+.inspector,
+.research-thread {
+  border: 0;
+  box-shadow: inset 0 0 0 1px rgba(216,222,216,0.7), 0 12px 26px rgba(54,67,58,0.07);
+}
+
+.principles-cinema {
+  background:
+    linear-gradient(90deg, rgba(80,100,87,0.08), transparent 34%),
+    linear-gradient(180deg, #E8EDE8, #F9FAF7 36%, #EAF0EA);
+}
+
+.principle-moment {
+  min-height: 88svh;
+}
+
+.principle-moment h2 {
+  font-size: clamp(2.1rem, 5vw, 5rem);
+  max-width: 11ch;
+}
+
+.principle-moment span {
+  color: var(--accent-active);
+  letter-spacing: 0;
+}
+
+.moment-visual {
+  filter: saturate(0.92);
+}
+
+.project-today {
+  min-height: 100svh;
+}
+
+.today-panel {
+  border: 0;
+  box-shadow: inset 0 0 0 1px rgba(216,222,216,0.8), 0 22px 50px rgba(54,67,58,0.10);
+}
+
+.disappear-scene {
+  background:
+    radial-gradient(circle at 50% 44%, rgba(252,252,250,0.94), transparent 20rem),
+    linear-gradient(180deg, #E8EDE8, #F5F7F3);
+  display: grid;
+  min-height: 130svh;
+  place-items: center;
+  padding: 8vh 22px;
+}
+
+.disappear-copy p {
+  max-width: 1000px;
+  text-wrap: balance;
+}
+
+@media (max-width: 1100px) {
+  .workspace-sticky {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .approach-scene {
+    padding-top: 130px;
+  }
+
+  .window-light {
+    left: 58vw;
+  }
+
+  .workspace-sticky {
+    padding-top: 136px;
+  }
+
+  .workspace-copy h2,
+  .principle-moment h2 {
+    max-width: 100%;
+  }
+
+  .forest-near {
+    bottom: -96px;
   }
 }
