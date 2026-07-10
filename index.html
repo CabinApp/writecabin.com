@@ -3,42 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Cabin is calm writing software that grows with the writer, from a single blank file to rich worldbuilding.">
   <title>Cabin - Writing software that grows with you</title>
+  <meta name="description" content="Cabin is a local-first writing environment that begins as a blank page and grows with your story.">
+  <link rel="canonical" href="https://writecabin.com/">
+  <meta property="og:title" content="Cabin - Writing software that grows with you">
+  <meta property="og:description" content="Begin with a blank page. Add structure, worldbuilding and tools only when your story needs them.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://writecabin.com/">
+  <meta property="og:image" content="https://writecabin.com/assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <div class="grain" aria-hidden="true"></div>
+<body data-page="home">
+  <div class="paper-grain" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header" data-header>
-    <a class="brand" href="?page=home" data-link>
-      <img src="assets/logo.png" alt="Cabin" class="brand-mark">
+    <a class="brand" href="index.html" aria-label="Cabin home">
+      <img src="assets/logo.png" alt="" class="brand-mark">
       <span>Cabin</span>
     </a>
     <nav class="site-nav" aria-label="Primary navigation">
-      <a href="?page=home" data-link>Home</a>
-      <a href="?page=philosophy" data-link>Philosophy</a>
-      <a href="?page=blog" data-link>Blog</a>
-      <a href="?page=roadmap" data-link>Roadmap</a>
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="philosophy.html">Philosophy</a>
+      <a href="blog.html">Blog</a>
+      <a href="roadmap.html">Roadmap</a>
     </nav>
   </header>
 
-  <main id="app" class="page-shell" tabindex="-1"></main>
+  <main id="main">
+    <section class="hero-section">
+      <div class="environment" aria-hidden="true">
+        <div class="fog fog-a" data-parallax="0.035"></div>
+        <div class="fog fog-b" data-parallax="0.065"></div>
+        <div class="ridge ridge-back" data-parallax="0.018"></div>
+        <div class="ridge ridge-front" data-parallax="-0.018"></div>
+        <div class="treeline" data-parallax="-0.035"></div>
+      </div>
+
+      <div class="hero-grid content-width">
+        <div class="hero-copy">
+          <p class="eyebrow">A local-first writing environment</p>
+          <h1>Writing software that grows with you.</h1>
+          <p class="hero-lead">Begin with a blank page. Add structure, worldbuilding and tools only when your story needs them.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="philosophy.html">Discover the philosophy</a>
+            <a class="button quiet" href="blog.html">Read the devlog</a>
+          </div>
+          <p class="status-pill">Currently in product design.</p>
+        </div>
+
+        <figure class="concept-frame" aria-label="Abstract visualization of Cabin growing from a manuscript into a structured writing workspace">
+          <div class="concept-stage">
+            <div class="concept-nav">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="concept-paper">
+              <span class="paper-line strong"></span>
+              <span class="paper-line"></span>
+              <span class="paper-line short"></span>
+              <span class="paper-line"></span>
+              <span class="paper-line medium"></span>
+            </div>
+            <div class="concept-panel concept-panel-left">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="concept-panel concept-panel-right">
+              <span class="dot"></span>
+              <span></span>
+              <span class="dot muted"></span>
+              <span></span>
+            </div>
+            <div class="concept-timeline">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="complexity-section">
+      <div class="content-width complexity-wrap">
+        <div class="section-kicker">
+          <p class="eyebrow">Progressive complexity</p>
+          <h2>The manuscript stays central while the room grows around it.</h2>
+        </div>
+        <div class="growth-visual" aria-label="Three stages of Cabin growing with a writer">
+          <article class="growth-step begin">
+            <span class="step-number">01</span>
+            <h3>Begin</h3>
+            <p>A manuscript and nothing more.</p>
+            <div class="mini-workspace single" aria-hidden="true"><span></span></div>
+          </article>
+          <article class="growth-step grow">
+            <span class="step-number">02</span>
+            <h3>Grow</h3>
+            <p>Add chapters, scenes and structure when needed.</p>
+            <div class="mini-workspace split" aria-hidden="true"><span></span><span></span></div>
+          </article>
+          <article class="growth-step expand">
+            <span class="step-number">03</span>
+            <h3>Expand</h3>
+            <p>Introduce worldbuilding, timelines, research and plugins for larger projects.</p>
+            <div class="mini-workspace full" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles-home content-width">
+      <p class="eyebrow">Principles</p>
+      <div class="principle-statement">
+        <span>01</span>
+        <h2>Writing comes first.</h2>
+        <p>Planning, references and worldbuilding orbit the manuscript. They never replace it.</p>
+      </div>
+      <div class="principle-statement">
+        <span>02</span>
+        <h2>Complexity is earned.</h2>
+        <p>Cabin begins quiet. Structure appears only when the project is ready for it.</p>
+      </div>
+      <div class="principle-statement">
+        <span>03</span>
+        <h2>Your work belongs to you.</h2>
+        <p>Local-first files, readable folders and clean exports keep the writer in control.</p>
+      </div>
+      <div class="principle-statement">
+        <span>04</span>
+        <h2>Calm before clever.</h2>
+        <p>The interface should feel like a prepared room, not a system asking to be managed.</p>
+      </div>
+      <div class="principle-statement">
+        <span>05</span>
+        <h2>AI assists; it does not author.</h2>
+        <p>AI may notice grammar, pacing or continuity concerns. The voice remains human.</p>
+      </div>
+    </section>
+
+    <section class="status-section">
+      <div class="content-width status-grid">
+        <div>
+          <p class="eyebrow">Current status</p>
+          <h2>Cabin is being built slowly and deliberately.</h2>
+        </div>
+        <div class="status-copy">
+          <p>The project is currently in product design, where its workflows, file model and interface are being defined before implementation begins.</p>
+          <div class="inline-links">
+            <a href="roadmap.html">View the public roadmap</a>
+            <a href="blog.html">Read the devlog</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-section" aria-label="Closing statement">
+      <div class="content-width">
+        <p>The software should disappear, leaving only the story.</p>
+      </div>
+    </section>
+  </main>
 
   <footer class="site-footer">
-    <div>
-      <img src="assets/logo.png" alt="" aria-hidden="true">
-      <span>Cabin is being built in public, slowly and deliberately.</span>
-    </div>
-    <a href="?page=blog" data-link>Read the devlog</a>
+    <div><img src="assets/logo.png" alt=""> <span>Cabin</span></div>
+    <p>Local-first writing software in product design.</p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.11/purify.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

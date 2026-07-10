@@ -23,8 +23,8 @@ This mock article exists so you can see the Markdown renderer in motion.
 
 1. Add a Markdown file to the `blog` folder.
 2. Give it frontmatter with `title`, `date` and `excerpt`.
-3. Push to GitHub Pages.
-4. The blog list discovers it automatically through GitHub's public contents API.
+3. Add the title, date, excerpt, path and slug to `blog/index.json`.
+4. Push to GitHub Pages.
 
 > Cabin should feel like a quiet room prepared for thought, not a dashboard pretending to be progress.
 
@@ -50,4 +50,4 @@ console.log(`${cabin.startsAs}; ${cabin.growsWhen}.`);
 
 ## Link
 
-Read the [roadmap](?page=roadmap) to see how the first alpha is taking shape.
+Read the [roadmap](roadmap.html) to see how the first alpha is taking shape.

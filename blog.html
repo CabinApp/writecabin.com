@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Cabin</title>
+  <meta name="description" content="Development notes from Cabin as the local-first writing environment is designed and built.">
+  <link rel="canonical" href="https://writecabin.com/blog.html">
+  <meta property="og:title" content="Blog - Cabin">
+  <meta property="og:description" content="Read Cabin devlog posts about product design, writing software and local-first workflows.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://writecabin.com/blog.html">
+  <meta property="og:image" content="https://writecabin.com/assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="blog">
+  <div class="paper-grain" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-header>
+    <a class="brand" href="index.html" aria-label="Cabin home"><img src="assets/logo.png" alt="" class="brand-mark"><span>Cabin</span></a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="philosophy.html">Philosophy</a>
+      <a href="blog.html" aria-current="page">Blog</a>
+      <a href="roadmap.html">Roadmap</a>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="page-hero content-width">
+      <p class="eyebrow">Devlog</p>
+      <h1>Notes from the build.</h1>
+      <p>Each post is a local Markdown file listed in <code>blog/index.json</code>. Blog articles open as full pages with the navigation kept in place.</p>
+    </section>
+    <section class="blog-index content-width" data-blog-list aria-label="Blog posts">
+      <a class="blog-card" href="blog.html?post=welcome-to-cabin">
+        <time datetime="2026-07-10">July 10, 2026</time>
+        <span>
+          <h2>Welcome to Cabin</h2>
+          <p>A mock development note showing headings, lists, quotes, tables, links and highlighted code.</p>
+        </span>
+        <span class="arrow" aria-hidden="true">-&gt;</span>
+      </a>
+    </section>
+    <article class="article-shell" data-article-mount hidden></article>
+  </main>
+  <footer class="site-footer">
+    <div><img src="assets/logo.png" alt=""> <span>Cabin</span></div>
+    <p>Local Markdown devlogs, rendered on the site.</p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.11/purify.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

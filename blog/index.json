@@ -1,5 +1,11 @@
 {
   "posts": [
-    "welcome-to-cabin.md"
+    {
+      "title": "Welcome to Cabin",
+      "date": "2026-07-10",
+      "excerpt": "A mock development note showing headings, lists, quotes, tables, links and highlighted code.",
+      "path": "blog/welcome-to-cabin.md",
+      "slug": "welcome-to-cabin"
+    }
   ]
 }
