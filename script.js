@@ -8,6 +8,7 @@ const stageCopy = document.querySelector("[data-stage-copy]");
 const stageDetail = document.querySelector("[data-stage-detail]");
 const disappearScene = document.querySelector("[data-disappear-scene]");
 const parallaxLayers = [...document.querySelectorAll("[data-depth]")];
+let workspacePinnedByScrollTrigger = false;
 const stageText = [
   {
     title: "Begin with only the page.",
@@ -261,6 +262,7 @@ function initMotionLibraries() {
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
     gsap.from(".approach-copy", { opacity: 0, y: 42, duration: 1.2, ease: "power4.out" });
+    initWorkspacePin();
     gsap.utils.toArray(".principle-moment").forEach((item) => {
       gsap.fromTo(item, { opacity: 0.35, y: 80, scale: 0.96 }, {
         opacity: 1,
@@ -281,6 +283,23 @@ function initMotionLibraries() {
   }
 }
 
+function initWorkspacePin() {
+  if (!workspaceSequence || !workspaceSticky) return;
+  workspacePinnedByScrollTrigger = true;
+  document.body.classList.add("has-workspace-pin");
+
+  ScrollTrigger.create({
+    trigger: workspaceSequence,
+    pin: workspaceSticky,
+    start: "top top",
+    end: () => `+=${Math.round(Math.min(window.innerHeight * 1.55, 1500))}`,
+    scrub: 0.65,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+    onUpdate: (self) => updateWorkspaceProgress(self.progress)
+  });
+}
+
 function updateScrollEffects() {
   ticking = false;
   const scrollY = window.scrollY;
@@ -292,7 +311,7 @@ function updateScrollEffects() {
     });
   }
 
-  updateWorkspace(scrollY);
+  if (!workspacePinnedByScrollTrigger) updateWorkspace(scrollY);
   updateDisappearance(scrollY);
 }
 
@@ -301,6 +320,10 @@ function updateWorkspace(scrollY) {
   const rect = workspaceSequence.getBoundingClientRect();
   const total = workspaceSequence.offsetHeight - window.innerHeight;
   const progress = clamp((-rect.top) / Math.max(total, 1), 0, 1);
+  updateWorkspaceProgress(progress);
+}
+
+function updateWorkspaceProgress(progress) {
   const stage = progress < 0.24 ? 0 : progress < 0.46 ? 1 : progress < 0.68 ? 2 : progress < 0.86 ? 3 : 4;
   workspaceSticky.dataset.stage = String(stage);
 

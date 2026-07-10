@@ -2292,6 +2292,15 @@ main:not(.home-journey) {
   padding-top: clamp(76px, 8vw, 112px);
 }
 
+body.has-workspace-pin .workspace-sequence {
+  min-height: 100svh;
+}
+
+body.has-workspace-pin .workspace-sticky {
+  position: relative;
+  top: auto;
+}
+
 .principles-cinema {
   padding-top: clamp(34px, 5vw, 68px);
 }
