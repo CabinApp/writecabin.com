@@ -1119,20 +1119,6 @@ p {
   border-color: var(--accent);
 }
 
-.roadmap-card:nth-child(4) { grid-column: 3; }
-.roadmap-card:nth-child(5) { grid-column: 2; }
-.roadmap-card:nth-child(6) { grid-column: 1; }
-
-.roadmap-meta {
-  color: var(--accent-active);
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 750;
-  letter-spacing: 0.08em;
-  margin-left: 44px;
-  text-transform: uppercase;
-}
-
 .roadmap-card h2 {
   font-size: clamp(1.25rem, 2.3vw, 2rem);
   margin-top: 44px;
@@ -1151,8 +1137,8 @@ p {
 
 .not-found-panel {
   background:
-    radial-gradient(circle at 72% 24%, rgba(255,255,255,0.9), transparent 15rem),
-    rgba(252,252,250,0.64);
+    linear-gradient(90deg, rgba(252,252,250,0.94), rgba(252,252,250,0.70)),
+    url("assets/cabin-mountain-morning.png") center right / cover no-repeat;
   border: 1px solid var(--outline);
   box-shadow: var(--shadow-deep), var(--inset-soft);
   overflow: hidden;
@@ -2074,10 +2060,6 @@ p {
   box-shadow: 0 0 0 7px rgba(113,139,124,0.14);
 }
 
-.roadmap-meta {
-  margin-left: 0;
-}
-
 .roadmap-card h2 {
   margin-top: 28px;
 }
@@ -2231,5 +2213,271 @@ p {
   .roadmap-card,
   .philosophy-room-paper {
     background: var(--elevated);
+  }
+}
+
+/* Frontend-design pass: Cabin as a quiet mountain writing room. */
+body {
+  background:
+    radial-gradient(circle at 78% 8%, rgba(212,180,119,0.16), transparent 24rem),
+    radial-gradient(circle at 10% 18%, rgba(255,255,255,0.82), transparent 28rem),
+    linear-gradient(180deg, #F6F8F4 0%, var(--canvas) 46%, #E7EDE7 100%);
+}
+
+.site-header {
+  min-height: 82px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.brand {
+  font-size: 1.18rem;
+}
+
+.brand-mark {
+  height: 48px;
+  width: 48px;
+}
+
+.site-nav a {
+  font-size: 1.02rem;
+  min-height: 44px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+main:not(.home-journey) {
+  padding-top: 82px;
+}
+
+.approach-scene {
+  isolation: isolate;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.approach-art-image {
+  height: 110%;
+  inset: -4% 0 auto;
+  object-fit: cover;
+  opacity: 0.92;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  z-index: -2;
+}
+
+.approach-scene::after {
+  background:
+    linear-gradient(90deg, rgba(241,244,240,0.94) 0%, rgba(241,244,240,0.58) 42%, rgba(241,244,240,0.18) 100%),
+    linear-gradient(180deg, rgba(241,244,240,0.10) 0%, rgba(241,244,240,0.82) 100%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.desk-surface {
+  background: linear-gradient(90deg, rgba(185,163,126,0.20), rgba(252,252,250,0.36), rgba(64,93,75,0.10));
+  height: 15vh;
+}
+
+.workspace-sequence {
+  min-height: 230vh;
+}
+
+.workspace-sticky {
+  padding-bottom: clamp(54px, 7vw, 88px);
+  padding-top: clamp(76px, 8vw, 112px);
+}
+
+.principles-cinema {
+  padding-top: clamp(34px, 5vw, 68px);
+}
+
+.moment-image {
+  aspect-ratio: 1.35 / 1;
+  border-radius: 8px;
+  box-shadow: 0 12px 22px rgba(54,67,58,0.10);
+  filter: saturate(0.88) contrast(0.96);
+  height: auto;
+  object-fit: cover;
+  opacity: 0.82;
+  width: min(100%, 560px);
+}
+
+.principle-moment:nth-child(odd) .moment-image {
+  justify-self: end;
+}
+
+.page-hero {
+  min-height: 48svh;
+  position: relative;
+}
+
+.page-hero::after {
+  background:
+    linear-gradient(90deg, rgba(241,244,240,0.92), rgba(241,244,240,0.64), rgba(241,244,240,0.12)),
+    url("assets/cabin-writing-room.png") center right / min(48vw, 640px) auto no-repeat;
+  content: "";
+  inset: 0 clamp(20px, 4vw, 46px);
+  opacity: 0.72;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.page-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.philosophy-room-paper,
+.article-content,
+.blog-card,
+.today-panel,
+.roadmap-card,
+.not-found-panel {
+  border-radius: 8px;
+}
+
+.roadmap-section {
+  max-width: 1320px;
+}
+
+.roadmap-grid {
+  column-gap: clamp(22px, 3.5vw, 52px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(240px, auto));
+  padding: 82px 0 42px;
+  row-gap: 112px;
+}
+
+.roadmap-line {
+  display: block;
+}
+
+.snake-top,
+.snake-top-fill {
+  height: 14px;
+  left: 6%;
+  top: 20px;
+  width: 88%;
+}
+
+.snake-top-fill {
+  width: 29%;
+}
+
+.snake-right-curve,
+.snake-left-curve {
+  height: 368px;
+  width: 92px;
+}
+
+.snake-right-curve {
+  right: 2%;
+  top: 20px;
+}
+
+.snake-middle {
+  height: 14px;
+  left: 6%;
+  top: 374px;
+  width: 88%;
+}
+
+.snake-left-curve {
+  left: 2%;
+  top: 374px;
+}
+
+.snake-bottom {
+  height: 14px;
+  left: 6%;
+  top: 728px;
+  width: 88%;
+}
+
+.roadmap-card {
+  min-height: 236px;
+  padding: 26px;
+}
+
+.roadmap-card:nth-of-type(1) { grid-column: 1; grid-row: 1; }
+.roadmap-card:nth-of-type(2) { grid-column: 2; grid-row: 1; }
+.roadmap-card:nth-of-type(3) { grid-column: 3; grid-row: 1; }
+.roadmap-card:nth-of-type(4) { grid-column: 4; grid-row: 1; }
+.roadmap-card:nth-of-type(5) { grid-column: 4; grid-row: 2; }
+.roadmap-card:nth-of-type(6) { grid-column: 3; grid-row: 2; }
+.roadmap-card:nth-of-type(7) { grid-column: 2; grid-row: 2; }
+.roadmap-card:nth-of-type(8) { grid-column: 1; grid-row: 2; }
+.roadmap-card:nth-of-type(9) { grid-column: 1; grid-row: 3; }
+.roadmap-card:nth-of-type(10) { grid-column: 2; grid-row: 3; }
+.roadmap-card:nth-of-type(11) { grid-column: 3; grid-row: 3; }
+.roadmap-card:nth-of-type(12) { grid-column: 4; grid-row: 3; }
+
+.roadmap-card::before {
+  height: 28px;
+  left: 24px;
+  top: -76px;
+  width: 28px;
+}
+
+.roadmap-card.active::before {
+  background: var(--elevated);
+  box-shadow: 0 0 0 8px rgba(113,139,124,0.13);
+}
+
+.roadmap-card h2 {
+  font-size: clamp(1.2rem, 1.75vw, 1.8rem);
+  margin-top: 0;
+}
+
+.roadmap-card p {
+  font-size: 1rem;
+}
+
+@media (max-width: 1100px) {
+  .roadmap-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    padding-top: 0;
+  }
+
+  .roadmap-line {
+    display: none;
+  }
+
+  .roadmap-card:nth-of-type(n) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    min-height: 122px;
+  }
+
+  main:not(.home-journey) {
+    padding-top: 122px;
+  }
+
+  .brand-mark {
+    height: 42px;
+    width: 42px;
+  }
+
+  .approach-art-image {
+    height: 100%;
+    opacity: 0.76;
+  }
+
+  .page-hero::after {
+    background:
+      linear-gradient(180deg, rgba(241,244,240,0.92), rgba(241,244,240,0.78)),
+      url("assets/cabin-writing-room.png") center bottom / 100% auto no-repeat;
   }
 }

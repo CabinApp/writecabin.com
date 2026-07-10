@@ -8,7 +8,6 @@ const stageCopy = document.querySelector("[data-stage-copy]");
 const stageDetail = document.querySelector("[data-stage-detail]");
 const disappearScene = document.querySelector("[data-disappear-scene]");
 const parallaxLayers = [...document.querySelectorAll("[data-depth]")];
-const atmosphereCanvas = document.querySelector("[data-atmosphere-canvas]");
 const stageText = [
   {
     title: "Begin with only the page.",
@@ -26,7 +25,6 @@ const stageText = [
 
 document.body.classList.add("ready");
 initMotionLibraries();
-initAtmosphereCanvas();
 
 if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
   const params = new URLSearchParams(window.location.search);
@@ -281,108 +279,6 @@ function initMotionLibraries() {
       scrollTrigger: { trigger: ".project-today", start: "top 70%" }
     });
   }
-}
-
-function initAtmosphereCanvas() {
-  if (!atmosphereCanvas) return;
-  const context = atmosphereCanvas.getContext("2d");
-  if (!context) return;
-
-  const layers = [
-    { offset: 0, speed: 0.012, alpha: 0.34 },
-    { offset: 120, speed: 0.028, alpha: 0.28 },
-    { offset: 260, speed: 0.048, alpha: 0.22 }
-  ];
-
-  function resize() {
-    const scale = Math.min(window.devicePixelRatio || 1, 2);
-    atmosphereCanvas.width = Math.floor(window.innerWidth * scale);
-    atmosphereCanvas.height = Math.floor(window.innerHeight * scale);
-    context.setTransform(scale, 0, 0, scale, 0, 0);
-    draw();
-  }
-
-  function draw() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const scroll = prefersReducedMotion ? 0 : window.scrollY;
-    context.clearRect(0, 0, width, height);
-
-    const sky = context.createLinearGradient(0, 0, 0, height);
-    sky.addColorStop(0, "#FAFBF8");
-    sky.addColorStop(0.52, "#ECF2EB");
-    sky.addColorStop(1, "#DDE7DE");
-    context.fillStyle = sky;
-    context.fillRect(0, 0, width, height);
-
-    const glow = context.createRadialGradient(width * 0.72, height * 0.38, 0, width * 0.72, height * 0.38, width * 0.28);
-    glow.addColorStop(0, "rgba(212,180,119,0.38)");
-    glow.addColorStop(1, "rgba(212,180,119,0)");
-    context.fillStyle = glow;
-    context.fillRect(0, 0, width, height);
-
-    drawMountain(width, height, 0.52 + scroll * 0.00008, "rgba(183,199,187,0.54)", 0.14);
-    drawMountain(width, height, 0.64 + scroll * 0.00012, "rgba(120,150,132,0.33)", 0.2);
-    drawFog(width, height, layers, scroll);
-    drawPines(width, height, scroll);
-    drawWindow(width, height, scroll);
-  }
-
-  function drawMountain(width, height, base, color, roughness) {
-    context.beginPath();
-    context.moveTo(0, height);
-    for (let x = -80; x <= width + 80; x += width / 9) {
-      const wave = Math.sin(x * 0.011) * height * roughness;
-      const y = height * base + wave - Math.cos(x * 0.005) * height * 0.08;
-      context.lineTo(x, y);
-    }
-    context.lineTo(width, height);
-    context.closePath();
-    context.fillStyle = color;
-    context.fill();
-  }
-
-  function drawFog(width, height, layers, scroll) {
-    layers.forEach((layer, index) => {
-      const y = height * (0.52 + index * 0.14) + Math.sin(scroll * layer.speed) * 12;
-      const gradient = context.createLinearGradient(0, y - 80, 0, y + 80);
-      gradient.addColorStop(0, "rgba(252,252,250,0)");
-      gradient.addColorStop(0.5, `rgba(252,252,250,${layer.alpha})`);
-      gradient.addColorStop(1, "rgba(252,252,250,0)");
-      context.fillStyle = gradient;
-      context.fillRect(0, y - 120, width, 240);
-    });
-  }
-
-  function drawPines(width, height, scroll) {
-    context.fillStyle = "rgba(38,57,45,0.26)";
-    const baseY = height * 0.86 + scroll * 0.02;
-    for (let x = -40; x < width + 80; x += 34) {
-      const treeHeight = 68 + ((x * 13) % 70);
-      context.beginPath();
-      context.moveTo(x, baseY);
-      context.lineTo(x + 15, baseY - treeHeight);
-      context.lineTo(x + 30, baseY);
-      context.closePath();
-      context.fill();
-    }
-  }
-
-  function drawWindow(width, height, scroll) {
-    const x = width * 0.68;
-    const y = height * 0.62 + scroll * 0.018;
-    const light = context.createRadialGradient(x, y, 0, x, y, 70);
-    light.addColorStop(0, "rgba(212,180,119,0.72)");
-    light.addColorStop(1, "rgba(212,180,119,0)");
-    context.fillStyle = light;
-    context.fillRect(x - 90, y - 90, 180, 180);
-    context.fillStyle = "rgba(80,60,42,0.42)";
-    context.fillRect(x - 14, y - 9, 28, 18);
-  }
-
-  window.addEventListener("resize", resize, { passive: true });
-  window.addEventListener("scroll", () => window.requestAnimationFrame(draw), { passive: true });
-  resize();
 }
 
 function updateScrollEffects() {
