@@ -34,20 +34,21 @@
 
   <main id="main" class="home-journey">
     <section class="cabin-scene approach-scene">
-      <div class="atmosphere" aria-hidden="true">
-        <div class="morning-light scene-layer" data-depth="0.04"></div>
-        <div class="range range-a scene-layer" data-depth="0.08"></div>
-        <div class="range range-b scene-layer" data-depth="0.15"></div>
-        <div class="mist mist-a scene-layer" data-depth="0.22"></div>
-        <div class="mist mist-b scene-layer" data-depth="0.34"></div>
-        <div class="window-light scene-layer" data-depth="0.18"></div>
-        <div class="forest forest-mid scene-layer" data-depth="0.42"></div>
-        <div class="forest forest-near scene-layer" data-depth="0.62"></div>
+      <canvas class="atmosphere-canvas" data-atmosphere-canvas aria-hidden="true"></canvas>
+      <div class="approach-room" aria-hidden="true">
+        <div class="room-plane room-left" data-depth="0.05"></div>
+        <div class="room-plane room-right" data-depth="0.08"></div>
+        <div class="desk-surface" data-depth="0.12"></div>
       </div>
       <div class="approach-copy">
         <p class="eyebrow">A local-first writing environment</p>
         <h1>A quiet place for stories to grow.</h1>
         <p>Cabin begins with a blank page and grows only when your story needs more.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="philosophy.html">Discover the philosophy</a>
+          <a class="button quiet" href="blog.html">Read the Blog</a>
+        </div>
+        <p class="project-note">Currently in product design.</p>
       </div>
     </section>
 
@@ -90,6 +91,11 @@
     </section>
 
     <section class="principles-cinema" aria-label="Cabin principles">
+      <div class="principles-intro">
+        <p class="eyebrow">Why Cabin exists</p>
+        <h2>Most writing software asks you to manage the tool before you can hear the sentence.</h2>
+        <p>Cabin is built against that interruption. Structure is useful. Ownership matters. Assistance can help. But the writing must stay in the center of the room.</p>
+      </div>
       <article class="principle-moment">
         <div class="moment-visual visual-page" aria-hidden="true"></div>
         <div>
@@ -140,7 +146,7 @@
         <div class="inline-links">
           <a href="philosophy.html">Philosophy</a>
           <a href="roadmap.html">Roadmap</a>
-          <a href="blog.html">Devlog</a>
+          <a href="blog.html">Blog</a>
         </div>
       </div>
     </section>

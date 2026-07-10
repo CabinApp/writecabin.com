@@ -1624,3 +1624,611 @@ p {
     bottom: -96px;
   }
 }
+
+/* Impeccable authority pass: calmer, more tactile, less generic. */
+h1 {
+  font-size: clamp(2.8rem, 6.4vw, 5.8rem);
+  line-height: 1.04;
+}
+
+h2 {
+  font-size: clamp(2rem, 4.6vw, 4.6rem);
+  line-height: 1.08;
+}
+
+.site-header {
+  background: rgba(248, 249, 246, 0.82);
+  box-shadow: none;
+}
+
+.site-header.scenic-nav {
+  background: linear-gradient(180deg, rgba(248,249,246,0.68), rgba(248,249,246,0.18));
+}
+
+.site-header.nav-vanish {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.site-nav a {
+  min-height: 42px;
+}
+
+.approach-scene {
+  align-items: center;
+  background: var(--canvas);
+  min-height: 100svh;
+  padding: clamp(130px, 16vh, 180px) clamp(22px, 7vw, 132px) clamp(68px, 9vh, 112px);
+}
+
+.atmosphere-canvas {
+  height: 100%;
+  inset: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.approach-room {
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+}
+
+.room-plane {
+  background: linear-gradient(180deg, rgba(252,252,250,0.42), rgba(232,237,232,0.16));
+  border: 1px solid rgba(216,222,216,0.36);
+  box-shadow: 0 38px 90px rgba(54,67,58,0.09);
+  position: absolute;
+  transform: rotate(-8deg);
+}
+
+.room-left {
+  height: 62vh;
+  left: -11vw;
+  top: 24vh;
+  width: 34vw;
+}
+
+.room-right {
+  height: 78vh;
+  right: -14vw;
+  top: 12vh;
+  transform: rotate(7deg);
+  width: 39vw;
+}
+
+.desk-surface {
+  background: linear-gradient(90deg, rgba(185,163,126,0.22), rgba(252,252,250,0.28), rgba(64,93,75,0.12));
+  border-top: 1px solid rgba(185,163,126,0.22);
+  bottom: 0;
+  height: 18vh;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.approach-copy {
+  margin-top: 0;
+  max-width: 860px;
+}
+
+.approach-copy h1 {
+  max-width: 12ch;
+}
+
+.approach-copy .hero-actions {
+  margin-top: 32px;
+}
+
+.project-note {
+  color: var(--accent-active) !important;
+  font-size: 0.94rem !important;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  margin-top: 22px !important;
+}
+
+.button.primary {
+  background: var(--text);
+  border-color: var(--text);
+  box-shadow: 0 12px 28px rgba(32,37,34,0.12);
+}
+
+.button.quiet,
+.inline-links a {
+  background: rgba(252,252,250,0.72);
+}
+
+.workspace-sequence {
+  min-height: 330vh;
+}
+
+.workspace-sticky {
+  gap: clamp(24px, 4vw, 64px);
+  grid-template-columns: minmax(280px, 0.46fr) minmax(460px, 1fr);
+}
+
+.workspace-copy h2 {
+  font-size: clamp(2.15rem, 4.4vw, 4.9rem);
+  line-height: 1.08;
+  max-width: 11ch;
+}
+
+.workspace-copy p:not(.eyebrow) {
+  max-width: 520px;
+}
+
+.assembling-workspace {
+  min-height: 500px;
+}
+
+.assembling-workspace::before {
+  border-radius: 10px;
+  inset: 8% 2% 4%;
+}
+
+.manuscript-page {
+  min-height: 500px;
+  width: min(60%, 500px);
+}
+
+.principles-cinema {
+  padding-top: clamp(70px, 9vw, 120px);
+}
+
+.principles-intro {
+  margin: 0 auto clamp(36px, 6vw, 72px);
+  max-width: 1120px;
+}
+
+.principles-intro h2 {
+  font-size: clamp(2rem, 4.4vw, 4.35rem);
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+.principles-intro p:not(.eyebrow) {
+  font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+  margin-top: 24px;
+  max-width: 720px;
+}
+
+.principle-moment {
+  min-height: min(78svh, 760px);
+}
+
+.principle-moment h2 {
+  font-size: clamp(2rem, 4.4vw, 4.4rem);
+  line-height: 1.08;
+}
+
+.moment-visual {
+  min-height: 360px;
+}
+
+.project-today {
+  min-height: 76svh;
+}
+
+.today-panel h2 {
+  font-size: clamp(2.1rem, 4.6vw, 4.4rem);
+  max-width: 13ch;
+}
+
+.disappear-scene {
+  min-height: 105svh;
+}
+
+.disappear-copy p {
+  font-size: clamp(2.2rem, 5.8vw, 6.3rem);
+  line-height: 1.07;
+}
+
+.page-hero {
+  padding-top: clamp(96px, 10vw, 132px);
+}
+
+.page-hero h1 {
+  max-width: 13ch;
+}
+
+.philosophy-room {
+  min-height: auto;
+  padding-bottom: clamp(42px, 7vw, 82px);
+}
+
+.philosophy-room-paper {
+  display: block;
+  max-width: 1120px;
+  padding: clamp(34px, 6vw, 78px);
+  position: relative;
+}
+
+.philosophy-room-paper::after {
+  background:
+    linear-gradient(90deg, rgba(113,139,124,0.34), transparent),
+    repeating-linear-gradient(90deg, rgba(216,222,216,0.56) 0 1px, transparent 1px 42px);
+  bottom: clamp(22px, 4vw, 42px);
+  content: "";
+  height: 1px;
+  left: clamp(34px, 6vw, 78px);
+  position: absolute;
+  right: clamp(34px, 6vw, 78px);
+}
+
+.philosophy-room-paper h2 {
+  font-size: clamp(2rem, 4.2vw, 4.2rem);
+  line-height: 1.14;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+.philosophy-room-paper p:not(.eyebrow) {
+  font-size: clamp(1.08rem, 1.7vw, 1.28rem);
+  margin-top: 22px;
+  max-width: 680px;
+}
+
+.philosophy-item {
+  align-items: start;
+  gap: clamp(18px, 4vw, 42px);
+  grid-template-columns: 72px minmax(220px, 0.44fr) minmax(0, 1fr);
+}
+
+.philosophy-item > span {
+  color: var(--accent-active);
+  font-family: "Lora", Georgia, serif;
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+}
+
+.philosophy-item h2 {
+  font-size: clamp(1.45rem, 2.7vw, 2.55rem);
+  line-height: 1.14;
+  max-width: 14ch;
+}
+
+.philosophy-item p {
+  font-size: 1.03rem;
+  line-height: 1.82;
+  max-width: 72ch;
+}
+
+.blog-index {
+  display: grid;
+  gap: 18px;
+}
+
+.blog-card {
+  border-radius: 8px;
+  grid-template-columns: minmax(120px, 0.22fr) 1fr 42px;
+}
+
+.blog-card h2 {
+  font-size: clamp(1.4rem, 2.5vw, 2.35rem);
+  line-height: 1.15;
+}
+
+.article-shell {
+  max-width: min(1180px, calc(100vw - 36px));
+}
+
+.article-shell header {
+  max-width: 860px;
+}
+
+.article-shell h1 {
+  font-size: clamp(2.5rem, 5.8vw, 5.1rem);
+  max-width: 14ch;
+}
+
+.article-shell header > p:not(.eyebrow) {
+  font-size: clamp(1.08rem, 1.7vw, 1.28rem);
+  max-width: 720px;
+}
+
+.article-content {
+  border-radius: 8px;
+  margin-top: 36px;
+  max-width: none;
+  padding: clamp(28px, 5vw, 72px);
+}
+
+.article-content > * {
+  max-width: 75ch;
+}
+
+.article-content pre,
+.article-content table {
+  max-width: 100%;
+}
+
+.article-content table {
+  display: block;
+  overflow-x: auto;
+}
+
+.roadmap-stage-row {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: clamp(44px, 7vw, 86px);
+}
+
+.roadmap-stage-row div {
+  background: rgba(252,252,250,0.7);
+  border: 1px solid var(--outline);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft), var(--inset-soft);
+  min-height: 120px;
+  padding: 24px;
+}
+
+.roadmap-stage-row span {
+  color: var(--accent-active);
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.roadmap-stage-row strong {
+  display: block;
+  font-family: "Lora", Georgia, serif;
+  font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+  font-weight: 500;
+  line-height: 1.16;
+  margin-top: 14px;
+}
+
+.roadmap-grid {
+  align-items: start;
+  gap: 82px 54px;
+  grid-template-rows: repeat(3, minmax(220px, auto));
+  padding: 22px 0;
+}
+
+.roadmap-grid::before {
+  content: none;
+}
+
+.roadmap-path {
+  height: 100%;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+}
+
+.roadmap-path path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.roadmap-base {
+  stroke: rgba(216,222,216,0.96);
+  stroke-width: 14;
+}
+
+.roadmap-progress {
+  stroke: var(--accent);
+  stroke-width: 14;
+  transition: stroke-dashoffset 260ms linear;
+}
+
+.roadmap-card {
+  border-radius: 8px;
+  margin-top: 42px;
+  min-height: 220px;
+}
+
+.roadmap-card:nth-child(n) {
+  grid-column: auto;
+}
+
+.roadmap-card:nth-of-type(1) { grid-column: 1; grid-row: 1; }
+.roadmap-card:nth-of-type(2) { grid-column: 2; grid-row: 1; }
+.roadmap-card:nth-of-type(3) { grid-column: 3; grid-row: 1; }
+.roadmap-card:nth-of-type(4) { grid-column: 3; grid-row: 2; }
+.roadmap-card:nth-of-type(5) { grid-column: 2; grid-row: 2; }
+.roadmap-card:nth-of-type(6) { grid-column: 1; grid-row: 2; }
+.roadmap-card:nth-of-type(7) { grid-column: 1; grid-row: 3; }
+.roadmap-card:nth-of-type(8) { grid-column: 2; grid-row: 3; }
+.roadmap-card:nth-of-type(9) { grid-column: 3; grid-row: 3; }
+
+.roadmap-card:nth-of-type(1),
+.roadmap-card:nth-of-type(2),
+.roadmap-card:nth-of-type(3) {
+  margin-top: 0;
+}
+
+.roadmap-card::before {
+  border-width: 3px;
+  height: 20px;
+  left: 26px;
+  top: -36px;
+  width: 20px;
+}
+
+.roadmap-card.active::after {
+  background: rgba(252,252,250,0.95);
+  border-radius: 999px;
+  content: "";
+  height: 20px;
+  left: 29px;
+  position: absolute;
+  top: -33px;
+  width: 20px;
+}
+
+.roadmap-card.active::after {
+  box-shadow: 0 0 0 6px rgba(113,139,124,0.14);
+}
+
+.roadmap-meta {
+  margin-left: 0;
+}
+
+.roadmap-card h2 {
+  margin-top: 28px;
+}
+
+@media (max-width: 1100px) {
+  .workspace-sequence {
+    min-height: 300vh;
+  }
+
+  .workspace-sticky,
+  .principle-moment,
+  .principle-moment:nth-child(even),
+  .philosophy-item {
+    grid-template-columns: 1fr;
+  }
+
+  .philosophy-item > span {
+    font-size: 1rem;
+    font-family: "Geist", system-ui, sans-serif;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+  }
+
+  .roadmap-stage-row {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-path {
+    display: none;
+  }
+
+  .roadmap-grid {
+    gap: 24px;
+  }
+
+  .roadmap-card {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    margin-top: 0;
+    padding-left: 72px;
+  }
+
+  .roadmap-card::before,
+  .roadmap-card.active::after {
+    left: 28px;
+    top: 28px;
+  }
+}
+
+@media (max-width: 760px) {
+  h1 {
+    font-size: clamp(2.45rem, 13vw, 4.2rem);
+  }
+
+  h2 {
+    font-size: clamp(1.85rem, 9vw, 3rem);
+  }
+
+  .site-header {
+    gap: 10px;
+  }
+
+  .approach-scene {
+    min-height: 92svh;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hero-actions,
+  .inline-links {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .button,
+  .inline-links a {
+    width: 100%;
+  }
+
+  .workspace-sequence {
+    min-height: auto;
+  }
+
+  .workspace-sticky {
+    min-height: auto;
+    padding-bottom: 72px;
+    position: relative;
+  }
+
+  .assembling-workspace {
+    min-height: 430px;
+  }
+
+  .manuscript-page {
+    min-height: 360px;
+    padding: 30px;
+    width: min(82vw, 420px);
+  }
+
+  .chapter-rail,
+  .inspector,
+  .research-thread,
+  .scene-rail {
+    font-size: 0.82rem;
+  }
+
+  .chapter-rail,
+  .inspector {
+    width: 42%;
+  }
+
+  .principle-moment {
+    min-height: auto;
+    padding: 52px 0;
+  }
+
+  .moment-visual {
+    min-height: 260px;
+  }
+
+  .philosophy-room-paper {
+    padding-bottom: 68px;
+  }
+
+  .blog-card {
+    grid-template-columns: 1fr;
+  }
+
+  .article-shell {
+    max-width: calc(100vw - 28px);
+  }
+
+  .article-content {
+    padding: 24px;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --secondary: #4F5B54;
+    --muted: #5F6963;
+    --outline: #BFC8BF;
+  }
+
+  .paper-grain {
+    opacity: 0.08;
+  }
+
+  .site-header,
+  .blog-card,
+  .today-panel,
+  .article-content,
+  .roadmap-card,
+  .philosophy-room-paper {
+    background: var(--elevated);
+  }
+}
