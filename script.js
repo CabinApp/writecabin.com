@@ -9,6 +9,8 @@ const stageDetail = document.querySelector("[data-stage-detail]");
 const disappearScene = document.querySelector("[data-disappear-scene]");
 const parallaxLayers = [...document.querySelectorAll("[data-depth]")];
 let workspacePinnedByScrollTrigger = false;
+let activeWorkspaceCopy = 0;
+let workspaceCopyTimer = null;
 const stageText = [
   {
     title: "Begin with only the page.",
@@ -71,6 +73,7 @@ if (blogList || articleMount) {
 }
 
 initReveals();
+initRoadmapPath();
 updateScrollEffects();
 
 async function loadBlog() {
@@ -328,9 +331,16 @@ function updateWorkspaceProgress(progress) {
   workspaceSticky.dataset.stage = String(stage);
 
   const copyIndex = stage < 2 ? 0 : stage < 4 ? 1 : 2;
-  if (stageCopy && stageCopy.textContent !== stageText[copyIndex].title) {
-    stageCopy.textContent = stageText[copyIndex].title;
-    stageDetail.textContent = stageText[copyIndex].detail;
+  if (stageCopy && activeWorkspaceCopy !== copyIndex) {
+    activeWorkspaceCopy = copyIndex;
+    const copyWrap = stageCopy.closest(".workspace-copy");
+    window.clearTimeout(workspaceCopyTimer);
+    copyWrap?.classList.add("is-changing");
+    workspaceCopyTimer = window.setTimeout(() => {
+      stageCopy.textContent = stageText[copyIndex].title;
+      if (stageDetail) stageDetail.textContent = stageText[copyIndex].detail;
+      window.requestAnimationFrame(() => copyWrap?.classList.remove("is-changing"));
+    }, prefersReducedMotion ? 0 : 180);
   }
 }
 
@@ -343,4 +353,86 @@ function updateDisappearance() {
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
+}
+
+function initRoadmapPath() {
+  const roadmap = document.querySelector(".roadmap-grid");
+  const mount = document.querySelector("[data-roadmap-path]");
+  if (!roadmap || !mount) return;
+
+  const media = window.matchMedia("(max-width: 1100px)");
+  let frame = null;
+
+  const draw = () => {
+    if (media.matches) {
+      mount.innerHTML = "";
+      return;
+    }
+
+    const cards = [...roadmap.querySelectorAll(".roadmap-card")];
+    if (!cards.length) return;
+
+    const roadRect = roadmap.getBoundingClientRect();
+    const points = cards.map((card) => {
+      const rect = card.getBoundingClientRect();
+      return {
+        x: rect.left - roadRect.left + rect.width / 2,
+        y: rect.top - roadRect.top - 48,
+        status: card.classList.contains("done") ? "done" : card.classList.contains("active") ? "active" : "future"
+      };
+    });
+
+    mount.innerHTML = "";
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", `0 0 ${roadRect.width} ${roadRect.height}`);
+    svg.setAttribute("preserveAspectRatio", "none");
+    mount.append(svg);
+
+    const route = window.d3?.line
+      ? d3.line()
+        .x((point) => point.x)
+        .y((point) => point.y)
+        .curve(d3.curveCatmullRom.alpha(0.55))
+      : (routePoints) => routePoints.map((point, index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+
+    appendSvgElement(svg, "path", {
+      class: "roadmap-route-base",
+      d: route(points)
+    });
+
+    const livePoints = points.slice(0, 2);
+    appendSvgElement(svg, "path", {
+      class: "roadmap-route-live",
+      d: route(livePoints)
+    });
+
+    points.forEach((point) => {
+      appendSvgElement(svg, "circle", {
+        class: `roadmap-dot is-${point.status}`,
+        cx: point.x,
+        cy: point.y,
+        r: 14
+      });
+    });
+  };
+
+  const scheduleDraw = () => {
+    if (frame) window.cancelAnimationFrame(frame);
+    frame = window.requestAnimationFrame(draw);
+  };
+
+  scheduleDraw();
+  window.addEventListener("resize", scheduleDraw, { passive: true });
+  media.addEventListener?.("change", scheduleDraw);
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(scheduleDraw).observe(roadmap);
+  }
+}
+
+function appendSvgElement(svg, tagName, attributes) {
+  const element = document.createElementNS("http://www.w3.org/2000/svg", tagName);
+  Object.entries(attributes).forEach(([name, value]) => element.setAttribute(name, value));
+  svg.append(element);
+  return element;
 }

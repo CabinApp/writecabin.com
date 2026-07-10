@@ -2328,7 +2328,7 @@ body.has-workspace-pin .workspace-sticky {
 .page-hero::after {
   background:
     linear-gradient(90deg, rgba(241,244,240,0.92), rgba(241,244,240,0.64), rgba(241,244,240,0.12)),
-    url("assets/cabin-writing-room.png") center right / min(48vw, 640px) auto no-repeat;
+    var(--page-hero-image) center right / min(48vw, 640px) auto no-repeat;
   content: "";
   inset: 0 clamp(20px, 4vw, 46px);
   opacity: 0.72;
@@ -2487,6 +2487,240 @@ body.has-workspace-pin .workspace-sticky {
   .page-hero::after {
     background:
       linear-gradient(180deg, rgba(241,244,240,0.92), rgba(241,244,240,0.78)),
-      url("assets/cabin-writing-room.png") center bottom / 100% auto no-repeat;
+      var(--page-hero-image) center bottom / 100% auto no-repeat;
+  }
+}
+
+/* Final polish pass: measured roadmap, unique image atmospheres, calmer article links. */
+.workspace-copy {
+  min-height: 22rem;
+}
+
+.workspace-copy h2,
+.workspace-copy p:not(.eyebrow) {
+  transition: opacity 280ms var(--ease), transform 280ms var(--ease);
+}
+
+.workspace-copy.is-changing h2,
+.workspace-copy.is-changing p:not(.eyebrow) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.chapter-rail {
+  left: 1%;
+  top: 20%;
+  transform: translateX(32px);
+  width: 23%;
+}
+
+.scene-rail {
+  bottom: 7%;
+  left: 29%;
+  width: 36%;
+}
+
+.inspector {
+  right: 2%;
+  top: 20%;
+  transform: translateX(-32px);
+  width: 24%;
+}
+
+.research-thread {
+  bottom: 17%;
+  right: 1%;
+}
+
+.project-today {
+  justify-items: center;
+  text-align: center;
+}
+
+.today-panel {
+  margin-inline: auto;
+}
+
+.today-panel h2,
+.today-panel p:not(.eyebrow) {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inline-links {
+  justify-content: center;
+}
+
+.disappear-scene {
+  display: grid;
+  gap: clamp(28px, 5vw, 60px);
+  justify-items: center;
+  padding: clamp(72px, 10vw, 130px) clamp(18px, 5vw, 80px);
+}
+
+.disappear-image {
+  aspect-ratio: 1.5 / 1;
+  border: 1px solid rgba(216,222,216,0.9);
+  border-radius: 8px;
+  box-shadow: var(--shadow-deep), var(--inset-soft);
+  display: block;
+  max-height: 54svh;
+  max-width: min(1040px, 92vw);
+  object-fit: cover;
+  opacity: 0.96;
+  width: 100%;
+}
+
+.disappear-copy {
+  margin-top: 0;
+}
+
+.page-hero.content-width {
+  margin: 0;
+  max-width: none;
+  min-height: 62svh;
+  overflow: hidden;
+  padding: clamp(112px, 12vw, 176px) clamp(22px, 7vw, 128px) clamp(76px, 10vw, 130px);
+  position: relative;
+  width: 100%;
+}
+
+.page-hero::after {
+  background:
+    linear-gradient(90deg, rgba(241,244,240,0.96), rgba(241,244,240,0.76) 42%, rgba(241,244,240,0.2)),
+    var(--page-hero-image) center / cover no-repeat;
+  inset: 0;
+  opacity: 0.72;
+}
+
+body[data-page="blog"] .page-hero::after {
+  background:
+    linear-gradient(90deg, rgba(241,244,240,0.96), rgba(241,244,240,0.74) 44%, rgba(241,244,240,0.16)),
+    var(--page-hero-image) center / cover no-repeat;
+}
+
+body[data-page="roadmap"] .page-hero::after {
+  background:
+    linear-gradient(90deg, rgba(241,244,240,0.96), rgba(241,244,240,0.72) 46%, rgba(241,244,240,0.18)),
+    var(--page-hero-image) center / cover no-repeat;
+}
+
+body[data-page="philosophy"] {
+  --page-hero-image: url("assets/cabin-writing-room.png");
+}
+
+body[data-page="blog"] {
+  --page-hero-image: url("assets/cabin-blog-room.png");
+}
+
+body[data-page="roadmap"] {
+  --page-hero-image: url("assets/cabin-roadmap-table.png");
+}
+
+.article-content a {
+  color: var(--accent-active);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(80,100,87,0.42);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.22em;
+}
+
+.article-content a:hover {
+  color: var(--accent-hover);
+  text-decoration-color: currentColor;
+}
+
+.roadmap-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(246px, 1fr));
+  padding: 96px 0 36px;
+  row-gap: 136px;
+}
+
+.roadmap-line {
+  display: block;
+  inset: 0;
+  overflow: visible;
+}
+
+.roadmap-line svg {
+  display: block;
+  height: 100%;
+  overflow: visible;
+  width: 100%;
+}
+
+.roadmap-route-base,
+.roadmap-route-live {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.roadmap-route-base {
+  stroke: var(--outline);
+  stroke-width: 14;
+}
+
+.roadmap-route-live {
+  stroke: var(--accent);
+  stroke-width: 14;
+}
+
+.roadmap-dot {
+  fill: var(--elevated);
+  stroke: var(--outline);
+  stroke-width: 4;
+}
+
+.roadmap-dot.is-done {
+  fill: var(--success);
+  stroke: var(--success);
+}
+
+.roadmap-dot.is-active {
+  fill: var(--elevated);
+  stroke: var(--accent);
+}
+
+.roadmap-card::before {
+  content: none;
+}
+
+.roadmap-card {
+  z-index: 1;
+}
+
+@media (max-width: 1100px) {
+  .roadmap-card::before {
+    background: var(--surface);
+    border: 4px solid var(--outline);
+    border-radius: 999px;
+    content: "";
+    height: 24px;
+    left: 24px;
+    position: absolute;
+    top: 24px;
+    width: 24px;
+  }
+
+  .roadmap-card.done::before {
+    background: var(--success);
+    border-color: var(--success);
+  }
+
+  .roadmap-card.active::before {
+    border-color: var(--accent);
+  }
+}
+
+@media (max-width: 760px) {
+  .page-hero::after,
+  body[data-page="blog"] .page-hero::after,
+  body[data-page="roadmap"] .page-hero::after {
+    background:
+      linear-gradient(180deg, rgba(241,244,240,0.96), rgba(241,244,240,0.78)),
+      var(--page-hero-image) center / cover no-repeat;
   }
 }

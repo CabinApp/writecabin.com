@@ -38,14 +38,7 @@
     </section>
     <section class="roadmap-section content-width" aria-label="Cabin public roadmap">
       <div class="roadmap-grid">
-        <div class="roadmap-line" aria-hidden="true">
-          <span class="snake snake-top"></span>
-          <span class="snake snake-top-fill"></span>
-          <span class="snake snake-right-curve"></span>
-          <span class="snake snake-middle"></span>
-          <span class="snake snake-left-curve"></span>
-          <span class="snake snake-bottom"></span>
-        </div>
+        <div class="roadmap-line" data-roadmap-path aria-hidden="true"></div>
         <article class="roadmap-card done">
           <h2>Identity and philosophy</h2>
           <p>Name, domain, GitHub organization, logo, typography, color palette and the first product philosophy are in place.</p>
@@ -101,6 +94,7 @@
     <div><img src="assets/logo.png" alt=""> <span>Cabin</span></div>
     <p>Essays and project notes from the making of Cabin.</p>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
