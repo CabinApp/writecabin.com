@@ -1138,7 +1138,7 @@ p {
 .not-found-panel {
   background:
     linear-gradient(90deg, rgba(252,252,250,0.94), rgba(252,252,250,0.70)),
-    url("assets/cabin-mountain-morning.png") center right / cover no-repeat;
+    url("assets/cabin-fog-path.png") center right / cover no-repeat;
   border: 1px solid var(--outline);
   box-shadow: var(--shadow-deep), var(--inset-soft);
   overflow: hidden;
