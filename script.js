@@ -9,7 +9,6 @@ const stageDetail = document.querySelector("[data-stage-detail]");
 const disappearScene = document.querySelector("[data-disappear-scene]");
 const parallaxLayers = [...document.querySelectorAll("[data-depth]")];
 const atmosphereCanvas = document.querySelector("[data-atmosphere-canvas]");
-const roadmapProgress = document.querySelector("[data-roadmap-progress]");
 const stageText = [
   {
     title: "Begin with only the page.",
@@ -28,7 +27,6 @@ const stageText = [
 document.body.classList.add("ready");
 initMotionLibraries();
 initAtmosphereCanvas();
-initRoadmapPath();
 
 if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
   const params = new URLSearchParams(window.location.search);
@@ -385,29 +383,6 @@ function initAtmosphereCanvas() {
   window.addEventListener("resize", resize, { passive: true });
   window.addEventListener("scroll", () => window.requestAnimationFrame(draw), { passive: true });
   resize();
-}
-
-function initRoadmapPath() {
-  if (!roadmapProgress) return;
-  const length = roadmapProgress.getTotalLength();
-  roadmapProgress.style.strokeDasharray = String(length);
-  roadmapProgress.style.strokeDashoffset = String(length * 0.64);
-
-  function updatePath() {
-    const rect = roadmapProgress.closest(".roadmap-grid").getBoundingClientRect();
-    const progress = clamp((window.innerHeight - rect.top) / (rect.height + window.innerHeight * 0.35), 0, 1);
-    const completedProgress = 0.28;
-    const flowingProgress = completedProgress + progress * 0.16;
-    roadmapProgress.style.strokeDashoffset = String(length * (1 - flowingProgress));
-  }
-
-  if (prefersReducedMotion) {
-    roadmapProgress.style.strokeDashoffset = String(length * 0.56);
-    return;
-  }
-
-  window.addEventListener("scroll", () => window.requestAnimationFrame(updatePath), { passive: true });
-  updatePath();
 }
 
 function updateScrollEffects() {

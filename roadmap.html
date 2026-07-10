@@ -11,6 +11,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://writecabin.com/roadmap.html">
   <meta property="og:image" content="https://writecabin.com/assets/logo.png">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -35,25 +37,15 @@
       <p>The path begins with product definition, then moves through research, design, prototype, core editor, project structure and alpha testing.</p>
     </section>
     <section class="roadmap-section content-width" aria-label="Cabin public roadmap">
-      <div class="roadmap-stage-row" aria-label="Roadmap stages">
-        <div>
-          <span>Now</span>
-          <strong>Product design</strong>
-        </div>
-        <div>
-          <span>Next</span>
-          <strong>Prototype</strong>
-        </div>
-        <div>
-          <span>Then</span>
-          <strong>Closed alpha</strong>
-        </div>
-      </div>
       <div class="roadmap-grid">
-        <svg class="roadmap-path" viewBox="0 0 1200 1180" preserveAspectRatio="none" aria-hidden="true">
-          <path class="roadmap-base" d="M110 90 C 310 20, 440 150, 600 90 S 940 20, 1090 120 C 1220 210, 1020 360, 820 352 S 430 265, 280 390 C 88 550, 245 720, 480 660 S 890 560, 1030 730 C 1160 888, 930 1032, 690 982 S 270 890, 130 1060" />
-          <path class="roadmap-progress" data-roadmap-progress d="M110 90 C 310 20, 440 150, 600 90 S 940 20, 1090 120 C 1220 210, 1020 360, 820 352 S 430 265, 280 390 C 88 550, 245 720, 480 660 S 890 560, 1030 730 C 1160 888, 930 1032, 690 982 S 270 890, 130 1060" />
-        </svg>
+        <div class="roadmap-line" aria-hidden="true">
+          <span class="snake snake-top"></span>
+          <span class="snake snake-top-fill"></span>
+          <span class="snake snake-right-curve"></span>
+          <span class="snake snake-middle"></span>
+          <span class="snake snake-left-curve"></span>
+          <span class="snake snake-bottom"></span>
+        </div>
         <article class="roadmap-card done">
           <span class="roadmap-meta">Completed</span>
           <h2>Identity and philosophy</h2>
@@ -104,7 +96,7 @@
   </main>
   <footer class="site-footer">
     <div><img src="assets/logo.png" alt=""> <span>Cabin</span></div>
-    <p>Currently in product design.</p>
+    <p>Essays and project notes from the making of Cabin.</p>
   </footer>
   <script src="script.js"></script>
 </body>
