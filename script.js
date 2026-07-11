@@ -253,15 +253,6 @@ function initReveals() {
 
 function initMotionLibraries() {
   if (prefersReducedMotion) return;
-  if (window.Lenis) {
-    const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-  }
-
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
     gsap.from(".approach-copy", { opacity: 0, y: 42, duration: 1.2, ease: "power4.out" });
@@ -289,17 +280,16 @@ function initMotionLibraries() {
 function initWorkspacePin() {
   if (!workspaceSequence || !workspaceSticky) return;
   workspacePinnedByScrollTrigger = true;
-  document.body.classList.add("has-workspace-pin");
 
   ScrollTrigger.create({
     trigger: workspaceSequence,
-    pin: workspaceSticky,
     start: "top top",
-    end: () => `+=${Math.round(Math.min(window.innerHeight * 1.55, 1500))}`,
+    end: "bottom bottom",
     scrub: 0.65,
-    anticipatePin: 1,
     invalidateOnRefresh: true,
-    onUpdate: (self) => updateWorkspaceProgress(self.progress)
+    onUpdate: (self) => updateWorkspaceProgress(self.progress),
+    onLeaveBack: () => updateWorkspaceProgress(0),
+    onLeave: () => updateWorkspaceProgress(1)
   });
 }
 
