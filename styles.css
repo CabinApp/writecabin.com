@@ -3120,3 +3120,160 @@ body[data-page="roadmap"] .page-hero::after {
     width: min(68%, 350px);
   }
 }
+
+/* Integrated app surface: the manuscript is the editor, not a floating sheet. */
+.assembling-workspace {
+  --app-chrome: 40px;
+  --rail-width: clamp(150px, 22%, 220px);
+  --inspector-width: clamp(168px, 24%, 236px);
+  --timeline-height: clamp(92px, 18%, 118px);
+  background:
+    linear-gradient(180deg, rgba(232,237,232,0.92) 0 var(--app-chrome), rgba(252,252,250,0.88) var(--app-chrome)),
+    repeating-linear-gradient(90deg, rgba(216,222,216,0.18) 0 1px, transparent 1px 80px),
+    linear-gradient(135deg, rgba(252,252,250,0.94), rgba(241,244,240,0.84));
+}
+
+.assembling-workspace::before {
+  background:
+    radial-gradient(circle at 22% 18%, rgba(255,255,253,0.56), transparent 30%),
+    radial-gradient(circle at 74% 66%, rgba(216,229,220,0.38), transparent 34%),
+    repeating-linear-gradient(0deg, transparent 0 33px, rgba(216,222,216,0.18) 34px 35px);
+  opacity: 0.78;
+}
+
+.assembling-workspace::after {
+  background:
+    radial-gradient(circle, #ff5f57 0 4px, rgba(118,82,74,0.2) 4.5px, transparent 5px) 22px 20px / 20px 20px no-repeat,
+    radial-gradient(circle, #febc2e 0 4px, rgba(122,91,30,0.18) 4.5px, transparent 5px) 44px 20px / 20px 20px no-repeat,
+    radial-gradient(circle, #28c840 0 4px, rgba(43,99,58,0.18) 4.5px, transparent 5px) 66px 20px / 20px 20px no-repeat,
+    linear-gradient(90deg, rgba(216,222,216,0.86), rgba(232,237,232,0.48) 44%, rgba(248,249,246,0.18));
+  box-shadow: 0 1px 0 rgba(216,222,216,0.82);
+  height: var(--app-chrome);
+}
+
+.manuscript-page,
+.workspace-sticky[data-stage="1"] .manuscript-page,
+.workspace-sticky[data-stage="2"] .manuscript-page,
+.workspace-sticky[data-stage="3"] .manuscript-page {
+  background:
+    linear-gradient(180deg, rgba(255,255,253,0.36), rgba(252,252,250,0.24)),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(216,222,216,0.25) 32px 33px);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  height: auto;
+  inset: var(--app-chrome) 0 0 0;
+  left: auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: clamp(34px, 4vw, 58px) clamp(36px, 7vw, 96px);
+  position: absolute;
+  top: var(--app-chrome);
+  transform: none;
+  transition:
+    inset 860ms var(--ease),
+    padding 860ms var(--ease),
+    opacity 700ms var(--ease);
+  width: auto;
+  z-index: 2;
+}
+
+.workspace-sticky[data-stage="1"] .manuscript-page {
+  inset: var(--app-chrome) 0 0 var(--rail-width);
+  padding-left: clamp(34px, 5vw, 74px);
+}
+
+.workspace-sticky[data-stage="2"] .manuscript-page {
+  inset: var(--app-chrome) var(--inspector-width) 0 var(--rail-width);
+  padding-left: clamp(32px, 4vw, 58px);
+  padding-right: clamp(30px, 3.6vw, 54px);
+}
+
+.workspace-sticky[data-stage="3"] .manuscript-page {
+  inset: var(--app-chrome) var(--inspector-width) var(--timeline-height) var(--rail-width);
+  padding: clamp(28px, 3vw, 42px) clamp(30px, 4vw, 54px);
+}
+
+.manuscript-page .doc-kicker {
+  margin-top: 0;
+}
+
+.manuscript-page h3 {
+  max-width: 10.5em;
+}
+
+.manuscript-page p:not(.doc-kicker) {
+  max-width: 52ch;
+}
+
+.chapter-rail,
+.inspector {
+  background: rgba(252,252,250,0.58);
+  top: var(--app-chrome);
+  z-index: 4;
+}
+
+.chapter-rail {
+  width: var(--rail-width);
+}
+
+.inspector {
+  width: var(--inspector-width);
+}
+
+.fantasy-timeline {
+  left: var(--rail-width);
+  min-height: var(--timeline-height);
+  right: var(--inspector-width);
+  z-index: 4;
+}
+
+@media (max-width: 900px) {
+  .assembling-workspace {
+    --rail-width: clamp(118px, 24%, 168px);
+    --inspector-width: clamp(128px, 28%, 180px);
+    --timeline-height: 108px;
+  }
+
+  .manuscript-page h3 {
+    font-size: clamp(1.25rem, 3vw, 1.8rem);
+  }
+}
+
+@media (max-width: 760px) {
+  .assembling-workspace {
+    --app-chrome: 38px;
+    --rail-width: 34%;
+    --inspector-width: 34%;
+    --timeline-height: 150px;
+  }
+
+  .manuscript-page,
+  .workspace-sticky[data-stage="1"] .manuscript-page,
+  .workspace-sticky[data-stage="2"] .manuscript-page,
+  .workspace-sticky[data-stage="3"] .manuscript-page {
+    left: auto;
+    top: var(--app-chrome);
+    transform: none;
+    width: auto;
+  }
+
+  .workspace-sticky[data-stage="2"] .manuscript-page,
+  .workspace-sticky[data-stage="3"] .manuscript-page {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .chapter-rail span,
+  .inspector span,
+  .fantasy-timeline span {
+    font-size: 0.68rem;
+  }
+
+  .fantasy-timeline {
+    grid-template-columns: 1fr;
+    left: var(--rail-width);
+    padding: 16px 18px;
+    right: var(--inspector-width);
+  }
+}
