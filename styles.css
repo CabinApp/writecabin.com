@@ -3483,3 +3483,31 @@ body[data-page="roadmap"] .page-hero::after {
     transform: scaleY(1);
   }
 }
+
+/* Final optical polish for the app chrome and initial manuscript state. */
+.assembling-workspace::after {
+  background:
+    radial-gradient(circle, #ff5f57 0 4px, rgba(118,82,74,0.2) 4.5px, transparent 5px) 22px 50% / 20px 20px no-repeat,
+    radial-gradient(circle, #febc2e 0 4px, rgba(122,91,30,0.18) 4.5px, transparent 5px) 44px 50% / 20px 20px no-repeat,
+    radial-gradient(circle, #28c840 0 4px, rgba(43,99,58,0.18) 4.5px, transparent 5px) 66px 50% / 20px 20px no-repeat,
+    linear-gradient(90deg, rgba(216,222,216,0.86), rgba(232,237,232,0.48) 44%, rgba(248,249,246,0.18));
+}
+
+.workspace-sticky:not([data-stage]) .manuscript-page,
+.workspace-sticky[data-stage="0"] .manuscript-page {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+}
+
+.workspace-sticky:not([data-stage]) .manuscript-page .caret,
+.workspace-sticky[data-stage="0"] .manuscript-page .caret {
+  justify-self: center;
+}
+
+.workspace-sticky[data-stage="1"] .manuscript-page,
+.workspace-sticky[data-stage="2"] .manuscript-page,
+.workspace-sticky[data-stage="3"] .manuscript-page {
+  display: block;
+  text-align: left;
+}
