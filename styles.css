@@ -2225,7 +2225,7 @@ main:not(.home-journey) {
 }
 
 .workspace-sequence {
-  min-height: 230vh;
+  min-height: 330vh;
 }
 
 .workspace-sticky {
@@ -3563,4 +3563,70 @@ body[data-page="roadmap"] .page-hero::after {
 
 .workspace-sticky[data-stage="3"] .timeline-route {
   opacity: 1;
+}
+
+/* Final workspace fixes: one set of timeline dots, longer scroll, true opening center. */
+.workspace-sequence {
+  border-top: 1px solid rgba(216,222,216,0.78);
+  min-height: 420vh;
+}
+
+.principles-cinema,
+.project-today,
+.disappear-scene,
+.page-hero,
+.philosophy-room,
+.blog-index,
+.roadmap-section {
+  border-top: 1px solid rgba(216,222,216,0.62);
+}
+
+.workspace-sticky[data-stage="0"] .manuscript-page {
+  align-content: center;
+  display: grid;
+  justify-content: stretch;
+  justify-items: center;
+  padding-left: clamp(48px, 10vw, 132px);
+  padding-right: clamp(48px, 10vw, 132px);
+  place-content: center;
+  text-align: center;
+}
+
+.workspace-sticky[data-stage="0"] .manuscript-page .doc-kicker,
+.workspace-sticky[data-stage="0"] .manuscript-page h3,
+.workspace-sticky[data-stage="0"] .manuscript-page p:not(.doc-kicker) {
+  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.workspace-sticky[data-stage="0"] .manuscript-page p:not(.doc-kicker) {
+  max-width: 54ch;
+}
+
+.fantasy-timeline span {
+  padding-top: 24px;
+}
+
+.fantasy-timeline span::before {
+  content: none !important;
+  display: none !important;
+}
+
+.timeline-route {
+  overflow: visible;
+}
+
+.approach-art-image,
+.moment-image,
+.disappear-image {
+  transition: opacity 720ms var(--ease), filter 720ms var(--ease), transform 1100ms var(--ease);
+}
+
+.approach-art-image:not(.is-loaded),
+.moment-image:not(.is-loaded),
+.disappear-image:not(.is-loaded) {
+  filter: blur(10px) saturate(0.82);
+  opacity: 0;
 }

@@ -32,6 +32,7 @@ const stageText = [
 
 document.body.classList.add("ready");
 initMotionLibraries();
+initImageLoading();
 
 if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
   const params = new URLSearchParams(window.location.search);
@@ -323,7 +324,7 @@ function updateWorkspace(scrollY) {
 }
 
 function normalizeWorkspaceProgress(progress) {
-  return clamp((progress - 0.34) / 0.66, 0, 1);
+  return clamp((progress - 0.40) / 0.60, 0, 1);
 }
 
 function updateWorkspaceProgress(progress) {
@@ -340,7 +341,7 @@ function updateWorkspaceProgress(progress) {
       stageCopy.textContent = stageText[copyIndex].title;
       if (stageDetail) stageDetail.textContent = stageText[copyIndex].detail;
       window.requestAnimationFrame(() => copyWrap?.classList.remove("is-changing"));
-    }, prefersReducedMotion ? 0 : 180);
+    }, prefersReducedMotion ? 0 : 90);
   }
 }
 
@@ -454,7 +455,7 @@ function initWorkspaceTimelinePath() {
       const rect = event.getBoundingClientRect();
       return {
         x: isCompact ? 22 : rect.left - timelineRect.left + 4.5,
-        y: isCompact ? rect.top - timelineRect.top + 4.5 : rect.top - timelineRect.top + 4.5,
+        y: rect.top - timelineRect.top + 7,
         current: event.classList.contains("current-event")
       };
     });
@@ -493,4 +494,24 @@ function initWorkspaceTimelinePath() {
   if ("ResizeObserver" in window) {
     new ResizeObserver(scheduleDraw).observe(timeline);
   }
+}
+
+function initImageLoading() {
+  const images = [...document.querySelectorAll(".approach-art-image, .moment-image, .disappear-image")];
+  if (!images.length) return;
+
+  images.forEach((image) => {
+    const markLoaded = () => image.classList.add("is-loaded");
+    if (image.complete && image.naturalWidth > 0) {
+      if (image.decode) {
+        image.decode().then(markLoaded).catch(markLoaded);
+      } else {
+        markLoaded();
+      }
+      return;
+    }
+
+    image.addEventListener("load", markLoaded, { once: true });
+    image.addEventListener("error", markLoaded, { once: true });
+  });
 }
