@@ -78,6 +78,7 @@ if (blogList || articleMount) {
 
 initReveals();
 initRoadmapPath();
+initWorkspaceTimelinePath();
 updateScrollEffects();
 
 async function loadBlog() {
@@ -322,7 +323,7 @@ function updateWorkspace(scrollY) {
 }
 
 function normalizeWorkspaceProgress(progress) {
-  return clamp((progress - 0.18) / 0.82, 0, 1);
+  return clamp((progress - 0.34) / 0.66, 0, 1);
 }
 
 function updateWorkspaceProgress(progress) {
@@ -434,4 +435,62 @@ function appendSvgElement(svg, tagName, attributes) {
   Object.entries(attributes).forEach(([name, value]) => element.setAttribute(name, value));
   svg.append(element);
   return element;
+}
+
+function initWorkspaceTimelinePath() {
+  const timeline = document.querySelector(".fantasy-timeline");
+  const mount = document.querySelector("[data-timeline-path]");
+  if (!timeline || !mount) return;
+
+  let frame = null;
+
+  const draw = () => {
+    const events = [...timeline.querySelectorAll("span")];
+    if (events.length < 2) return;
+
+    const timelineRect = timeline.getBoundingClientRect();
+    const isCompact = window.matchMedia("(max-width: 760px)").matches;
+    const points = events.map((event) => {
+      const rect = event.getBoundingClientRect();
+      return {
+        x: isCompact ? 22 : rect.left - timelineRect.left + 4.5,
+        y: isCompact ? rect.top - timelineRect.top + 4.5 : rect.top - timelineRect.top + 4.5,
+        current: event.classList.contains("current-event")
+      };
+    });
+
+    mount.innerHTML = "";
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", `0 0 ${timelineRect.width} ${timelineRect.height}`);
+    svg.setAttribute("preserveAspectRatio", "none");
+    mount.append(svg);
+
+    const route = points.map((point, index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+
+    appendSvgElement(svg, "path", {
+      class: "timeline-route-base",
+      d: route
+    });
+
+    points.forEach((point) => {
+      appendSvgElement(svg, "circle", {
+        class: point.current ? "timeline-dot is-current" : "timeline-dot",
+        cx: point.x,
+        cy: point.y,
+        r: 5.5
+      });
+    });
+  };
+
+  const scheduleDraw = () => {
+    if (frame) window.cancelAnimationFrame(frame);
+    frame = window.requestAnimationFrame(draw);
+  };
+
+  scheduleDraw();
+  window.addEventListener("resize", scheduleDraw, { passive: true });
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(scheduleDraw).observe(timeline);
+  }
 }

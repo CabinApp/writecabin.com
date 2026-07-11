@@ -3496,8 +3496,18 @@ body[data-page="roadmap"] .page-hero::after {
 .workspace-sticky:not([data-stage]) .manuscript-page,
 .workspace-sticky[data-stage="0"] .manuscript-page {
   display: grid;
+  align-content: center;
+  justify-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.workspace-sticky:not([data-stage]) .manuscript-page h3,
+.workspace-sticky:not([data-stage]) .manuscript-page p:not(.doc-kicker),
+.workspace-sticky[data-stage="0"] .manuscript-page h3,
+.workspace-sticky[data-stage="0"] .manuscript-page p:not(.doc-kicker) {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .workspace-sticky:not([data-stage]) .manuscript-page .caret,
@@ -3510,4 +3520,47 @@ body[data-page="roadmap"] .page-hero::after {
 .workspace-sticky[data-stage="3"] .manuscript-page {
   display: block;
   text-align: left;
+}
+
+.fantasy-timeline::after {
+  content: none;
+}
+
+.timeline-route {
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 620ms var(--ease);
+  z-index: 1;
+}
+
+.timeline-route svg {
+  display: block;
+  height: 100%;
+  overflow: visible;
+  width: 100%;
+}
+
+.timeline-route-base {
+  fill: none;
+  stroke: rgba(113,139,124,0.62);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.timeline-dot {
+  fill: var(--elevated);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.timeline-dot.is-current {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.workspace-sticky[data-stage="3"] .timeline-route {
+  opacity: 1;
 }
