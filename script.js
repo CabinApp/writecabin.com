@@ -14,15 +14,19 @@ let workspaceCopyTimer = null;
 const stageText = [
   {
     title: "Begin with only the page.",
-    detail: "The writing surface is quiet first. No chrome, no ceremony, no structure before it has earned a place."
+    detail: "A manuscript sits in the center. The story has room before the software asks for anything."
   },
   {
-    title: "Add structure when the story asks for it.",
-    detail: "A chapter rail enters. Then scenes. The page is still the room's center."
+    title: "Let chapters appear beside it.",
+    detail: "A quiet rail is drawn on the left when the draft needs shape and sequence."
   },
   {
-    title: "Build an entire world without losing sight of the writing.",
-    detail: "Characters, timeline and research gather at the edges, close enough to help and quiet enough to disappear."
+    title: "Keep character notes close.",
+    detail: "A margin note opens on the right, near enough to guide the scene without taking over."
+  },
+  {
+    title: "Trace the world underneath.",
+    detail: "A fantasy timeline settles below the manuscript, keeping the larger world visible at the edge."
   }
 ];
 
@@ -162,7 +166,7 @@ async function renderArticle(post) {
   setCanonical(`https://writecabin.com/blog.html?post=${post.slug}`);
 
   articleMount.innerHTML = `
-    <a class="article-back-link" href="blog.html">Back to Blog</a>
+    <a class="article-back-link" href="blog.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Back to Blog</span></a>
     <header>
       <p class="eyebrow">Blog</p>
       <time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time>
@@ -318,10 +322,10 @@ function updateWorkspace(scrollY) {
 }
 
 function updateWorkspaceProgress(progress) {
-  const stage = progress < 0.24 ? 0 : progress < 0.46 ? 1 : progress < 0.68 ? 2 : progress < 0.86 ? 3 : 4;
+  const stage = progress < 0.24 ? 0 : progress < 0.50 ? 1 : progress < 0.76 ? 2 : 3;
   workspaceSticky.dataset.stage = String(stage);
 
-  const copyIndex = stage < 2 ? 0 : stage < 4 ? 1 : 2;
+  const copyIndex = stage;
   if (stageCopy && activeWorkspaceCopy !== copyIndex) {
     activeWorkspaceCopy = copyIndex;
     const copyWrap = stageCopy.closest(".workspace-copy");
