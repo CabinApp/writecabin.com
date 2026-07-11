@@ -292,7 +292,7 @@ function initWorkspacePin() {
     end: "bottom bottom",
     scrub: 0.65,
     invalidateOnRefresh: true,
-    onUpdate: (self) => updateWorkspaceProgress(self.progress),
+    onUpdate: (self) => updateWorkspaceProgress(normalizeWorkspaceProgress(self.progress)),
     onLeaveBack: () => updateWorkspaceProgress(0),
     onLeave: () => updateWorkspaceProgress(1)
   });
@@ -318,7 +318,11 @@ function updateWorkspace(scrollY) {
   const rect = workspaceSequence.getBoundingClientRect();
   const total = workspaceSequence.offsetHeight - window.innerHeight;
   const progress = clamp((-rect.top) / Math.max(total, 1), 0, 1);
-  updateWorkspaceProgress(progress);
+  updateWorkspaceProgress(normalizeWorkspaceProgress(progress));
+}
+
+function normalizeWorkspaceProgress(progress) {
+  return clamp((progress - 0.18) / 0.82, 0, 1);
 }
 
 function updateWorkspaceProgress(progress) {

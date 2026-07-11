@@ -3277,3 +3277,209 @@ body[data-page="roadmap"] .page-hero::after {
     right: var(--inspector-width);
   }
 }
+
+/* Realer Cabin UI details inside the progressive workspace. */
+.assembling-workspace {
+  --ui-hairline: rgba(113,139,124,0.34);
+}
+
+.chapter-rail {
+  align-content: start;
+  background:
+    linear-gradient(180deg, rgba(252,252,250,0.72), rgba(248,249,246,0.62));
+  gap: 6px;
+  padding: clamp(18px, 2vw, 24px) clamp(14px, 1.7vw, 20px);
+}
+
+.chapter-rail .rail-title,
+.chapter-rail .chapter-item {
+  border-bottom: 0;
+  display: block;
+  position: relative;
+}
+
+.chapter-rail .rail-title {
+  color: var(--text);
+  font-size: clamp(0.72rem, 0.82vw, 0.82rem);
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  padding: 0 0 12px 2px;
+  text-transform: uppercase;
+}
+
+.chapter-rail .rail-title::after {
+  background: rgba(216,222,216,0.92);
+  bottom: 0;
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.chapter-rail .chapter-item {
+  border-radius: 6px;
+  color: var(--secondary);
+  cursor: grab;
+  font-size: clamp(0.72rem, 0.84vw, 0.84rem);
+  line-height: 1.25;
+  margin-left: clamp(10px, 1vw, 16px);
+  padding: 9px 8px 9px 28px;
+  transition: background 240ms var(--ease), color 240ms var(--ease), box-shadow 240ms var(--ease);
+}
+
+.chapter-rail .chapter-item::before {
+  background:
+    radial-gradient(circle, rgba(104,115,109,0.58) 0 1.2px, transparent 1.6px) 0 0 / 6px 6px,
+    radial-gradient(circle, rgba(104,115,109,0.42) 0 1.2px, transparent 1.6px) 3px 3px / 6px 6px;
+  content: "";
+  height: 14px;
+  left: 10px;
+  opacity: 0.72;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+}
+
+.chapter-rail .chapter-item.is-active {
+  background: rgba(216,229,220,0.46);
+  box-shadow: inset 0 0 0 1px rgba(113,139,124,0.18);
+  color: var(--accent-active);
+  font-weight: 650;
+}
+
+.inspector {
+  align-content: start;
+  background:
+    linear-gradient(180deg, rgba(252,252,250,0.72), rgba(248,249,246,0.58));
+  gap: 10px;
+  padding: clamp(18px, 2vw, 24px);
+}
+
+.inspector .note-label {
+  border-bottom: 1px solid rgba(216,222,216,0.82);
+  margin: 0 0 4px;
+  padding-bottom: 11px;
+}
+
+.inspector strong {
+  border-bottom: 1px solid rgba(216,222,216,0.62);
+  display: block;
+  margin-bottom: 2px;
+  padding-bottom: 12px;
+}
+
+.inspector .note-field {
+  border-bottom: 1px solid rgba(216,222,216,0.54);
+  color: var(--secondary);
+  display: grid;
+  gap: 4px;
+  line-height: 1.38;
+  padding: 9px 0 10px;
+}
+
+.inspector .note-field b {
+  color: var(--muted);
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 0.64rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fantasy-timeline {
+  align-content: center;
+  background:
+    linear-gradient(180deg, rgba(248,249,246,0.9), rgba(241,244,240,0.74));
+  overflow: hidden;
+}
+
+.fantasy-timeline::after {
+  background: linear-gradient(90deg, rgba(113,139,124,0.62), rgba(113,139,124,0.28));
+  content: "";
+  height: 2px;
+  left: clamp(28px, 5vw, 54px);
+  position: absolute;
+  right: clamp(28px, 5vw, 54px);
+  top: 34px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 820ms var(--ease);
+  z-index: 1;
+}
+
+.workspace-sticky[data-stage="3"] .fantasy-timeline::after {
+  transform: scaleX(1);
+}
+
+.fantasy-timeline span {
+  z-index: 2;
+}
+
+.fantasy-timeline span::before {
+  background: var(--elevated);
+  position: relative;
+  z-index: 3;
+}
+
+@media (max-width: 900px) {
+  .chapter-rail {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .chapter-rail .chapter-item {
+    margin-left: 6px;
+    padding-left: 24px;
+  }
+
+  .inspector .note-field {
+    padding-block: 7px;
+  }
+
+  .fantasy-timeline::after {
+    left: 30px;
+    right: 30px;
+  }
+}
+
+@media (max-width: 760px) {
+  .chapter-rail .rail-title {
+    letter-spacing: 0.04em;
+  }
+
+  .chapter-rail .chapter-item {
+    margin-left: 0;
+    padding: 8px 4px 8px 20px;
+  }
+
+  .chapter-rail .chapter-item::before {
+    left: 5px;
+    width: 8px;
+  }
+
+  .inspector {
+    padding: 14px 12px;
+  }
+
+  .inspector strong {
+    font-size: 0.95rem;
+  }
+
+  .fantasy-timeline::after {
+    bottom: 22px;
+    height: auto;
+    left: 22px;
+    right: auto;
+    top: 27px;
+    transform: scaleY(0);
+    transform-origin: top;
+    width: 2px;
+  }
+
+  .workspace-sticky[data-stage="3"] .fantasy-timeline::after {
+    transform: scaleY(1);
+  }
+}
