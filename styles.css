@@ -3021,3 +3021,102 @@ body[data-page="roadmap"] .page-hero::after {
     right: 0;
   }
 }
+
+/* Workspace UI refinement: one app frame, manuscript first, tools resize around it. */
+.assembling-workspace {
+  background:
+    linear-gradient(180deg, rgba(232,237,232,0.86) 0 38px, rgba(252,252,250,0.78) 38px),
+    linear-gradient(90deg, rgba(216,222,216,0.32), transparent 24% 76%, rgba(216,222,216,0.26));
+}
+
+.assembling-workspace::after {
+  background:
+    radial-gradient(circle, var(--accent) 0 3px, transparent 4px) 18px 18px / 18px 18px no-repeat,
+    radial-gradient(circle, rgba(113,139,124,0.45) 0 3px, transparent 4px) 38px 18px / 18px 18px no-repeat,
+    linear-gradient(90deg, rgba(216,222,216,0.86), rgba(216,222,216,0.22));
+  content: "";
+  height: 38px;
+  inset: 0 0 auto;
+  position: absolute;
+  z-index: 2;
+}
+
+.chapter-rail,
+.inspector {
+  bottom: 0;
+  top: 38px;
+}
+
+.fantasy-timeline {
+  background: rgba(248,249,246,0.82);
+}
+
+.manuscript-page {
+  left: 50%;
+  top: 53%;
+  width: min(84%, 760px);
+}
+
+.workspace-sticky[data-stage="1"] .manuscript-page {
+  left: 62%;
+  width: min(62%, 580px);
+}
+
+.workspace-sticky[data-stage="2"] .manuscript-page {
+  left: 49.5%;
+  width: min(46%, 430px);
+}
+
+.workspace-sticky[data-stage="3"] .manuscript-page {
+  left: 49.5%;
+  top: 48%;
+  transform: translate(-50%, -62%) scale(0.82);
+  width: min(42%, 390px);
+}
+
+.fantasy-timeline .current-event::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 5px rgba(113,139,124,0.14);
+}
+
+@media (max-width: 1100px) {
+  .workspace-sticky[data-stage="1"] .manuscript-page {
+    left: 62%;
+    width: min(60%, 520px);
+  }
+
+  .workspace-sticky[data-stage="2"] .manuscript-page {
+    width: min(44%, 390px);
+  }
+}
+
+.manuscript-page {
+  height: 68%;
+  overflow: hidden;
+  transition: transform 860ms var(--ease), width 860ms var(--ease), left 860ms var(--ease), top 860ms var(--ease), height 860ms var(--ease);
+}
+
+.workspace-sticky[data-stage="1"] .manuscript-page,
+.workspace-sticky[data-stage="2"] .manuscript-page {
+  height: 68%;
+  top: 54%;
+}
+
+.workspace-sticky[data-stage="3"] .manuscript-page {
+  height: 42%;
+  top: 51%;
+  transform: translate(-50%, -50%);
+  width: min(40%, 370px);
+}
+
+@media (max-width: 760px) {
+  .manuscript-page,
+  .workspace-sticky[data-stage="1"] .manuscript-page,
+  .workspace-sticky[data-stage="2"] .manuscript-page,
+  .workspace-sticky[data-stage="3"] .manuscript-page {
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    width: min(68%, 350px);
+  }
+}

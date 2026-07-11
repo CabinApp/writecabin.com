@@ -14,7 +14,7 @@ let workspaceCopyTimer = null;
 const stageText = [
   {
     title: "Begin with only the page.",
-    detail: "A manuscript sits in the center. The story has room before the software asks for anything."
+    detail: "The manuscript spans the room first. Nothing else enters before the writing has a place."
   },
   {
     title: "Let chapters appear beside it.",
