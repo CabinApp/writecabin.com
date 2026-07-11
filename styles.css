@@ -909,6 +909,30 @@ p {
   max-width: 12ch;
 }
 
+.article-back-link {
+  align-items: center;
+  color: var(--accent-active);
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: 750;
+  gap: 8px;
+  letter-spacing: 0.04em;
+  margin-bottom: 28px;
+  text-transform: uppercase;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.article-back-link::before {
+  content: "<-";
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.article-back-link:hover {
+  color: var(--accent-hover);
+  transform: translateX(-3px);
+}
+
 .article-content {
   background: rgba(252,252,250,0.7);
   border: 1px solid var(--outline);

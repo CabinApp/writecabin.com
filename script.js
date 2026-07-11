@@ -162,6 +162,7 @@ async function renderArticle(post) {
   setCanonical(`https://writecabin.com/blog.html?post=${post.slug}`);
 
   articleMount.innerHTML = `
+    <a class="article-back-link" href="blog.html">Back to Blog</a>
     <header>
       <p class="eyebrow">Blog</p>
       <time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time>
