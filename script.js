@@ -105,14 +105,17 @@ async function getPosts() {
   try {
     const response = await fetch(blogManifestPath);
     const manifest = await response.json();
+    const manifestUrl = new URL(blogManifestPath, window.location.href);
+
     return manifest.posts
       .map((post) => ({
         title: post.title,
         date: post.date,
         excerpt: post.excerpt,
-        content: post.content,
-        path: post.path,
-        slug: post.slug || post.path.split("/").pop().replace(/\.md$/, "")
+        path: new URL(post.path, manifestUrl).href,
+        slug:
+          post.slug ||
+          post.path.split("/").pop().replace(/\.md$/, "")
       }))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
   } catch {
@@ -139,12 +142,18 @@ function renderBlogList(posts) {
 }
 
 async function renderArticle(post) {
-  let markdown = post.content || "";
+  let markdown = "";
+
   try {
-    const response = await fetch(new URL(post.path, window.location.href), { cache: "no-cache" });
-    if (response.ok) markdown = await response.text();
+    const response = await fetch(post.path, {
+      cache: "no-cache"
+    });
+
+    if (response.ok) {
+      markdown = await response.text();
+    }
   } catch {
-    markdown = post.content || "";
+    markdown = "";
   }
 
   if (!markdown) {
@@ -157,29 +166,45 @@ async function renderArticle(post) {
     `;
     return;
   }
+
   const content = stripFrontmatter(markdown);
-  const parsed = window.marked ? marked.parse(content) : basicMarkdown(content);
-  const html = window.DOMPurify ? DOMPurify.sanitize(parsed) : parsed;
+  const parsed = window.marked
+    ? marked.parse(content)
+    : basicMarkdown(content);
+
+  const html = window.DOMPurify
+    ? DOMPurify.sanitize(parsed)
+    : parsed;
 
   document.title = `${post.title} - Cabin Blog`;
+
   setMeta("description", post.excerpt || "A Cabin blog post.");
   setMeta("og:title", `${post.title} - Cabin Blog`, true);
   setMeta("og:description", post.excerpt || "A Cabin blog post.", true);
   setCanonical(`https://writecabin.com/blog.html?post=${post.slug}`);
 
   articleMount.innerHTML = `
-    <a class="article-back-link" href="blog.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Back to Blog</span></a>
+    <a class="article-back-link" href="blog.html">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      <span>Back to Blog</span>
+    </a>
+
     <header>
       <p class="eyebrow">Blog</p>
-      <time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time>
+      <time class="article-date" datetime="${post.date}">
+        ${formatDate(post.date)}
+      </time>
       <h1>${escapeHtml(post.title)}</h1>
       <p>${escapeHtml(post.excerpt || "")}</p>
     </header>
+
     <div class="article-content">${html}</div>
   `;
 
   if (window.hljs) {
-    articleMount.querySelectorAll("pre code").forEach((block) => hljs.highlightElement(block));
+    articleMount
+      .querySelectorAll("pre code")
+      .forEach((block) => hljs.highlightElement(block));
   }
 }
 

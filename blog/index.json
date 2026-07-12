@@ -5,8 +5,7 @@
       "date": "2026-07-10",
       "excerpt": "A sample Cabin post showing Markdown formatting through a founder-style note.",
       "path": "blog/welcome-to-cabin.md",
-      "slug": "welcome-to-cabin",
-      "content": "# Welcome to Cabin\n\nCabin is writing software built around a simple belief: the tool should grow at the same pace as the writer's project.\n\n## Why begin with calm?\n\nMany writing apps begin by asking the writer to manage a system. Cabin begins with the page, then lets structure arrive only when the work can use it.\n\nThe early principles are plain:\n\n- Keep the manuscript central.\n- Make ownership visible.\n- Let planning tools stay quiet until needed.\n- Treat AI as an editor, never a co-author.\n\nThe order matters:\n\n1. Understand the writer's actual working rhythm.\n2. Design the smallest useful writing room.\n3. Add structure without turning the app into a dashboard.\n4. Test the alpha with real long-form projects.\n\n> Cabin should feel like a quiet room prepared for thought, not a dashboard pretending to be progress.\n\n## Small table\n\n| Principle | Meaning |\n| --- | --- |\n| Local-first | The writer owns the folder. |\n| Progressive complexity | Structure appears when useful. |\n| AI as editor | The writer keeps the voice. |\n\n## Code block\n\n```js\nconst cabin = {\n  startsAs: \"one blank file\",\n  growsWhen: \"the writer asks\",\n  aiRole: \"editor, not co-author\"\n};\n\nconsole.log(`${cabin.startsAs}; ${cabin.growsWhen}.`);\n```\n\n## Link\n\nRead the [roadmap](roadmap.html) to see how the first alpha is taking shape."
+      "slug": "welcome-to-cabin"
     }
   ]
 }
