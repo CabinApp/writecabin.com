@@ -3688,16 +3688,14 @@ body[data-page="roadmap"] .page-hero::after {
 }
 
 .ambient-spores span {
-  background:
-    radial-gradient(circle, rgba(220,239,224,0.72) 0 18%, rgba(113,139,124,0.34) 42%, rgba(80,100,87,0.10) 62%, rgba(113,139,124,0) 76%);
-  border-radius: 999px;
-  box-shadow: 0 0 28px rgba(113,139,124,0.22);
-  height: var(--spore-size);
+  background: #6f8f58;
+  border-radius: 68% 32% 62% 38%;
+  height: calc(var(--spore-size) * 0.72);
   left: var(--spore-x);
   opacity: var(--spore-opacity);
   position: absolute;
   top: var(--spore-y);
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0) rotate(var(--spore-rotation));
   width: var(--spore-size);
 }
 
@@ -3709,16 +3707,16 @@ body[data-page="roadmap"] .page-hero::after {
 
 @keyframes spore-drift {
   0% {
-    opacity: calc(var(--spore-opacity) * 0.58);
-    transform: translate3d(0, 0, 0) scale(0.82);
+    opacity: calc(var(--spore-opacity) * 0.72);
+    transform: translate3d(0, 0, 0) rotate(var(--spore-rotation)) scale(0.94);
   }
 
   45% {
-    opacity: calc(var(--spore-opacity) * 1.28);
+    opacity: var(--spore-opacity);
   }
 
   100% {
-    opacity: calc(var(--spore-opacity) * 0.74);
-    transform: translate3d(var(--spore-drift-x), var(--spore-drift-y), 0) scale(1.12);
+    opacity: calc(var(--spore-opacity) * 0.82);
+    transform: translate3d(var(--spore-drift-x), var(--spore-drift-y), 0) rotate(calc(var(--spore-rotation) + 38deg)) scale(1.02);
   }
 }
