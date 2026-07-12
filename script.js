@@ -543,20 +543,22 @@ function initImageLoading() {
 }
 
 function initAmbientSpores() {
-  const count = prefersReducedMotion ? 18 : 34;
+  const count = prefersReducedMotion ? 20 : 42;
   const layer = document.createElement("div");
   layer.className = "ambient-spores";
   layer.setAttribute("aria-hidden", "true");
 
   for (let index = 0; index < count; index += 1) {
     const spore = document.createElement("span");
-    const size = 2 + Math.random() * 4;
+    const size = index % 7 === 0 ? 26 + Math.random() * 18 : 12 + Math.random() * 18;
     spore.style.setProperty("--spore-x", `${Math.random() * 100}%`);
     spore.style.setProperty("--spore-y", `${Math.random() * 100}%`);
     spore.style.setProperty("--spore-size", `${size}px`);
     spore.style.setProperty("--spore-delay", `${Math.random() * -18}s`);
     spore.style.setProperty("--spore-duration", `${18 + Math.random() * 18}s`);
-    spore.style.setProperty("--spore-drift", `${(Math.random() - 0.5) * 28}px`);
+    spore.style.setProperty("--spore-drift-x", `${(Math.random() - 0.5) * 72}px`);
+    spore.style.setProperty("--spore-drift-y", `${-38 - Math.random() * 74}px`);
+    spore.style.setProperty("--spore-opacity", `${0.14 + Math.random() * 0.22}`);
     layer.append(spore);
   }
 

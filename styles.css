@@ -362,7 +362,7 @@ p {
   margin-top: 7vh;
   max-width: 980px;
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 .approach-copy h1 {
@@ -1426,7 +1426,7 @@ p {
 .approach-copy {
   max-width: 780px;
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 .approach-copy h1 {
@@ -3038,7 +3038,7 @@ body[data-page="roadmap"] .page-hero::after {
   height: 38px;
   inset: 0 0 auto;
   position: absolute;
-  z-index: 2;
+  z-index: 3;
 }
 
 .chapter-rail,
@@ -3175,7 +3175,7 @@ body[data-page="roadmap"] .page-hero::after {
     padding 860ms var(--ease),
     opacity 700ms var(--ease);
   width: auto;
-  z-index: 2;
+  z-index: 3;
 }
 
 .workspace-sticky[data-stage="1"] .manuscript-page {
@@ -3415,7 +3415,7 @@ body[data-page="roadmap"] .page-hero::after {
 }
 
 .fantasy-timeline span {
-  z-index: 2;
+  z-index: 3;
 }
 
 .fantasy-timeline span::before {
@@ -3684,17 +3684,17 @@ body[data-page="roadmap"] .page-hero::after {
   overflow: hidden;
   pointer-events: none;
   position: fixed;
-  z-index: 2;
+  z-index: 3;
 }
 
 .ambient-spores span {
   background:
-    radial-gradient(circle, rgba(248,249,246,0.92) 0 22%, rgba(216,229,220,0.62) 38%, rgba(113,139,124,0) 72%);
+    radial-gradient(circle, rgba(220,239,224,0.72) 0 18%, rgba(113,139,124,0.34) 42%, rgba(80,100,87,0.10) 62%, rgba(113,139,124,0) 76%);
   border-radius: 999px;
-  box-shadow: 0 0 18px rgba(216,229,220,0.34);
+  box-shadow: 0 0 28px rgba(113,139,124,0.22);
   height: var(--spore-size);
   left: var(--spore-x);
-  opacity: 0.34;
+  opacity: var(--spore-opacity);
   position: absolute;
   top: var(--spore-y);
   transform: translate3d(0, 0, 0);
@@ -3709,16 +3709,16 @@ body[data-page="roadmap"] .page-hero::after {
 
 @keyframes spore-drift {
   0% {
-    opacity: 0.14;
+    opacity: calc(var(--spore-opacity) * 0.58);
     transform: translate3d(0, 0, 0) scale(0.82);
   }
 
   45% {
-    opacity: 0.42;
+    opacity: calc(var(--spore-opacity) * 1.28);
   }
 
   100% {
-    opacity: 0.24;
-    transform: translate3d(var(--spore-drift), -42px, 0) scale(1.08);
+    opacity: calc(var(--spore-opacity) * 0.74);
+    transform: translate3d(var(--spore-drift-x), var(--spore-drift-y), 0) scale(1.12);
   }
 }
