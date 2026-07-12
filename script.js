@@ -33,6 +33,7 @@ const stageText = [
 document.body.classList.add("ready");
 initMotionLibraries();
 initImageLoading();
+initAmbientSpores();
 
 if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
   const params = new URLSearchParams(window.location.search);
@@ -539,4 +540,25 @@ function initImageLoading() {
     image.addEventListener("load", markLoaded, { once: true });
     image.addEventListener("error", markLoaded, { once: true });
   });
+}
+
+function initAmbientSpores() {
+  const count = prefersReducedMotion ? 18 : 34;
+  const layer = document.createElement("div");
+  layer.className = "ambient-spores";
+  layer.setAttribute("aria-hidden", "true");
+
+  for (let index = 0; index < count; index += 1) {
+    const spore = document.createElement("span");
+    const size = 2 + Math.random() * 4;
+    spore.style.setProperty("--spore-x", `${Math.random() * 100}%`);
+    spore.style.setProperty("--spore-y", `${Math.random() * 100}%`);
+    spore.style.setProperty("--spore-size", `${size}px`);
+    spore.style.setProperty("--spore-delay", `${Math.random() * -18}s`);
+    spore.style.setProperty("--spore-duration", `${18 + Math.random() * 18}s`);
+    spore.style.setProperty("--spore-drift", `${(Math.random() - 0.5) * 28}px`);
+    layer.append(spore);
+  }
+
+  document.body.prepend(layer);
 }

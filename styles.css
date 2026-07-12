@@ -3667,3 +3667,58 @@ body[data-page="roadmap"] .page-hero::after {
     width: min(86%, 420px);
   }
 }
+
+/* Final ambience and pacing adjustment. */
+.workspace-sequence {
+  min-height: 390vh;
+}
+
+.approach-art-image {
+  height: 100%;
+  inset: 0;
+  transform: none !important;
+}
+
+.ambient-spores {
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  z-index: 2;
+}
+
+.ambient-spores span {
+  background:
+    radial-gradient(circle, rgba(248,249,246,0.92) 0 22%, rgba(216,229,220,0.62) 38%, rgba(113,139,124,0) 72%);
+  border-radius: 999px;
+  box-shadow: 0 0 18px rgba(216,229,220,0.34);
+  height: var(--spore-size);
+  left: var(--spore-x);
+  opacity: 0.34;
+  position: absolute;
+  top: var(--spore-y);
+  transform: translate3d(0, 0, 0);
+  width: var(--spore-size);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ambient-spores span {
+    animation: spore-drift var(--spore-duration) ease-in-out var(--spore-delay) infinite alternate;
+  }
+}
+
+@keyframes spore-drift {
+  0% {
+    opacity: 0.14;
+    transform: translate3d(0, 0, 0) scale(0.82);
+  }
+
+  45% {
+    opacity: 0.42;
+  }
+
+  100% {
+    opacity: 0.24;
+    transform: translate3d(var(--spore-drift), -42px, 0) scale(1.08);
+  }
+}
