@@ -349,7 +349,7 @@ function updateWorkspace(scrollY) {
 }
 
 function normalizeWorkspaceProgress(progress) {
-  return clamp((progress - 0.40) / 0.60, 0, 1);
+  return clamp(progress, 0, 1);
 }
 
 function updateWorkspaceProgress(progress) {

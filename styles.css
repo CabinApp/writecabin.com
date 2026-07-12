@@ -3630,3 +3630,40 @@ body[data-page="roadmap"] .page-hero::after {
   filter: blur(10px) saturate(0.82);
   opacity: 0;
 }
+
+/* Final correction: stage 0 is a centered manuscript column, not centered text. */
+.workspace-sticky[data-stage="0"] .manuscript-page {
+  align-content: center;
+  display: block;
+  inset: var(--app-chrome) auto 0 auto;
+  left: 50%;
+  max-width: 760px;
+  padding-left: clamp(42px, 5vw, 76px);
+  padding-right: clamp(42px, 5vw, 76px);
+  text-align: left;
+  transform: translateX(-50%);
+  width: min(82%, 760px);
+}
+
+.workspace-sticky[data-stage="0"] .manuscript-page .doc-kicker,
+.workspace-sticky[data-stage="0"] .manuscript-page h3,
+.workspace-sticky[data-stage="0"] .manuscript-page p:not(.doc-kicker) {
+  justify-self: auto;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+
+.workspace-sticky[data-stage="1"] .manuscript-page,
+.workspace-sticky[data-stage="2"] .manuscript-page,
+.workspace-sticky[data-stage="3"] .manuscript-page {
+  max-width: none;
+  transform: none;
+}
+
+@media (max-width: 760px) {
+  .workspace-sticky[data-stage="0"] .manuscript-page {
+    inset: var(--app-chrome) auto 0 auto;
+    width: min(86%, 420px);
+  }
+}
