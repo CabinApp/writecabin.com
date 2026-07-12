@@ -3684,7 +3684,7 @@ body[data-page="roadmap"] .page-hero::after {
   overflow: hidden;
   pointer-events: none;
   position: fixed;
-  z-index: 3;
+  z-index: 0;
 }
 
 .ambient-spores span {
