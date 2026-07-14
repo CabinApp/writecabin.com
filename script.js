@@ -233,7 +233,6 @@ function revealArticleMount() {
     articleMount.classList.remove("is-loading");
     articleMount.classList.add("is-ready");
     items.forEach((item) => item.classList.add("is-visible"));
-    updateArticleBackLink();
   });
 }
 
@@ -367,7 +366,6 @@ function updateScrollEffects() {
 
   if (!workspacePinnedByScrollTrigger) updateWorkspace(scrollY);
   updateDisappearance(scrollY);
-  updateArticleBackLink();
 }
 
 function updateWorkspace(scrollY) {
@@ -400,14 +398,6 @@ function updateWorkspaceProgress(progress) {
   }
 }
 
-function updateArticleBackLink() {
-  const link = document.querySelector(".article-back-link");
-  const content = document.querySelector(".article-content");
-  if (!link || !content) return;
-
-  const shouldDock = content.getBoundingClientRect().top < window.innerHeight * 0.72;
-  link.classList.toggle("is-docked", shouldDock);
-}
 function updateDisappearance() {
   if (!disappearScene) return;
   const rect = disappearScene.getBoundingClientRect();

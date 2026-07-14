@@ -3770,23 +3770,28 @@ body.article-view .site-footer {
   padding: 10px 14px;
   position: sticky;
   top: 92px;
-  transform: translateX(0);
-  transition: color 180ms ease, transform 680ms var(--ease), margin-left 680ms var(--ease), background 220ms ease;
   z-index: 12;
 }
 
 @media (min-width: 1180px) {
   .article-shell {
-    max-width: 1120px;
+    column-gap: 34px;
+    display: grid;
+    grid-template-columns: minmax(178px, 218px) minmax(0, 880px);
+    max-width: 1160px;
+  }
+
+  .article-back-link {
+    align-self: start;
+    grid-column: 1;
+    justify-self: end;
+    margin-top: 4px;
+    white-space: nowrap;
   }
 
   .article-shell header,
   .article-content {
-    margin-left: clamp(130px, 11vw, 184px);
-  }
-
-  .article-back-link.is-docked {
+    grid-column: 2;
     margin-left: 0;
-    transform: translateX(-10px);
   }
 }
