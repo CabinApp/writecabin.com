@@ -3763,18 +3763,30 @@ body.article-view .site-footer {
 }
 
 .article-back-link {
-  background: rgba(248,249,246,0.86);
+  background: rgba(248,249,246,0.9);
   border: 1px solid rgba(216,222,216,0.78);
   border-radius: 999px;
   box-shadow: var(--shadow-soft);
   padding: 10px 14px;
   position: sticky;
   top: 92px;
+  transform: translateX(0);
+  transition: color 180ms ease, transform 680ms var(--ease), margin-left 680ms var(--ease), background 220ms ease;
   z-index: 12;
 }
 
 @media (min-width: 1180px) {
-  .article-back-link {
-    margin-left: clamp(-140px, -8vw, -72px);
+  .article-shell {
+    max-width: 1120px;
+  }
+
+  .article-shell header,
+  .article-content {
+    margin-left: clamp(130px, 11vw, 184px);
+  }
+
+  .article-back-link.is-docked {
+    margin-left: 0;
+    transform: translateX(-10px);
   }
 }
