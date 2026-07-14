@@ -1,13 +1,6 @@
 {
   "posts": [
     {
-      "title": "Markdown Feature Guide",
-      "date": "2026-07-14",
-      "excerpt": "A reference post showing every Markdown feature currently supported by Cabin blogs.",
-      "path": "markdown-feature-guide.md",
-      "slug": "markdown-feature-guide"
-    },
-    {
       "title": "Welcome to Cabin",
       "date": "2026-07-12",
       "excerpt": "Cabin is writing software designed to grow with the writer.",
