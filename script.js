@@ -8,6 +8,7 @@ const stageCopy = document.querySelector("[data-stage-copy]");
 const stageDetail = document.querySelector("[data-stage-detail]");
 const disappearScene = document.querySelector("[data-disappear-scene]");
 let articleProgressBar = null;
+let refreshAmbientSpores = () => {};
 const parallaxLayers = [...document.querySelectorAll("[data-depth]")];
 let workspacePinnedByScrollTrigger = false;
 let activeWorkspaceCopy = 0;
@@ -70,16 +71,20 @@ document.addEventListener("click", async (event) => {
   const shareButton = event.target.closest("[data-copy-post-link]");
   if (shareButton) {
     await copyText(window.location.href);
-    shareButton.textContent = "Copied";
-    window.setTimeout(() => { shareButton.textContent = "Copy link"; }, 1400);
+    shareButton.classList.add("is-copied");
+    window.setTimeout(() => { shareButton.classList.remove("is-copied"); }, 1500);
     return;
   }
 
   const codeButton = event.target.closest("[data-copy-code]");
   if (codeButton) {
     await copyText(codeButton.closest("pre")?.querySelector("code")?.innerText || "");
-    codeButton.textContent = "Copied";
-    window.setTimeout(() => { codeButton.textContent = "Copy"; }, 1400);
+    codeButton.classList.add("is-copied");
+    codeButton.innerHTML = `<i class="fa-solid fa-check" aria-hidden="true"></i><span class="sr-only">Copied</span>`;
+    window.setTimeout(() => {
+      codeButton.classList.remove("is-copied");
+      codeButton.innerHTML = `<i class="fa-regular fa-copy" aria-hidden="true"></i><span class="sr-only">Copy code</span>`;
+    }, 1400);
     return;
   }
 
@@ -107,7 +112,7 @@ document.addEventListener("click", async (event) => {
 });
 
 const blogList = document.querySelector("[data-blog-list]");
-const articleMount = document.querySelector("[data-article-mount]");
+let articleMount = document.querySelector("[data-article-mount]");
 
 if (blogList || articleMount) {
   loadBlog();
@@ -120,23 +125,33 @@ updateScrollEffects();
 
 async function loadBlog() {
   const posts = await getPosts();
-  if (articleMount) {
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("post");
-    if (slug) {
-      const post = posts.find((item) => item.slug === slug);
-      if (post) {
-        document.querySelector(".page-hero")?.remove();
-        blogList?.remove();
-        document.body.classList.add("article-view");
-        articleMount.removeAttribute("hidden");
-        articleMount.classList.add("is-loading");
-        await renderArticle(post);
-        return;
-      }
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get("post");
+
+  if (slug) {
+    const post = posts.find((item) => item.slug === slug);
+    if (post) {
+      articleMount = ensureArticleMount();
+      document.querySelector(".page-hero")?.remove();
+      blogList?.remove();
+      document.body.classList.add("article-view");
+      articleMount.classList.add("is-loading");
+      await renderArticle(post);
+      return;
     }
   }
+
+  articleMount?.remove();
   if (blogList) renderBlogList(posts);
+}
+
+function ensureArticleMount() {
+  if (articleMount) return articleMount;
+  const mount = document.createElement("article");
+  mount.className = "article-shell";
+  mount.dataset.articleMount = "";
+  document.querySelector("main")?.append(mount);
+  return mount;
 }
 
 async function getPosts() {
@@ -245,7 +260,7 @@ async function renderArticle(post) {
       <div class="article-meta-row">
         <time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time>
         <span>${estimateReadingTime(markdown)} min read</span>
-        <button class="article-share-button" type="button" data-copy-post-link>Copy link</button>
+        <button class="article-share-button" type="button" data-copy-post-link aria-live="polite"><span class="share-label">Copy link</span><span class="share-label copied-label">Copied</span></button>
       </div>
       <h1>${escapeHtml(post.title)}</h1>
       <p>${escapeHtml(post.excerpt || "")}</p>
@@ -265,7 +280,13 @@ async function renderArticle(post) {
   articleProgressBar = articleMount.querySelector("[data-article-progress] span");
   enhanceCodeBlocks();
   enhanceArticleImages(post.path);
-  updateArticleProgress();
+  requestAnimationFrame(() => {
+    updateArticleProgress();
+    refreshAmbientSpores();
+  });
+  articleMount.querySelectorAll("img").forEach((image) => {
+    image.addEventListener("load", refreshAmbientSpores, { once: true });
+  });
   revealArticleMount();
 }
 
@@ -302,13 +323,12 @@ function estimateReadingTime(markdown) {
 }
 
 function updateArticleProgress() {
-  if (!articleProgressBar || !articleMount) return;
-  const content = articleMount.querySelector(".article-content");
-  if (!content) return;
-
-  const rect = content.getBoundingClientRect();
-  const total = rect.height - window.innerHeight * 0.55;
-  const progress = total > 0 ? clamp((window.innerHeight * 0.18 - rect.top) / total, 0, 1) : 1;
+  if (!articleProgressBar || !document.body.classList.contains("article-view")) return;
+  const max = Math.max(
+    document.documentElement.scrollHeight,
+    document.body.scrollHeight
+  ) - window.innerHeight;
+  const progress = max > 0 ? clamp(window.scrollY / max, 0, 1) : 1;
   articleProgressBar.style.transform = `scaleX(${progress})`;
 }
 
@@ -336,7 +356,8 @@ function enhanceCodeBlocks() {
     button.type = "button";
     button.className = "code-copy-button";
     button.dataset.copyCode = "";
-    button.textContent = "Copy";
+    button.setAttribute("aria-label", "Copy code");
+    button.innerHTML = `<i class="fa-regular fa-copy" aria-hidden="true"></i><span class="sr-only">Copy code</span>`;
     pre.append(button);
   });
 }
@@ -353,19 +374,31 @@ function enhanceArticleImages(basePath = window.location.href) {
 }
 
 function openLightbox(image) {
+  closeLightbox(true);
   const lightbox = document.createElement("div");
   lightbox.className = "article-lightbox";
   lightbox.innerHTML = `
-    <button type="button" aria-label="Close image">Close</button>
+    <button type="button" aria-label="Close image"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
     <img src="${image.currentSrc || image.src}" alt="${escapeHtml(image.alt || "")}">
   `;
   document.body.append(lightbox);
   document.body.classList.add("has-lightbox");
+  requestAnimationFrame(() => lightbox.classList.add("is-open"));
 }
 
-function closeLightbox() {
-  document.querySelector(".article-lightbox")?.remove();
-  document.body.classList.remove("has-lightbox");
+function closeLightbox(skipAnimation = false) {
+  const lightbox = document.querySelector(".article-lightbox");
+  if (!lightbox) return;
+  if (skipAnimation) {
+    lightbox.remove();
+    document.body.classList.remove("has-lightbox");
+    return;
+  }
+  lightbox.classList.remove("is-open");
+  window.setTimeout(() => {
+    lightbox.remove();
+    document.body.classList.remove("has-lightbox");
+  }, prefersReducedMotion ? 0 : 260);
 }
 function stripFrontmatter(markdown) {
   return markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
@@ -735,6 +768,7 @@ function initAmbientSpores() {
   };
 
   populate();
+  refreshAmbientSpores = populate;
   window.addEventListener("load", populate, { once: true });
   window.addEventListener("resize", populate, { passive: true });
 }

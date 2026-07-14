@@ -3908,3 +3908,123 @@ body.has-lightbox {
     grid-column: 1;
   }
 }
+
+/* Blog article interaction polish */
+[hidden] {
+  display: none !important;
+}
+
+body.article-view {
+  min-height: 100svh;
+}
+
+.article-progress {
+  background: rgba(216,222,216,0.76);
+  border-radius: 0;
+  grid-column: 1 / -1;
+  height: 3px;
+  left: 0;
+  margin: 0;
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  top: var(--article-progress-top, 72px);
+  z-index: 28;
+}
+
+.article-progress span {
+  transition: transform 120ms linear;
+}
+
+.article-share-button {
+  min-width: 94px;
+  overflow: hidden;
+  position: relative;
+}
+
+.article-share-button .share-label {
+  display: block;
+  transition: opacity 260ms var(--ease), transform 260ms var(--ease);
+}
+
+.article-share-button .copied-label {
+  inset: 8px 11px;
+  opacity: 0;
+  position: absolute;
+  transform: translateY(8px);
+}
+
+.article-share-button.is-copied .share-label:first-child {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.article-share-button.is-copied .copied-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.code-copy-button {
+  align-items: center;
+  display: inline-grid;
+  height: 34px;
+  justify-items: center;
+  padding: 0;
+  width: 34px;
+}
+
+.code-copy-button i {
+  font-size: 0.92rem;
+  transition: transform 220ms var(--ease), color 220ms var(--ease);
+}
+
+.code-copy-button.is-copied i {
+  color: var(--accent-active);
+  transform: scale(1.08);
+}
+
+.article-lightbox {
+  opacity: 0;
+  transition: opacity 280ms var(--ease);
+}
+
+.article-lightbox img {
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  transition: opacity 360ms var(--ease), transform 360ms var(--ease);
+}
+
+.article-lightbox.is-open {
+  opacity: 1;
+}
+
+.article-lightbox.is-open img {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.article-lightbox button {
+  align-items: center;
+  display: inline-grid;
+  height: 42px;
+  justify-items: center;
+  padding: 0;
+  width: 42px;
+}
+
+@media (max-width: 760px) {
+  .article-progress {
+    grid-column: 1;
+    top: var(--article-progress-top, 68px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-share-button .share-label,
+  .code-copy-button i,
+  .article-lightbox,
+  .article-lightbox img,
+  .article-progress span {
+    transition: none;
+  }
+}
