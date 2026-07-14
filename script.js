@@ -543,25 +543,38 @@ function initImageLoading() {
 }
 
 function initAmbientSpores() {
-  const count = prefersReducedMotion ? 10 : 22;
   const layer = document.createElement("div");
   layer.className = "ambient-spores";
   layer.setAttribute("aria-hidden", "true");
-
-  for (let index = 0; index < count; index += 1) {
-    const spore = document.createElement("span");
-    const size = index % 8 === 0 ? 13 + Math.random() * 5 : 7 + Math.random() * 6;
-    spore.style.setProperty("--spore-x", `${Math.random() * 100}%`);
-    spore.style.setProperty("--spore-y", `${Math.random() * 100}%`);
-    spore.style.setProperty("--spore-size", `${size}px`);
-    spore.style.setProperty("--spore-delay", `${Math.random() * -18}s`);
-    spore.style.setProperty("--spore-duration", `${14 + Math.random() * 16}s`);
-    spore.style.setProperty("--spore-drift-x", `${(Math.random() - 0.5) * 96}px`);
-    spore.style.setProperty("--spore-drift-y", `${-52 - Math.random() * 88}px`);
-    spore.style.setProperty("--spore-opacity", `${0.39 + Math.random() * 0.26}`);
-    spore.style.setProperty("--spore-rotation", `${Math.random() * 360}deg`);
-    layer.append(spore);
-  }
-
   document.body.prepend(layer);
+
+  const populate = () => {
+    const height = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      window.innerHeight
+    );
+    const count = Math.min(Math.max(Math.ceil(height / (prefersReducedMotion ? 560 : 380)), 18), 72);
+    layer.style.height = `${height}px`;
+    layer.replaceChildren();
+
+    for (let index = 0; index < count; index += 1) {
+      const spore = document.createElement("span");
+      const size = index % 9 === 0 ? 12 + Math.random() * 4 : 6 + Math.random() * 5;
+      spore.style.setProperty("--spore-x", `${Math.random() * 100}%`);
+      spore.style.setProperty("--spore-y", `${Math.random() * height}px`);
+      spore.style.setProperty("--spore-size", `${size}px`);
+      spore.style.setProperty("--spore-delay", `${Math.random() * -18}s`);
+      spore.style.setProperty("--spore-duration", `${18 + Math.random() * 18}s`);
+      spore.style.setProperty("--spore-drift-x", `${(Math.random() - 0.5) * 64}px`);
+      spore.style.setProperty("--spore-drift-y", `${-24 - Math.random() * 48}px`);
+      spore.style.setProperty("--spore-opacity", `${0.18 + Math.random() * 0.10}`);
+      spore.style.setProperty("--spore-rotation", `${Math.random() * 360}deg`);
+      layer.append(spore);
+    }
+  };
+
+  populate();
+  window.addEventListener("load", populate, { once: true });
+  window.addEventListener("resize", populate, { passive: true });
 }

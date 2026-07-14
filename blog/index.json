@@ -2,8 +2,8 @@
   "posts": [
     {
       "title": "Welcome to Cabin",
-      "date": "2026-07-10",
-      "excerpt": "A sample Cabin post showing Markdown formatting through a founder-style note.",
+      "date": "2026-07-12",
+      "excerpt": "Cabin is writing software designed to grow with the writer.",
       "path": "welcome-to-cabin.md",
       "slug": "welcome-to-cabin"
     }
