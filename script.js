@@ -7,6 +7,7 @@ const workspaceSticky = document.querySelector(".workspace-sticky");
 const stageCopy = document.querySelector("[data-stage-copy]");
 const stageDetail = document.querySelector("[data-stage-detail]");
 const disappearScene = document.querySelector("[data-disappear-scene]");
+let articleProgressBar = null;
 const parallaxLayers = [...document.querySelectorAll("[data-depth]")];
 let workspacePinnedByScrollTrigger = false;
 let activeWorkspaceCopy = 0;
@@ -58,7 +59,41 @@ window.addEventListener("scroll", () => {
   }
 }, { passive: true });
 
-document.addEventListener("click", (event) => {
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeLightbox();
+  if (event.key === "Enter" && event.target instanceof Element && event.target.matches(".article-content img")) openLightbox(event.target);
+});
+
+document.addEventListener("click", async (event) => {
+  if (!(event.target instanceof Element)) return;
+
+  const shareButton = event.target.closest("[data-copy-post-link]");
+  if (shareButton) {
+    await copyText(window.location.href);
+    shareButton.textContent = "Copied";
+    window.setTimeout(() => { shareButton.textContent = "Copy link"; }, 1400);
+    return;
+  }
+
+  const codeButton = event.target.closest("[data-copy-code]");
+  if (codeButton) {
+    await copyText(codeButton.closest("pre")?.querySelector("code")?.innerText || "");
+    codeButton.textContent = "Copied";
+    window.setTimeout(() => { codeButton.textContent = "Copy"; }, 1400);
+    return;
+  }
+
+  const image = event.target.closest(".article-content img");
+  if (image) {
+    openLightbox(image);
+    return;
+  }
+
+  if (event.target.closest(".article-lightbox button") || event.target.classList.contains("article-lightbox")) {
+    closeLightbox();
+    return;
+  }
+
   const link = event.target.closest("a[href]");
   if (!link || prefersReducedMotion) return;
   const url = new URL(link.href, window.location.href);
@@ -110,17 +145,28 @@ async function getPosts() {
     const manifest = await response.json();
     const manifestUrl = new URL(blogManifestPath, window.location.href);
 
-    return manifest.posts
-      .map((post) => ({
+    const posts = await Promise.all(manifest.posts.map(async (post) => {
+      const path = new URL(post.path, manifestUrl).href;
+      let content = "";
+      try {
+        const markdownResponse = await fetch(path, { cache: "no-cache" });
+        if (markdownResponse.ok) content = await markdownResponse.text();
+      } catch {
+        content = "";
+      }
+
+      return {
         title: post.title,
         date: post.date,
         excerpt: post.excerpt,
-        path: new URL(post.path, manifestUrl).href,
-        slug:
-          post.slug ||
-          post.path.split("/").pop().replace(/\.md$/, "")
-      }))
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
+        path,
+        content,
+        readingTime: estimateReadingTime(content || post.excerpt || ""),
+        slug: post.slug || post.path.split("/").pop().replace(/\.md$/, "")
+      };
+    }));
+
+    return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
   } catch {
     return [];
   }
@@ -134,7 +180,7 @@ function renderBlogList(posts) {
 
   blogList.innerHTML = posts.map((post) => `
     <a class="blog-card" href="blog.html?post=${post.slug}">
-      <time datetime="${post.date}">${formatDate(post.date)}</time>
+      <span class="blog-card-meta"><time datetime="${post.date}">${formatDate(post.date)}</time><span>${post.readingTime} min read</span></span>
       <span>
         <h2>${escapeHtml(post.title)}</h2>
         <p>${escapeHtml(post.excerpt || "A Cabin development note.")}</p>
@@ -145,8 +191,9 @@ function renderBlogList(posts) {
 }
 
 async function renderArticle(post) {
-  let markdown = "";
+  let markdown = post.content || "";
 
+  if (!markdown) {
   try {
     const response = await fetch(post.path, {
       cache: "no-cache"
@@ -157,6 +204,7 @@ async function renderArticle(post) {
     }
   } catch {
     markdown = "";
+  }
   }
 
   if (!markdown) {
@@ -194,12 +242,16 @@ async function renderArticle(post) {
     </a>
 
     <header>
-      <time class="article-date" datetime="${post.date}">
-        ${formatDate(post.date)}
-      </time>
+      <div class="article-meta-row">
+        <time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time>
+        <span>${estimateReadingTime(markdown)} min read</span>
+        <button class="article-share-button" type="button" data-copy-post-link>Copy link</button>
+      </div>
       <h1>${escapeHtml(post.title)}</h1>
       <p>${escapeHtml(post.excerpt || "")}</p>
     </header>
+
+    <div class="article-progress" data-article-progress aria-hidden="true"><span></span></div>
 
     <div class="article-content">${html}</div>
   `;
@@ -210,6 +262,10 @@ async function renderArticle(post) {
       .forEach((block) => hljs.highlightElement(block));
   }
 
+  articleProgressBar = articleMount.querySelector("[data-article-progress] span");
+  enhanceCodeBlocks();
+  enhanceArticleImages(post.path);
+  updateArticleProgress();
   revealArticleMount();
 }
 
@@ -236,6 +292,81 @@ function revealArticleMount() {
   });
 }
 
+function estimateReadingTime(markdown) {
+  const text = stripFrontmatter(markdown)
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[#>*_`\[\]()!-]/g, " ");
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 225));
+}
+
+function updateArticleProgress() {
+  if (!articleProgressBar || !articleMount) return;
+  const content = articleMount.querySelector(".article-content");
+  if (!content) return;
+
+  const rect = content.getBoundingClientRect();
+  const total = rect.height - window.innerHeight * 0.55;
+  const progress = total > 0 ? clamp((window.innerHeight * 0.18 - rect.top) / total, 0, 1) : 1;
+  articleProgressBar.style.transform = `scaleX(${progress})`;
+}
+
+async function copyText(value) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+
+  const input = document.createElement("textarea");
+  input.value = value;
+  input.setAttribute("readonly", "");
+  input.style.position = "fixed";
+  input.style.opacity = "0";
+  document.body.append(input);
+  input.select();
+  document.execCommand("copy");
+  input.remove();
+}
+
+function enhanceCodeBlocks() {
+  articleMount?.querySelectorAll(".article-content pre").forEach((pre) => {
+    if (pre.querySelector("[data-copy-code]")) return;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "code-copy-button";
+    button.dataset.copyCode = "";
+    button.textContent = "Copy";
+    pre.append(button);
+  });
+}
+
+function enhanceArticleImages(basePath = window.location.href) {
+  articleMount?.querySelectorAll(".article-content img").forEach((image) => {
+    const source = image.getAttribute("src");
+    if (source && !/^(?:[a-z]+:|#|\/)/i.test(source)) {
+      image.src = new URL(source, basePath).href;
+    }
+    image.classList.add("lightbox-image");
+    image.setAttribute("tabindex", "0");
+  });
+}
+
+function openLightbox(image) {
+  const lightbox = document.createElement("div");
+  lightbox.className = "article-lightbox";
+  lightbox.innerHTML = `
+    <button type="button" aria-label="Close image">Close</button>
+    <img src="${image.currentSrc || image.src}" alt="${escapeHtml(image.alt || "")}">
+  `;
+  document.body.append(lightbox);
+  document.body.classList.add("has-lightbox");
+}
+
+function closeLightbox() {
+  document.querySelector(".article-lightbox")?.remove();
+  document.body.classList.remove("has-lightbox");
+}
 function stripFrontmatter(markdown) {
   return markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
 }
@@ -366,6 +497,7 @@ function updateScrollEffects() {
 
   if (!workspacePinnedByScrollTrigger) updateWorkspace(scrollY);
   updateDisappearance(scrollY);
+  updateArticleProgress();
 }
 
 function updateWorkspace(scrollY) {
