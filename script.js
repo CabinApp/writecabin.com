@@ -554,13 +554,13 @@ function initAmbientSpores() {
       document.documentElement.scrollHeight,
       window.innerHeight
     );
-    const count = Math.min(Math.max(Math.ceil(height / (prefersReducedMotion ? 560 : 380)), 18), 72);
+    const count = Math.min(Math.max(Math.ceil(height / (prefersReducedMotion ? 360 : 150)), 34), 150);
     layer.style.height = `${height}px`;
     layer.replaceChildren();
 
     for (let index = 0; index < count; index += 1) {
       const spore = document.createElement("span");
-      const size = index % 9 === 0 ? 12 + Math.random() * 4 : 6 + Math.random() * 5;
+      const size = index % 10 === 0 ? 12 + Math.random() * 4 : 5 + Math.random() * 5;
       spore.style.setProperty("--spore-x", `${Math.random() * 100}%`);
       spore.style.setProperty("--spore-y", `${Math.random() * height}px`);
       spore.style.setProperty("--spore-size", `${size}px`);
@@ -568,7 +568,7 @@ function initAmbientSpores() {
       spore.style.setProperty("--spore-duration", `${18 + Math.random() * 18}s`);
       spore.style.setProperty("--spore-drift-x", `${(Math.random() - 0.5) * 64}px`);
       spore.style.setProperty("--spore-drift-y", `${-24 - Math.random() * 48}px`);
-      spore.style.setProperty("--spore-opacity", `${0.18 + Math.random() * 0.10}`);
+      spore.style.setProperty("--spore-opacity", `${0.16 + Math.random() * 0.10}`);
       spore.style.setProperty("--spore-rotation", `${Math.random() * 360}deg`);
       layer.append(spore);
     }
