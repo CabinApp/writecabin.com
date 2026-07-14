@@ -3795,3 +3795,33 @@ body.article-view .site-footer {
     margin-left: 0;
   }
 }
+/* Article page: centered reading column with left sticky return rail. */
+@media (min-width: 1180px) {
+  .article-shell {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(0, 880px) minmax(120px, 1fr);
+    max-width: 1240px;
+  }
+
+  .article-back-link {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+    margin-right: 28px;
+    margin-top: 4px;
+    white-space: nowrap;
+  }
+
+  .article-shell header {
+    grid-column: 2;
+    grid-row: 1;
+    margin-left: 0;
+  }
+
+  .article-content {
+    grid-column: 2;
+    margin-left: 0;
+    width: 100%;
+  }
+}
