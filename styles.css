@@ -4079,3 +4079,14 @@ body.has-lightbox .site-header {
   pointer-events: none;
   transform: translateY(-18px);
 }
+
+body.has-lightbox .article-progress,
+body.has-lightbox .paper-grain,
+body.has-lightbox .ambient-spores {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.has-lightbox .article-lightbox {
+  background: rgba(32, 37, 34, 0.78);
+}
