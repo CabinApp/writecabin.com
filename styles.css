@@ -4028,3 +4028,48 @@ body.article-view {
     transition: none;
   }
 }
+
+/* Final article polish */
+.article-meta-row span,
+.article-share-button {
+  color: rgba(80, 100, 87, 0.78);
+}
+
+.article-share-button:hover,
+.article-share-button:focus-visible {
+  color: var(--accent-active);
+}
+
+.article-progress {
+  background: rgba(80, 100, 87, 0.20);
+  box-shadow: 0 1px 0 rgba(252,252,250,0.86), 0 8px 18px rgba(32,37,34,0.06);
+  height: 5px;
+  top: 82px;
+  z-index: 210;
+}
+
+.article-progress span {
+  background: linear-gradient(90deg, var(--accent-active), var(--accent));
+}
+
+.article-lightbox {
+  backdrop-filter: blur(0px);
+  transition: opacity 420ms var(--ease), backdrop-filter 420ms var(--ease);
+  will-change: opacity, backdrop-filter;
+}
+
+.article-lightbox img {
+  transform: translateY(28px) scale(0.965);
+  transition: opacity 520ms var(--ease), transform 520ms var(--ease);
+  will-change: opacity, transform;
+}
+
+.article-lightbox.is-open {
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 760px) {
+  .article-progress {
+    top: 122px;
+  }
+}

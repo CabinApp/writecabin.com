@@ -383,7 +383,9 @@ function openLightbox(image) {
   `;
   document.body.append(lightbox);
   document.body.classList.add("has-lightbox");
-  requestAnimationFrame(() => lightbox.classList.add("is-open"));
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => lightbox.classList.add("is-open"));
+  });
 }
 
 function closeLightbox(skipAnimation = false) {
