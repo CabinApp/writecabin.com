@@ -3723,3 +3723,31 @@ body[data-page="roadmap"] .page-hero::after {
     transform: translate3d(var(--spore-drift-x), var(--spore-drift-y), 0) rotate(calc(var(--spore-rotation) + 38deg)) scale(1.02);
   }
 }
+
+.article-shell.is-loading {
+  opacity: 0;
+}
+
+.article-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 760ms var(--ease), transform 760ms var(--ease);
+}
+
+.article-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-shell.is-loading,
+  .article-reveal,
+  .article-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+.article-content {
+  padding-top: clamp(14px, 2.5vw, 36px);
+}

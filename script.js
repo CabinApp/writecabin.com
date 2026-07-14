@@ -94,6 +94,7 @@ async function loadBlog() {
         document.querySelector(".page-hero")?.remove();
         blogList?.remove();
         articleMount.removeAttribute("hidden");
+        articleMount.classList.add("is-loading");
         await renderArticle(post);
         return;
       }
@@ -165,6 +166,7 @@ async function renderArticle(post) {
         <p>This article could not be loaded. Please return to the Blog and try another entry.</p>
       </header>
     `;
+    revealArticleMount();
     return;
   }
 
@@ -207,6 +209,31 @@ async function renderArticle(post) {
       .querySelectorAll("pre code")
       .forEach((block) => hljs.highlightElement(block));
   }
+
+  revealArticleMount();
+}
+
+function revealArticleMount() {
+  if (!articleMount) return;
+
+  const items = [
+    articleMount.querySelector(".article-back-link"),
+    articleMount.querySelector("header"),
+    ...articleMount.querySelectorAll(".article-content > *")
+  ].filter(Boolean);
+
+  items.forEach((item, index) => {
+    item.classList.add("article-reveal");
+    item.style.transitionDelay = prefersReducedMotion
+      ? "0ms"
+      : `${Math.min(index * 70, 560)}ms`;
+  });
+
+  window.requestAnimationFrame(() => {
+    articleMount.classList.remove("is-loading");
+    articleMount.classList.add("is-ready");
+    items.forEach((item) => item.classList.add("is-visible"));
+  });
 }
 
 function stripFrontmatter(markdown) {
