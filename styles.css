@@ -4073,3 +4073,9 @@ body.article-view {
     top: 122px;
   }
 }
+
+body.has-lightbox .site-header {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-18px);
+}
