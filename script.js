@@ -576,6 +576,7 @@ function initAmbientSpores() {
   document.body.prepend(layer);
 
   const populate = () => {
+    layer.style.height = "0px";
     const height = Math.max(
       document.body.scrollHeight,
       document.documentElement.scrollHeight,

@@ -1131,31 +1131,6 @@ p {
   max-width: 600px;
 }
 
-.site-footer {
-  align-items: center;
-  border-top: 1px solid var(--divider);
-  display: flex;
-  gap: 18px;
-  justify-content: space-between;
-  padding: 26px clamp(20px, 4vw, 52px);
-}
-
-.site-footer div {
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  font-weight: 650;
-}
-
-.site-footer img {
-  height: 34px;
-  width: 34px;
-}
-
-.site-footer p {
-  color: var(--muted);
-  font-size: 1rem;
-}
 
 @keyframes blink {
   50% { opacity: 0; }
@@ -1284,11 +1259,6 @@ p {
 
   .philosophy-room-paper {
     grid-template-columns: 1fr;
-  }
-
-  .site-footer {
-    align-items: flex-start;
-    flex-direction: column;
   }
 }
 
@@ -3756,10 +3726,6 @@ body[data-page="roadmap"] .page-hero::after {
   font-size: 1.38rem;
   font-weight: 600;
   letter-spacing: 0;
-}
-
-body.article-view .site-footer {
-  display: none;
 }
 
 .article-back-link {
