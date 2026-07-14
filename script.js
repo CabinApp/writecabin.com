@@ -93,6 +93,7 @@ async function loadBlog() {
       if (post) {
         document.querySelector(".page-hero")?.remove();
         blogList?.remove();
+        document.body.classList.add("article-view");
         articleMount.removeAttribute("hidden");
         articleMount.classList.add("is-loading");
         await renderArticle(post);
@@ -189,7 +190,7 @@ async function renderArticle(post) {
   articleMount.innerHTML = `
     <a class="article-back-link" href="blog.html">
       <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-      <span>Back to Blog</span>
+      <span>Back to All Blogs</span>
     </a>
 
     <header>

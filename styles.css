@@ -3751,3 +3751,30 @@ body[data-page="roadmap"] .page-hero::after {
 .article-content {
   padding-top: clamp(14px, 2.5vw, 36px);
 }
+.brand span {
+  font-family: "Lora", Georgia, serif;
+  font-size: 1.38rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+body.article-view .site-footer {
+  display: none;
+}
+
+.article-back-link {
+  background: rgba(248,249,246,0.86);
+  border: 1px solid rgba(216,222,216,0.78);
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+  padding: 10px 14px;
+  position: sticky;
+  top: 92px;
+  z-index: 12;
+}
+
+@media (min-width: 1180px) {
+  .article-back-link {
+    margin-left: clamp(-140px, -8vw, -72px);
+  }
+}
