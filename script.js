@@ -193,7 +193,6 @@ async function renderArticle(post) {
     </a>
 
     <header>
-      <p class="eyebrow">Blog</p>
       <time class="article-date" datetime="${post.date}">
         ${formatDate(post.date)}
       </time>
