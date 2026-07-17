@@ -8,7 +8,6 @@ const stageCopy = document.querySelector("[data-stage-copy]");
 const stageDetail = document.querySelector("[data-stage-detail]");
 const disappearScene = document.querySelector("[data-disappear-scene]");
 let articleProgressBar = null;
-let refreshAmbientDust = () => {};
 const parallaxLayers = [...document.querySelectorAll("[data-depth]")];
 let workspacePinnedByScrollTrigger = false;
 let activeWorkspaceCopy = 0;
@@ -35,7 +34,6 @@ const stageText = [
 document.body.classList.add("ready");
 initMotionLibraries();
 initImageLoading();
-initAmbientDust();
 
 if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
   const params = new URLSearchParams(window.location.search);
@@ -259,11 +257,12 @@ async function renderArticle(post) {
     <header>
       <div class="article-meta-row">
         <span class="article-date-stack"><time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time><span class="article-read-time">${estimateReadingTime(markdown)} min read</span></span>
-        <button class="article-share-button" type="button" data-copy-post-link aria-live="polite" aria-label="Copy article link"><i class="fa-solid fa-link" aria-hidden="true"></i><i class="fa-solid fa-check copied-icon" aria-hidden="true"></i><span class="sr-only">Copy link</span></button>
       </div>
       <h1>${escapeHtml(post.title)}</h1>
       <p>${escapeHtml(post.excerpt || "")}</p>
     </header>
+
+    <div class="article-toolbar"><button class="article-share-button" type="button" data-copy-post-link aria-live="polite" aria-label="Copy article link"><i class="fa-solid fa-link" aria-hidden="true"></i><i class="fa-solid fa-check copied-icon" aria-hidden="true"></i><span class="sr-only">Copy link</span></button></div>
 
     <div class="article-progress" data-article-progress aria-hidden="true"><span></span></div>
 
@@ -281,10 +280,6 @@ async function renderArticle(post) {
   enhanceArticleImages(post.path);
   requestAnimationFrame(() => {
     updateArticleProgress();
-    refreshAmbientDust();
-  });
-  articleMount.querySelectorAll("img").forEach((image) => {
-    image.addEventListener("load", refreshAmbientDust, { once: true });
   });
   revealArticleMount();
 }
@@ -733,45 +728,4 @@ function initImageLoading() {
     image.addEventListener("load", markLoaded, { once: true });
     image.addEventListener("error", markLoaded, { once: true });
   });
-}
-
-function initAmbientDust() {
-  const layer = document.createElement("div");
-  layer.className = "ambient-dust";
-  layer.setAttribute("aria-hidden", "true");
-  document.body.prepend(layer);
-
-  const populate = () => {
-    layer.style.height = "0px";
-    const height = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      window.innerHeight
-    );
-    const viewportCount = prefersReducedMotion ? 8 : 18;
-    const count = Math.min(Math.max(Math.ceil((height / window.innerHeight) * viewportCount), 34), 130);
-    layer.style.height = `${height}px`;
-    layer.replaceChildren();
-
-    for (let index = 0; index < count; index += 1) {
-      const mote = document.createElement("span");
-      const depth = Math.random();
-      const size = 1.6 + Math.random() * (depth > 0.72 ? 2.8 : 1.4);
-      mote.style.setProperty("--dust-x", `${4 + Math.random() * 92}%`);
-      mote.style.setProperty("--dust-y", `${Math.random() * height}px`);
-      mote.style.setProperty("--dust-size", `${size}px`);
-      mote.style.setProperty("--dust-opacity", `${0.11 + depth * 0.12}`);
-      mote.style.setProperty("--dust-duration", `${42 + Math.random() * 38}s`);
-      mote.style.setProperty("--dust-delay", `${Math.random() * -60}s`);
-      mote.style.setProperty("--dust-drift-x", `${(Math.random() - 0.5) * (22 + depth * 24)}px`);
-      mote.style.setProperty("--dust-drift-y", `${-18 - Math.random() * 34}px`);
-      mote.style.setProperty("--dust-depth", `${0.88 + depth * 0.24}`);
-      layer.append(mote);
-    }
-  };
-
-  populate();
-  refreshAmbientDust = populate;
-  window.addEventListener("load", populate, { once: true });
-  window.addEventListener("resize", populate, { passive: true });
 }

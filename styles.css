@@ -3649,50 +3649,6 @@ body[data-page="roadmap"] .page-hero::after {
   transform: none !important;
 }
 
-.ambient-dust {
-  height: 100%;
-  left: 0;
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 0;
-}
-
-.ambient-dust span {
-  background: rgba(226, 230, 224, 0.86);
-  border-radius: 999px;
-  height: var(--dust-size);
-  left: var(--dust-x);
-  opacity: var(--dust-opacity);
-  position: absolute;
-  top: var(--dust-y);
-  transform: translate3d(0, 0, 0) scale(var(--dust-depth));
-  width: var(--dust-size);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .ambient-dust span {
-    animation: dust-drift var(--dust-duration) ease-in-out var(--dust-delay) infinite alternate;
-  }
-}
-
-@keyframes dust-drift {
-  0% {
-    opacity: calc(var(--dust-opacity) * 0.6);
-    transform: translate3d(0, 0, 0) scale(var(--dust-depth));
-  }
-
-  45% {
-    opacity: var(--dust-opacity);
-  }
-
-  100% {
-    opacity: calc(var(--dust-opacity) * 0.82);
-    transform: translate3d(var(--dust-drift-x), var(--dust-drift-y), 0) scale(var(--dust-depth));
-  }
-}
 
 .article-shell.is-loading {
   opacity: 0;
@@ -4081,8 +4037,7 @@ body.has-lightbox .site-header {
 }
 
 body.has-lightbox .article-progress,
-body.has-lightbox .paper-grain,
-body.has-lightbox .ambient-dust {
+body.has-lightbox .paper-grain {
   opacity: 0;
   pointer-events: none;
 }
@@ -4163,7 +4118,7 @@ body.has-lightbox .article-lightbox {
   font-size: 1.18rem;
 }
 
-/* Article meta layout and visible dust motes */
+/* Article meta layout */
 .article-meta-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -4212,21 +4167,37 @@ body.has-lightbox .article-lightbox {
   transform: translateY(0) scale(1);
 }
 
-.ambient-dust {
-  z-index: 2;
-}
 
-.ambient-dust span {
-  background: rgba(214, 220, 214, 0.92);
-  box-shadow: none;
-}
 
-body > *:not(.ambient-dust):not(.paper-grain):not(.skip-link):not(script) {
-  position: relative;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .article-share-button i {
     transition: none;
+  }
+}
+/* Article toolbar and navbar recovery */
+.site-header {
+  position: fixed;
+  z-index: 220;
+}
+
+.article-meta-row {
+  display: block;
+}
+
+.article-toolbar {
+  display: flex;
+  grid-column: 2;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.article-toolbar .article-share-button {
+  margin-left: auto;
+}
+
+@media (max-width: 760px) {
+  .article-toolbar {
+    grid-column: 1;
   }
 }
