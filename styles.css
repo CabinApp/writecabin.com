@@ -4201,3 +4201,19 @@ body.has-lightbox .article-lightbox {
     grid-column: 1;
   }
 }
+
+/* Shared glass navigation */
+.site-header,
+.site-header.scenic-nav {
+  -webkit-backdrop-filter: blur(18px) saturate(1.06);
+  backdrop-filter: blur(18px) saturate(1.06);
+  background: linear-gradient(180deg, rgba(248,249,246,0.70), rgba(248,249,246,0.30));
+  border-bottom-color: rgba(216,222,216,0.46);
+  box-shadow: 0 14px 38px rgba(54,67,58,0.06);
+}
+
+.site-header.is-scrolled {
+  background: rgba(248,249,246,0.86);
+  border-bottom-color: rgba(216,222,216,0.68);
+  box-shadow: var(--shadow-soft);
+}
