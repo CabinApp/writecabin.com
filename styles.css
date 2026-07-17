@@ -4162,3 +4162,71 @@ body.has-lightbox .article-lightbox {
 .github-link i {
   font-size: 1.18rem;
 }
+
+/* Article meta layout and visible dust motes */
+.article-meta-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.article-date-stack {
+  display: grid;
+  gap: 6px;
+}
+
+.article-read-time {
+  color: rgba(80, 100, 87, 0.72);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.article-share-button {
+  align-items: center;
+  display: inline-grid;
+  height: 42px;
+  justify-items: center;
+  min-width: 0;
+  padding: 0;
+  width: 42px;
+}
+
+.article-share-button i {
+  grid-area: 1 / 1;
+  transition: opacity 260ms var(--ease), transform 260ms var(--ease);
+}
+
+.article-share-button .copied-icon {
+  opacity: 0;
+  transform: translateY(8px) scale(0.92);
+}
+
+.article-share-button.is-copied i:first-child {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.92);
+}
+
+.article-share-button.is-copied .copied-icon {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.ambient-dust {
+  z-index: 2;
+}
+
+.ambient-dust span {
+  background: rgba(214, 220, 214, 0.92);
+  box-shadow: none;
+}
+
+body > *:not(.ambient-dust):not(.paper-grain):not(.skip-link):not(script) {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-share-button i {
+    transition: none;
+  }
+}

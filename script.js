@@ -258,9 +258,8 @@ async function renderArticle(post) {
 
     <header>
       <div class="article-meta-row">
-        <time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time>
-        <span>${estimateReadingTime(markdown)} min read</span>
-        <button class="article-share-button" type="button" data-copy-post-link aria-live="polite"><span class="share-label">Copy link</span><span class="share-label copied-label">Copied</span></button>
+        <span class="article-date-stack"><time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time><span class="article-read-time">${estimateReadingTime(markdown)} min read</span></span>
+        <button class="article-share-button" type="button" data-copy-post-link aria-live="polite" aria-label="Copy article link"><i class="fa-solid fa-link" aria-hidden="true"></i><i class="fa-solid fa-check copied-icon" aria-hidden="true"></i><span class="sr-only">Copy link</span></button>
       </div>
       <h1>${escapeHtml(post.title)}</h1>
       <p>${escapeHtml(post.excerpt || "")}</p>
@@ -749,19 +748,19 @@ function initAmbientDust() {
       document.documentElement.scrollHeight,
       window.innerHeight
     );
-    const viewportCount = prefersReducedMotion ? 6 : 12;
-    const count = Math.min(Math.max(Math.ceil((height / window.innerHeight) * viewportCount), 22), 90);
+    const viewportCount = prefersReducedMotion ? 8 : 18;
+    const count = Math.min(Math.max(Math.ceil((height / window.innerHeight) * viewportCount), 34), 130);
     layer.style.height = `${height}px`;
     layer.replaceChildren();
 
     for (let index = 0; index < count; index += 1) {
       const mote = document.createElement("span");
       const depth = Math.random();
-      const size = 1 + Math.random() * (depth > 0.72 ? 2.2 : 1.1);
+      const size = 1.6 + Math.random() * (depth > 0.72 ? 2.8 : 1.4);
       mote.style.setProperty("--dust-x", `${4 + Math.random() * 92}%`);
       mote.style.setProperty("--dust-y", `${Math.random() * height}px`);
       mote.style.setProperty("--dust-size", `${size}px`);
-      mote.style.setProperty("--dust-opacity", `${0.055 + depth * 0.065}`);
+      mote.style.setProperty("--dust-opacity", `${0.11 + depth * 0.12}`);
       mote.style.setProperty("--dust-duration", `${42 + Math.random() * 38}s`);
       mote.style.setProperty("--dust-delay", `${Math.random() * -60}s`);
       mote.style.setProperty("--dust-drift-x", `${(Math.random() - 0.5) * (22 + depth * 24)}px`);
