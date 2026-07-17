@@ -3649,7 +3649,7 @@ body[data-page="roadmap"] .page-hero::after {
   transform: none !important;
 }
 
-.ambient-spores {
+.ambient-dust {
   height: 100%;
   left: 0;
   overflow: hidden;
@@ -3660,37 +3660,37 @@ body[data-page="roadmap"] .page-hero::after {
   z-index: 0;
 }
 
-.ambient-spores span {
-  background: #6f8f58;
-  border-radius: 68% 32% 62% 38%;
-  height: calc(var(--spore-size) * 0.72);
-  left: var(--spore-x);
-  opacity: var(--spore-opacity);
+.ambient-dust span {
+  background: rgba(226, 230, 224, 0.86);
+  border-radius: 999px;
+  height: var(--dust-size);
+  left: var(--dust-x);
+  opacity: var(--dust-opacity);
   position: absolute;
-  top: var(--spore-y);
-  transform: translate3d(0, 0, 0) rotate(var(--spore-rotation));
-  width: var(--spore-size);
+  top: var(--dust-y);
+  transform: translate3d(0, 0, 0) scale(var(--dust-depth));
+  width: var(--dust-size);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ambient-spores span {
-    animation: spore-drift var(--spore-duration) ease-in-out var(--spore-delay) infinite alternate;
+  .ambient-dust span {
+    animation: dust-drift var(--dust-duration) ease-in-out var(--dust-delay) infinite alternate;
   }
 }
 
-@keyframes spore-drift {
+@keyframes dust-drift {
   0% {
-    opacity: calc(var(--spore-opacity) * 0.72);
-    transform: translate3d(0, 0, 0) rotate(var(--spore-rotation)) scale(0.94);
+    opacity: calc(var(--dust-opacity) * 0.6);
+    transform: translate3d(0, 0, 0) scale(var(--dust-depth));
   }
 
   45% {
-    opacity: var(--spore-opacity);
+    opacity: var(--dust-opacity);
   }
 
   100% {
-    opacity: calc(var(--spore-opacity) * 0.82);
-    transform: translate3d(var(--spore-drift-x), var(--spore-drift-y), 0) rotate(calc(var(--spore-rotation) + 38deg)) scale(1.02);
+    opacity: calc(var(--dust-opacity) * 0.82);
+    transform: translate3d(var(--dust-drift-x), var(--dust-drift-y), 0) scale(var(--dust-depth));
   }
 }
 
@@ -4082,7 +4082,7 @@ body.has-lightbox .site-header {
 
 body.has-lightbox .article-progress,
 body.has-lightbox .paper-grain,
-body.has-lightbox .ambient-spores {
+body.has-lightbox .ambient-dust {
   opacity: 0;
   pointer-events: none;
 }

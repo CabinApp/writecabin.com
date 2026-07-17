@@ -8,7 +8,7 @@ const stageCopy = document.querySelector("[data-stage-copy]");
 const stageDetail = document.querySelector("[data-stage-detail]");
 const disappearScene = document.querySelector("[data-disappear-scene]");
 let articleProgressBar = null;
-let refreshAmbientSpores = () => {};
+let refreshAmbientDust = () => {};
 const parallaxLayers = [...document.querySelectorAll("[data-depth]")];
 let workspacePinnedByScrollTrigger = false;
 let activeWorkspaceCopy = 0;
@@ -35,7 +35,7 @@ const stageText = [
 document.body.classList.add("ready");
 initMotionLibraries();
 initImageLoading();
-initAmbientSpores();
+initAmbientDust();
 
 if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
   const params = new URLSearchParams(window.location.search);
@@ -282,10 +282,10 @@ async function renderArticle(post) {
   enhanceArticleImages(post.path);
   requestAnimationFrame(() => {
     updateArticleProgress();
-    refreshAmbientSpores();
+    refreshAmbientDust();
   });
   articleMount.querySelectorAll("img").forEach((image) => {
-    image.addEventListener("load", refreshAmbientSpores, { once: true });
+    image.addEventListener("load", refreshAmbientDust, { once: true });
   });
   revealArticleMount();
 }
@@ -736,9 +736,9 @@ function initImageLoading() {
   });
 }
 
-function initAmbientSpores() {
+function initAmbientDust() {
   const layer = document.createElement("div");
-  layer.className = "ambient-spores";
+  layer.className = "ambient-dust";
   layer.setAttribute("aria-hidden", "true");
   document.body.prepend(layer);
 
@@ -749,28 +749,30 @@ function initAmbientSpores() {
       document.documentElement.scrollHeight,
       window.innerHeight
     );
-    const count = Math.min(Math.max(Math.ceil(height / (prefersReducedMotion ? 360 : 150)), 34), 150);
+    const viewportCount = prefersReducedMotion ? 6 : 12;
+    const count = Math.min(Math.max(Math.ceil((height / window.innerHeight) * viewportCount), 22), 90);
     layer.style.height = `${height}px`;
     layer.replaceChildren();
 
     for (let index = 0; index < count; index += 1) {
-      const spore = document.createElement("span");
-      const size = index % 10 === 0 ? 12 + Math.random() * 4 : 5 + Math.random() * 5;
-      spore.style.setProperty("--spore-x", `${Math.random() * 100}%`);
-      spore.style.setProperty("--spore-y", `${Math.random() * height}px`);
-      spore.style.setProperty("--spore-size", `${size}px`);
-      spore.style.setProperty("--spore-delay", `${Math.random() * -18}s`);
-      spore.style.setProperty("--spore-duration", `${18 + Math.random() * 18}s`);
-      spore.style.setProperty("--spore-drift-x", `${(Math.random() - 0.5) * 64}px`);
-      spore.style.setProperty("--spore-drift-y", `${-24 - Math.random() * 48}px`);
-      spore.style.setProperty("--spore-opacity", `${0.16 + Math.random() * 0.10}`);
-      spore.style.setProperty("--spore-rotation", `${Math.random() * 360}deg`);
-      layer.append(spore);
+      const mote = document.createElement("span");
+      const depth = Math.random();
+      const size = 1 + Math.random() * (depth > 0.72 ? 2.2 : 1.1);
+      mote.style.setProperty("--dust-x", `${4 + Math.random() * 92}%`);
+      mote.style.setProperty("--dust-y", `${Math.random() * height}px`);
+      mote.style.setProperty("--dust-size", `${size}px`);
+      mote.style.setProperty("--dust-opacity", `${0.055 + depth * 0.065}`);
+      mote.style.setProperty("--dust-duration", `${42 + Math.random() * 38}s`);
+      mote.style.setProperty("--dust-delay", `${Math.random() * -60}s`);
+      mote.style.setProperty("--dust-drift-x", `${(Math.random() - 0.5) * (22 + depth * 24)}px`);
+      mote.style.setProperty("--dust-drift-y", `${-18 - Math.random() * 34}px`);
+      mote.style.setProperty("--dust-depth", `${0.88 + depth * 0.24}`);
+      layer.append(mote);
     }
   };
 
   populate();
-  refreshAmbientSpores = populate;
+  refreshAmbientDust = populate;
   window.addEventListener("load", populate, { once: true });
   window.addEventListener("resize", populate, { passive: true });
 }
