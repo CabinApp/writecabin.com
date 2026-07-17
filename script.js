@@ -476,7 +476,7 @@ function initMotionLibraries() {
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
     gsap.from(".approach-copy", { opacity: 0, y: 42, duration: 1.2, ease: "power4.out" });
-    initWorkspacePin();
+    // Workspace uses deterministic scroll math; ScrollTrigger caused uneven reverse playback.
     gsap.utils.toArray(".principle-moment").forEach((item) => {
       gsap.fromTo(item, { opacity: 0.35, y: 80, scale: 0.96 }, {
         opacity: 1,
@@ -498,19 +498,7 @@ function initMotionLibraries() {
 }
 
 function initWorkspacePin() {
-  if (!workspaceSequence || !workspaceSticky) return;
-  workspacePinnedByScrollTrigger = true;
-
-  ScrollTrigger.create({
-    trigger: workspaceSequence,
-    start: "top top",
-    end: "bottom bottom",
-    scrub: 0.65,
-    invalidateOnRefresh: true,
-    onUpdate: (self) => updateWorkspaceProgress(normalizeWorkspaceProgress(self.progress)),
-    onLeaveBack: () => updateWorkspaceProgress(0),
-    onLeave: () => updateWorkspaceProgress(1)
-  });
+  workspacePinnedByScrollTrigger = false;
 }
 
 function updateScrollEffects() {
@@ -665,11 +653,15 @@ function initWorkspaceTimelinePath() {
 
     const timelineRect = timeline.getBoundingClientRect();
     const isCompact = window.matchMedia("(max-width: 760px)").matches;
-    const points = events.map((event) => {
-      const rect = event.getBoundingClientRect();
+    const left = isCompact ? 22 : Math.max(32, timelineRect.width * 0.08);
+    const right = isCompact ? left : timelineRect.width - left;
+    const top = isCompact ? 28 : 34;
+    const bottom = Math.max(top, timelineRect.height - 24);
+    const points = events.map((event, index) => {
+      const ratio = events.length === 1 ? 0 : index / (events.length - 1);
       return {
-        x: isCompact ? 22 : rect.left - timelineRect.left + 4.5,
-        y: rect.top - timelineRect.top + 7,
+        x: isCompact ? left : left + (right - left) * ratio,
+        y: isCompact ? top + (bottom - top) * ratio : top,
         current: event.classList.contains("current-event")
       };
     });
@@ -703,8 +695,10 @@ function initWorkspaceTimelinePath() {
   };
 
   scheduleDraw();
+  window.addEventListener("load", scheduleDraw, { once: true });
   window.addEventListener("resize", scheduleDraw, { passive: true });
 
+  if (document.fonts?.ready) document.fonts.ready.then(scheduleDraw);
   if ("ResizeObserver" in window) {
     new ResizeObserver(scheduleDraw).observe(timeline);
   }
