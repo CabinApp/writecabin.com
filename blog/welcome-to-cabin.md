@@ -1,6 +1,6 @@
 ## Hi! Welcome to Cabin!
 
-Cabin is writing software that is designed to grow with the writer. Arising from my personal frustration of different existing writing programs not supporting some or the other feature, I decided to use my software development knowledge to create an app that grows with the writer.
+Cabin is writing software that is designed to grow with you. Arising from my personal frustration with existing writing programs always missing one feature or another, I decided to use my software development knowledge to create an app that grows with you.
 
 ## The Purpose of this Blog
 

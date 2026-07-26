@@ -132,7 +132,7 @@ async function loadBlog() {
     if (post) {
       articleMount = ensureArticleMount();
       document.querySelector(".page-hero")?.remove();
-      blogList?.remove();
+      blogList?.closest(".blog-board-section")?.remove();
       document.body.classList.add("article-view");
       articleMount.classList.add("is-loading");
       await renderArticle(post);
@@ -192,16 +192,37 @@ function renderBlogList(posts) {
     return;
   }
 
-  blogList.innerHTML = posts.map((post) => `
-    <a class="blog-card" href="blog.html?post=${post.slug}">
+  const thread = `
+    <svg class="blog-thread" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M30 95 C185 12 250 184 405 122 S655 48 760 184 S870 348 974 286 C884 396 808 432 690 390 S438 302 350 446 S142 594 34 510"></path>
+    </svg>`;
+  blogList.innerHTML = thread + posts.map((post, index) => `
+    <a class="blog-card" href="blog.html?post=${post.slug}" style="--note-tilt:${[-1.8, 1.3, -.7, 1.9][index % 4]}deg">
+      <i class="blog-pin" aria-hidden="true"></i>
       <span class="blog-card-meta"><time datetime="${post.date}">${formatDate(post.date)}</time><span>${post.readingTime} min read</span></span>
-      <span>
+      <span class="blog-card-copy">
         <h2>${escapeHtml(post.title)}</h2>
         <p>${escapeHtml(post.excerpt || "A Cabin development note.")}</p>
       </span>
-      <span class="arrow" aria-hidden="true">-></span>
+      <span class="arrow" aria-hidden="true">Read note <i>&rarr;</i></span>
     </a>
   `).join("");
+  initBlogBoard();
+}
+
+function initBlogBoard() {
+  if (!blogList || prefersReducedMotion) return;
+  blogList.querySelectorAll(".blog-card").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--note-rx", `${((event.clientY - rect.top) / rect.height - .5) * -5}deg`);
+      card.style.setProperty("--note-ry", `${((event.clientX - rect.left) / rect.width - .5) * 7}deg`);
+    });
+    card.addEventListener("pointerleave", () => {
+      card.style.removeProperty("--note-rx");
+      card.style.removeProperty("--note-ry");
+    });
+  });
 }
 
 async function renderArticle(post) {
@@ -256,14 +277,14 @@ async function renderArticle(post) {
     </a>
 
     <header>
-      <div class="article-meta-row">
-        <span class="article-date-stack"><time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time><span class="article-read-time">${estimateReadingTime(markdown)} min read</span></span>
-      </div>
+      <time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time>
       <h1>${escapeHtml(post.title)}</h1>
       <p>${escapeHtml(post.excerpt || "")}</p>
+      <div class="article-meta-row">
+        <span class="article-read-time">${estimateReadingTime(markdown)} min read</span>
+        <div class="article-toolbar"><button class="article-share-button" type="button" data-copy-post-link aria-live="polite" aria-label="Copy article link"><i class="fa-solid fa-link" aria-hidden="true"></i><i class="fa-solid fa-check copied-icon" aria-hidden="true"></i><span class="sr-only">Copy link</span></button></div>
+      </div>
     </header>
-
-    <div class="article-toolbar"><button class="article-share-button" type="button" data-copy-post-link aria-live="polite" aria-label="Copy article link"><i class="fa-solid fa-link" aria-hidden="true"></i><i class="fa-solid fa-check copied-icon" aria-hidden="true"></i><span class="sr-only">Copy link</span></button></div>
 
     <div class="article-progress" data-article-progress aria-hidden="true"><span></span></div>
 
@@ -521,7 +542,6 @@ function initPhilosophyDeck() {
   let position = 0;
   let target = 0;
   let dragging = false;
-  let hovering = false;
   let manualMotion = false;
   let startX = 0;
   let startPosition = 0;
@@ -533,8 +553,10 @@ function initPhilosophyDeck() {
     return ((value + half) % count + count) % count - half;
   };
 
+  const centerCardHovered = () => sheets.some((sheet) => sheet.classList.contains("is-front") && sheet.matches(":hover"));
+
   const render = () => {
-    if (hovering && !dragging && !manualMotion) {
+    if (centerCardHovered() && !dragging && !manualMotion) {
       frame = null;
       return;
     }
@@ -595,14 +617,12 @@ function initPhilosophyDeck() {
   });
   deck.querySelector("[data-carousel-prev]")?.addEventListener("click", () => advance(1));
   deck.querySelector("[data-carousel-next]")?.addEventListener("click", () => advance(-1));
-  deck.addEventListener("mouseenter", () => { hovering = true; });
-  deck.addEventListener("mouseleave", () => {
-    hovering = false;
+  sheets.forEach((sheet) => sheet.addEventListener("mouseleave", () => {
     if (!frame && Math.abs(target - position) > .002) frame = requestAnimationFrame(render);
-  });
+  }));
   setInterval(() => {
-    if (!hovering && !dragging && !document.hidden) advance(-1, false);
-  }, 5200);
+    if (!centerCardHovered() && !dragging && !document.hidden) advance(-1, false);
+  }, 2800);
   render();
 }
 

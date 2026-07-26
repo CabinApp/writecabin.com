@@ -14,7 +14,7 @@ Primary visitors are writers and curious readers who may arrive from blog posts,
 
 ## Positioning
 
-Cabin is a calm writing environment that grows with the writer.
+Cabin is a calm writing environment that grows with you.
 
 It begins as a blank page. Chapters, scenes, characters, timelines, research, worldbuilding, plugins, exports, and AI assistance are introduced only when the work needs them. The site should communicate writing before features and atmosphere before explanation.
 

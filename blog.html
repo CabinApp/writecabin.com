@@ -40,15 +40,27 @@
       <h1>Notes from the writing room.</h1>
       <p>Design choices and project updates from the making of Cabin.</p>
     </section>
-    <section class="blog-index content-width" data-blog-list aria-label="Blog posts">
-      <a class="blog-card" href="blog.html?post=welcome-to-cabin">
-        <time datetime="2026-07-10">July 10, 2026</time>
-        <span>
-          <h2>Welcome to Cabin</h2>
-          <p>A sample Cabin post showing Markdown formatting through a founder-style note.</p>
-        </span>
-        <span class="arrow" aria-hidden="true">-&gt;</span>
-      </a>
+    <section class="blog-board-section content-width" aria-labelledby="field-notes-title">
+      <div class="blog-board">
+        <div class="board-caption">
+          <p class="eyebrow">Pinned field notes</p>
+          <h2 id="field-notes-title">Ideas still taking shape.</h2>
+        </div>
+        <div class="blog-index" data-blog-list aria-label="Blog posts">
+          <svg class="blog-thread" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M30 95 C185 12 250 184 405 122 S655 48 760 184 S870 348 974 286 C884 396 808 432 690 390 S438 302 350 446 S142 594 34 510"></path>
+          </svg>
+          <a class="blog-card" href="blog.html?post=welcome-to-cabin" style="--note-tilt:-1.8deg">
+            <i class="blog-pin" aria-hidden="true"></i>
+            <span class="blog-card-meta"><time datetime="2026-07-12">July 12, 2026</time><span>1 min read</span></span>
+            <span class="blog-card-copy">
+              <h2>Welcome to Cabin</h2>
+              <p>Cabin is writing software designed to grow with you.</p>
+            </span>
+            <span class="arrow" aria-hidden="true">Read note <i>&rarr;</i></span>
+          </a>
+        </div>
+      </div>
     </section>
   </main>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
