@@ -32,9 +32,10 @@ const stageText = [
 ];
 
 document.body.classList.add("ready");
+initImageLoading();
+initAboutExperience();
 initMotionLibraries();
 initPhilosophyDeck();
-initImageLoading();
 
 if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
   const params = new URLSearchParams(window.location.search);
@@ -534,17 +535,273 @@ function initReveals() {
   });
 }
 
+function initAboutExperience() {
+  const canvas = document.querySelector("[data-about-canvas]");
+  const experience = document.querySelector(".about-experience");
+  if (!canvas || !experience) return;
+
+  if (!window.THREE) {
+    document.body.classList.add("no-about-webgl");
+    return;
+  }
+
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance"
+    });
+  } catch {
+    document.body.classList.add("no-about-webgl");
+    return;
+  }
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0xF1F4F0, 6.5, 17);
+  const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, .1, 40);
+  camera.position.set(0, .15, 8.6);
+
+  const anchor = new THREE.Group();
+  const world = new THREE.Group();
+  const drift = new THREE.Group();
+  scene.add(anchor);
+  anchor.add(world);
+  world.add(drift);
+
+  scene.add(new THREE.HemisphereLight(0xFCFCFA, 0x60786A, 2.15));
+  const morningLight = new THREE.DirectionalLight(0xF8F9F6, 3.4);
+  morningLight.position.set(-3, 6, 5);
+  scene.add(morningLight);
+
+  const pageGeometry = new THREE.BoxGeometry(1.02, 1.38, .035, 1, 1, 1);
+  const pageMaterials = [
+    new THREE.MeshStandardMaterial({ color: 0xFCFCFA, roughness: .9, metalness: 0 }),
+    new THREE.MeshStandardMaterial({ color: 0xF3F6F2, roughness: .94, metalness: 0 }),
+    new THREE.MeshStandardMaterial({ color: 0xE8EDE8, roughness: .96, metalness: 0 })
+  ];
+  const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x718B7C, transparent: true, opacity: .34 });
+  const pageEdges = new THREE.EdgesGeometry(pageGeometry);
+  const pages = [];
+
+  for (let index = 0; index < 17; index += 1) {
+    const angle = index * .78;
+    const radius = 2.05 + (index % 4) * .16;
+    const page = new THREE.Mesh(pageGeometry, pageMaterials[index % pageMaterials.length]);
+    page.position.set(
+      Math.cos(angle) * radius,
+      (index - 8) * .34,
+      Math.sin(angle) * radius * .58
+    );
+    page.rotation.set(
+      -.08 + Math.sin(angle) * .09,
+      -angle + Math.PI / 2,
+      Math.cos(angle * 1.3) * .08
+    );
+    page.userData.baseY = page.position.y;
+    page.userData.phase = angle;
+    const edges = new THREE.LineSegments(pageEdges, edgeMaterial);
+    edges.scale.setScalar(1.002);
+    page.add(edges);
+    drift.add(page);
+    pages.push(page);
+  }
+
+  const contourMaterial = new THREE.LineBasicMaterial({
+    color: 0x60786A,
+    transparent: true,
+    opacity: .18
+  });
+  for (let ringIndex = 0; ringIndex < 5; ringIndex += 1) {
+    const points = [];
+    const radius = 2.7 + ringIndex * .38;
+    for (let pointIndex = 0; pointIndex < 72; pointIndex += 1) {
+      const angle = pointIndex / 72 * Math.PI * 2;
+      points.push(new THREE.Vector3(
+        Math.cos(angle) * radius,
+        -1.55 + ringIndex * .76,
+        Math.sin(angle) * radius * .42
+      ));
+    }
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    drift.add(new THREE.LineLoop(geometry, contourMaterial));
+  }
+
+  let pointerTargetX = 0;
+  let pointerTargetY = 0;
+  let pointerX = 0;
+  let pointerY = 0;
+  let frame = null;
+
+  const layout = () => {
+    const compact = window.innerWidth < 760;
+    anchor.position.x = compact ? .72 : 2.25;
+    anchor.scale.setScalar(compact ? .78 : 1);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+    renderer.setSize(window.innerWidth, window.innerHeight, false);
+  };
+
+  const render = (time = 0) => {
+    frame = null;
+    pointerX += (pointerTargetX - pointerX) * .035;
+    pointerY += (pointerTargetY - pointerY) * .035;
+    drift.rotation.y = time * .000035 + pointerX * .08;
+    drift.rotation.x = pointerY * .035;
+    pages.forEach((page) => {
+      page.position.y = page.userData.baseY + Math.sin(time * .00045 + page.userData.phase) * .035;
+    });
+    renderer.render(scene, camera);
+    if (!prefersReducedMotion && !document.hidden) frame = requestAnimationFrame(render);
+  };
+
+  window.addEventListener("pointermove", (event) => {
+    pointerTargetX = event.clientX / window.innerWidth * 2 - 1;
+    pointerTargetY = event.clientY / window.innerHeight * 2 - 1;
+  }, { passive: true });
+  window.addEventListener("resize", layout, { passive: true });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && !frame && !prefersReducedMotion) frame = requestAnimationFrame(render);
+  });
+
+  layout();
+  render();
+
+  if (!prefersReducedMotion && window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.to(world.rotation, {
+      y: Math.PI * 1.35,
+      x: .14,
+      ease: "none",
+      scrollTrigger: {
+        trigger: experience,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.2
+      }
+    });
+    gsap.to(world.position, {
+      y: -1.15,
+      z: 1.15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: experience,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.2
+      }
+    });
+    gsap.fromTo(".about-hero-copy>*", {
+      autoAlpha: 0,
+      y: 34
+    }, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 1,
+      stagger: .11,
+      ease: "power3.out"
+    });
+    gsap.utils.toArray("[data-about-passage]").forEach((passage) => {
+      const card = passage.querySelector("div");
+      const role = passage.querySelector(".about-role");
+      gsap.fromTo(card, {
+        autoAlpha: .12,
+        y: 110,
+        rotateX: 4
+      }, {
+        autoAlpha: 1,
+        y: 0,
+        rotateX: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: passage,
+          start: "top 88%",
+          end: "center 58%",
+          scrub: .85
+        }
+      });
+      gsap.fromTo(role, { autoAlpha: 0, y: 28 }, {
+        autoAlpha: 1,
+        y: 0,
+        scrollTrigger: {
+          trigger: passage,
+          start: "top 76%",
+          end: "top 52%",
+          scrub: .7
+        }
+      });
+    });
+    gsap.fromTo(".about-coda>div", { autoAlpha: .2, scale: .94 }, {
+      autoAlpha: 1,
+      scale: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".about-coda",
+        start: "top 82%",
+        end: "center 58%",
+        scrub: 1
+      }
+    });
+  }
+}
+
 function initMotionLibraries() {
   if (prefersReducedMotion) return;
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
+    if (document.body.dataset.page !== "home") return;
     gsap.from(".approach-copy", { opacity: 0, y: 42, duration: 1.2, ease: "power4.out" });
     // Workspace uses deterministic scroll math; ScrollTrigger caused uneven reverse playback.
+    const homeChapters = gsap.utils.toArray(".principle-moment, .disappear-scene");
+    homeChapters.forEach((item, index) => {
+      const threshold = document.createElement("div");
+      threshold.className = "chapter-threshold";
+      threshold.setAttribute("aria-hidden", "true");
+      threshold.innerHTML = "<i></i><i></i><i></i>";
+      item.append(threshold);
+
+      gsap.fromTo(item, {
+        "--chapter-image-shift": "-3.5%",
+        "--chapter-image-scale": 1.07
+      }, {
+        "--chapter-image-shift": "3.5%",
+        "--chapter-image-scale": 1.015,
+        ease: "none",
+        scrollTrigger: {
+          trigger: item,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.15
+        }
+      });
+      gsap.fromTo(threshold, {
+        yPercent: -72,
+        opacity: .82,
+        rotate: index % 2 ? 2 : -2
+      }, {
+        yPercent: 92,
+        opacity: .08,
+        rotate: index % 2 ? -1 : 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: item,
+          start: "top 94%",
+          end: "top 16%",
+          scrub: 1
+        }
+      });
+    });
+
     gsap.utils.toArray(".principle-moment").forEach((item) => {
       const copy = item.querySelector("div");
-      if (copy) gsap.fromTo(copy, { autoAlpha: 0, y: 24 }, {
+      if (copy) gsap.fromTo(copy, { autoAlpha: 0 }, {
         autoAlpha: 1,
-        y: 0,
         ease: "power3.out",
         duration: .9,
         scrollTrigger: { trigger: item, start: "top 68%", once: true }
@@ -600,7 +857,7 @@ function initPhilosophyDeck() {
 
   const updateCenterHover = () => {
     const center = sheets.find((sheet) => sheet.classList.contains("is-front"));
-    if (!center || !pointerInside) {
+    if (!center || !pointerInside || deck.classList.contains("is-animating")) {
       centerHovered = false;
       sheets.forEach((sheet) => sheet.classList.remove("is-hovered"));
       return;
@@ -629,16 +886,22 @@ function initPhilosophyDeck() {
       sheet.classList.toggle("is-front", distance < .5);
     });
     if (Math.abs(target - position) > .002) {
+      deck.classList.add("is-animating");
       frame = requestAnimationFrame(render);
     } else {
       position = target;
       manualMotion = false;
+      deck.classList.remove("is-animating");
+      updateCenterHover();
       frame = null;
     }
   };
 
   const moveTo = (value, manual = true) => {
     target = value;
+    centerHovered = false;
+    sheets.forEach((sheet) => sheet.classList.remove("is-hovered"));
+    deck.classList.add("is-animating");
     if (manual) manualMotion = true;
     if (!frame) frame = requestAnimationFrame(render);
   };

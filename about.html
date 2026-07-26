@@ -32,19 +32,60 @@
       <a href="about.html" aria-current="page">About</a>
     </nav>
   </header>
-  <main id="main">
-    <section class="about-page content-width" aria-labelledby="about-title">
-      <div class="about-panel">
-        <p class="eyebrow">About the builder</p>
-        <h1 id="about-title">The person shaping Cabin.</h1>
-        <p>Hi! I am Rishit Choudhary, a student, software developer, and growing writer. I enjoy designing systems and interfaces while thinking for the user. Cabin is my attempt to build the writing application I've always wanted.</p>
+  <main id="main" class="about-experience">
+    <div class="about-world" aria-hidden="true">
+      <canvas data-about-canvas></canvas>
+      <div class="about-world-fallback"></div>
+    </div>
+
+    <section class="about-hero" aria-labelledby="about-title">
+      <div class="about-hero-copy">
+        <p class="eyebrow">Student · Solo developer · Writer</p>
+        <h1 id="about-title">Rishit<br>Choudhary.</h1>
+        <p class="about-thesis">I am building the writing room I always wanted to enter: quiet at first, capable when needed, and honest about whose words matter.</p>
+      </div>
+      <div class="about-scroll-cue" aria-hidden="true"><span>Follow the pages</span><i></i></div>
+    </section>
+
+    <section class="about-passages" aria-label="About Rishit">
+      <article class="about-passage" data-about-passage>
+        <p class="about-role">Student</p>
+        <div>
+          <h2>Learning in public.</h2>
+          <p>Cabin is being shaped while I am still learning—through research, prototypes, wrong turns and the discipline of asking better questions before writing more code.</p>
+        </div>
+      </article>
+      <article class="about-passage" data-about-passage>
+        <p class="about-role">Solo developer</p>
+        <div>
+          <h2>One pair of hands. One coherent room.</h2>
+          <p>I design the interface, define the file model and build the product myself. That constraint keeps every decision close to the original reason Cabin exists.</p>
+        </div>
+      </article>
+      <article class="about-passage" data-about-passage>
+        <p class="about-role">Writer</p>
+        <div>
+          <h2>Still finding the sentences.</h2>
+          <p>I have not published anything major. I simply like writing—and I know how quickly a thought can disappear when the software around it becomes louder than the page.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="about-coda">
+      <div>
+        <p class="eyebrow">Why Cabin exists</p>
+        <h2>Writing deserves software that knows when to leave you alone.</h2>
+        <p>Cabin is my attempt to make that kind of place.</p>
         <a class="github-link" href="https://github.com/rishitc17" target="_blank" rel="noopener noreferrer">
           <i class="fa-brands fa-github" aria-hidden="true"></i>
-          <span>GitHub</span>
+          <span>Follow the build on GitHub</span>
         </a>
       </div>
     </section>
   </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
