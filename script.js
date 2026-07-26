@@ -517,57 +517,75 @@ function initPhilosophyDeck() {
   }
 
   deck.classList.add("is-carousel");
-  const step = 360 / sheets.length;
-  let rotation = 0;
+  const count = sheets.length;
+  let position = 0;
   let target = 0;
   let dragging = false;
   let hovering = false;
+  let manualMotion = false;
   let startX = 0;
-  let startRotation = 0;
+  let startPosition = 0;
   let frame = null;
 
-  const render = () => {
-    rotation += (target - rotation) * .09;
-    sheets.forEach((sheet, index) => {
-      const angle = index * step + rotation;
-      const facing = ((angle + 540) % 360) - 180;
-      const depth = (Math.cos(facing * Math.PI / 180) + 1) / 2;
-      sheet.style.setProperty("--carousel-angle", `${angle}deg`);
-      sheet.style.setProperty("--carousel-opacity", (.22 + depth * .78).toFixed(3));
-      sheet.style.setProperty("--carousel-scale", (.88 + depth * .12).toFixed(3));
-      sheet.style.zIndex = String(Math.round(depth * 100));
-      sheet.classList.toggle("is-front", Math.abs(facing) < step * .55);
-    });
-    if (Math.abs(target - rotation) > .02) frame = requestAnimationFrame(render);
-    else frame = null;
+  const spacing = () => Math.min(window.innerWidth * (window.innerWidth < 760 ? .62 : .3), 350);
+  const wrap = value => {
+    const half = count / 2;
+    return ((value + half) % count + count) % count - half;
   };
 
-  const moveTo = value => {
+  const render = () => {
+    if (hovering && !dragging && !manualMotion) {
+      frame = null;
+      return;
+    }
+    position += (target - position) * .045;
+    sheets.forEach((sheet, index) => {
+      const offset = wrap(index + position);
+      const distance = Math.abs(offset);
+      sheet.style.setProperty("--carousel-x", String(offset * spacing()) + "px");
+      sheet.style.setProperty("--carousel-z", String(-Math.min(distance, 3) * 165) + "px");
+      sheet.style.setProperty("--carousel-tilt", String(offset * -11) + "deg");
+      sheet.style.setProperty("--carousel-opacity", Math.max(.12, 1 - distance * .26).toFixed(3));
+      sheet.style.setProperty("--carousel-scale", Math.max(.76, 1 - distance * .085).toFixed(3));
+      sheet.style.zIndex = String(Math.round(100 - distance * 10));
+      sheet.classList.toggle("is-front", distance < .5);
+    });
+    if (Math.abs(target - position) > .002) {
+      frame = requestAnimationFrame(render);
+    } else {
+      position = target;
+      manualMotion = false;
+      frame = null;
+    }
+  };
+
+  const moveTo = (value, manual = true) => {
     target = value;
+    if (manual) manualMotion = true;
     if (!frame) frame = requestAnimationFrame(render);
   };
-  const advance = direction => moveTo(Math.round(target / step) * step + direction * step);
+  const advance = (direction, manual = true) => moveTo(Math.round(target) + direction, manual);
 
   carousel.addEventListener("pointerdown", event => {
     dragging = true;
     startX = event.clientX;
-    startRotation = target;
+    startPosition = target;
     carousel.setPointerCapture(event.pointerId);
     carousel.classList.add("is-dragging");
   });
   carousel.addEventListener("pointermove", event => {
-    if (dragging) moveTo(startRotation + (event.clientX - startX) * .22);
+    if (dragging) moveTo(startPosition + (event.clientX - startX) / spacing());
   });
   carousel.addEventListener("pointerup", event => {
     dragging = false;
     carousel.releasePointerCapture(event.pointerId);
     carousel.classList.remove("is-dragging");
-    moveTo(Math.round(target / step) * step);
+    moveTo(Math.round(target));
   });
   carousel.addEventListener("pointercancel", () => {
     dragging = false;
     carousel.classList.remove("is-dragging");
-    moveTo(Math.round(target / step) * step);
+    moveTo(Math.round(target));
   });
   carousel.addEventListener("keydown", event => {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
@@ -578,10 +596,13 @@ function initPhilosophyDeck() {
   deck.querySelector("[data-carousel-prev]")?.addEventListener("click", () => advance(1));
   deck.querySelector("[data-carousel-next]")?.addEventListener("click", () => advance(-1));
   deck.addEventListener("mouseenter", () => { hovering = true; });
-  deck.addEventListener("mouseleave", () => { hovering = false; });
+  deck.addEventListener("mouseleave", () => {
+    hovering = false;
+    if (!frame && Math.abs(target - position) > .002) frame = requestAnimationFrame(render);
+  });
   setInterval(() => {
-    if (!hovering && !dragging && !document.hidden) advance(-1);
-  }, 4200);
+    if (!hovering && !dragging && !document.hidden) advance(-1, false);
+  }, 5200);
   render();
 }
 

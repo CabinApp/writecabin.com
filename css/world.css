@@ -104,12 +104,21 @@ body[data-page=blog] .journal-main{background:radial-gradient(circle at 84% 14%,
 
 /* Roadmap focus stops: the trail holds while each sign opens and closes. */
 body[data-page=roadmap] .site-header{z-index:220}
+body[data-page=roadmap] .site-header .brand img.brand-mark{
+  width:48px;
+  height:48px;
+  padding:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  object-fit:contain;
+}
 body[data-page=roadmap] .roadmap-hero{
-  height:auto;
-  min-height:100svh;
-  justify-content:center;
-  padding-top:clamp(8rem,15vh,11rem);
-  padding-bottom:clamp(5rem,11vh,8rem);
+  height:100svh;
+  min-height:40rem;
+  justify-content:flex-end;
+  padding-top:8rem;
+  padding-bottom:clamp(2.5rem,6vh,4.5rem);
   overflow:visible;
 }
 body[data-page=roadmap] .roadmap-hero .display{line-height:.9}

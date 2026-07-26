@@ -4505,28 +4505,28 @@ body[data-page="home"] .disappear-scene.is-dissolved .disappear-image{opacity:.8
 
 /* Infinite Philosophy carousel */
 .philosophy-deck.is-carousel{
-  height:auto;
-  min-height:108svh;
-  padding:clamp(5rem,9vw,8rem) 0 clamp(4rem,8vw,7rem);
+  height:100svh;
+  min-height:0;
+  padding:0;
   overflow:hidden;
 }
 .philosophy-deck.is-carousel .philosophy-deck-sticky{
   position:relative;
   top:auto;
-  height:auto;
-  min-height:82svh;
+  height:100svh;
+  min-height:0;
   display:grid;
-  grid-template-rows:1fr auto;
-  gap:1.5rem;
-  padding:0;
-  overflow:visible;
+  grid-template-rows:minmax(0,1fr) auto;
+  gap:1rem;
+  padding:clamp(5.5rem,10vh,7rem) 0 1.25rem;
+  box-sizing:border-box;
+  overflow:hidden;
 }
 .philosophy-deck.is-carousel .philosophy-pages{
-  --carousel-radius:clamp(22rem,35vw,34rem);
   position:relative;
   width:100%;
-  height:min(68svh,42rem);
-  perspective:1500px;
+  height:100%;
+  perspective:1700px;
   transform-style:preserve-3d;
   cursor:grab;
   touch-action:pan-y;
@@ -4540,7 +4540,7 @@ body[data-page="home"] .disappear-scene.is-dissolved .disappear-image{opacity:.8
   left:50%;
   top:50%;
   width:min(76vw,31rem);
-  height:min(58svh,34rem);
+  height:min(56svh,32rem);
   display:flex;
   flex-direction:column;
   align-items:flex-start;
@@ -4548,7 +4548,7 @@ body[data-page="home"] .disappear-scene.is-dissolved .disappear-image{opacity:.8
   gap:1.35rem;
   padding:clamp(1.6rem,3vw,2.7rem);
   opacity:var(--carousel-opacity);
-  transform:translate(-50%,-50%) rotateY(var(--carousel-angle)) translateZ(var(--carousel-radius)) scale(var(--carousel-scale));
+  transform:translate(-50%,-50%) translate3d(var(--carousel-x),0,var(--carousel-z)) rotateY(var(--carousel-tilt)) scale(var(--carousel-scale));
   transform-origin:center;
   transform-style:preserve-3d;
   backface-visibility:hidden;
@@ -4556,7 +4556,7 @@ body[data-page="home"] .disappear-scene.is-dissolved .disappear-image{opacity:.8
   will-change:transform;
 }
 .philosophy-deck.is-carousel .philosophy-sheet.is-front:hover{
-  transform:translate(-50%,-50%) rotateY(var(--carousel-angle)) translateZ(var(--carousel-radius)) scale(1.045);
+  transform:translate(-50%,-50%) translate3d(var(--carousel-x),0,var(--carousel-z)) rotateY(var(--carousel-tilt)) scale(1.035);
   border-color:var(--accent);
   box-shadow:0 34px 90px rgba(54,67,58,.2),inset 0 1px rgba(255,255,255,.98);
 }
@@ -4604,8 +4604,7 @@ body[data-page="home"] .disappear-scene.is-dissolved .disappear-image{opacity:.8
 }
 .philosophy-carousel-controls button:hover{transform:translateY(-2px);background:var(--elevated)}
 @media(max-width:760px){
-  .philosophy-deck.is-carousel{min-height:95svh;padding-block:4rem}
-  .philosophy-deck.is-carousel .philosophy-pages{--carousel-radius:19rem;height:65svh}
-  .philosophy-deck.is-carousel .philosophy-sheet{width:min(78vw,25rem);height:30rem}
+  .philosophy-deck.is-carousel .philosophy-deck-sticky{padding-top:5.25rem}
+  .philosophy-deck.is-carousel .philosophy-sheet{width:min(78vw,25rem);height:min(64svh,30rem)}
   .philosophy-carousel-controls p{display:none}
 }
