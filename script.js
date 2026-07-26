@@ -507,43 +507,82 @@ function initPhilosophyDeck() {
   const deck = document.querySelector("[data-philosophy-deck]");
   if (!deck) return;
   const sheets = [...deck.querySelectorAll(".philosophy-sheet")];
+  const carousel = deck.querySelector(".philosophy-pages");
   if (!sheets.length) return;
 
-  if (prefersReducedMotion || !window.gsap || !window.ScrollTrigger) {
+  if (prefersReducedMotion) {
     deck.classList.add("is-static");
     sheets.forEach((sheet) => sheet.classList.add("is-active"));
     return;
   }
 
-  gsap.registerPlugin(ScrollTrigger);
-  deck.classList.add("is-animated");
-  sheets.forEach((sheet, index) => {
-    gsap.set(sheet, {
-      zIndex: index + 1,
-      autoAlpha: index === 0 ? 1 : 0,
-      xPercent: index === 0 ? 0 : 112
-    });
-  });
+  deck.classList.add("is-carousel");
+  const step = 360 / sheets.length;
+  let rotation = 0;
+  let target = 0;
+  let dragging = false;
+  let hovering = false;
+  let startX = 0;
+  let startRotation = 0;
+  let frame = null;
 
-  const timeline = gsap.timeline({
-    defaults: { duration: 1, ease: "power3.inOut" },
-    scrollTrigger: {
-      trigger: deck,
-      start: "top top",
-      end: "bottom bottom",
-      scrub: .75,
-      onUpdate: self => {
-        const index = Math.min(sheets.length - 1, Math.round(self.progress * (sheets.length - 1)));
-        sheets.forEach((sheet, sheetIndex) => sheet.classList.toggle("is-active", sheetIndex === index));
-      }
+  const render = () => {
+    rotation += (target - rotation) * .09;
+    sheets.forEach((sheet, index) => {
+      const angle = index * step + rotation;
+      const facing = ((angle + 540) % 360) - 180;
+      const depth = (Math.cos(facing * Math.PI / 180) + 1) / 2;
+      sheet.style.setProperty("--carousel-angle", `${angle}deg`);
+      sheet.style.setProperty("--carousel-opacity", (.22 + depth * .78).toFixed(3));
+      sheet.style.setProperty("--carousel-scale", (.88 + depth * .12).toFixed(3));
+      sheet.style.zIndex = String(Math.round(depth * 100));
+      sheet.classList.toggle("is-front", Math.abs(facing) < step * .55);
+    });
+    if (Math.abs(target - rotation) > .02) frame = requestAnimationFrame(render);
+    else frame = null;
+  };
+
+  const moveTo = value => {
+    target = value;
+    if (!frame) frame = requestAnimationFrame(render);
+  };
+  const advance = direction => moveTo(Math.round(target / step) * step + direction * step);
+
+  carousel.addEventListener("pointerdown", event => {
+    dragging = true;
+    startX = event.clientX;
+    startRotation = target;
+    carousel.setPointerCapture(event.pointerId);
+    carousel.classList.add("is-dragging");
+  });
+  carousel.addEventListener("pointermove", event => {
+    if (dragging) moveTo(startRotation + (event.clientX - startX) * .22);
+  });
+  carousel.addEventListener("pointerup", event => {
+    dragging = false;
+    carousel.releasePointerCapture(event.pointerId);
+    carousel.classList.remove("is-dragging");
+    moveTo(Math.round(target / step) * step);
+  });
+  carousel.addEventListener("pointercancel", () => {
+    dragging = false;
+    carousel.classList.remove("is-dragging");
+    moveTo(Math.round(target / step) * step);
+  });
+  carousel.addEventListener("keydown", event => {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      advance(event.key === "ArrowLeft" ? 1 : -1);
     }
   });
-
-  for (let index = 1; index < sheets.length; index += 1) {
-    timeline
-      .to(sheets[index - 1], { xPercent: -18, scale: .985, autoAlpha: .42, duration: .9, ease: "power2.inOut" }, index - 1)
-      .to(sheets[index], { autoAlpha: 1, xPercent: 0, duration: 1, ease: "power2.out" }, index - 1);
-  }
+  deck.querySelector("[data-carousel-prev]")?.addEventListener("click", () => advance(1));
+  deck.querySelector("[data-carousel-next]")?.addEventListener("click", () => advance(-1));
+  deck.addEventListener("mouseenter", () => { hovering = true; });
+  deck.addEventListener("mouseleave", () => { hovering = false; });
+  setInterval(() => {
+    if (!hovering && !dragging && !document.hidden) advance(-1);
+  }, 4200);
+  render();
 }
 
 function initWorkspacePin() {

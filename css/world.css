@@ -104,6 +104,15 @@ body[data-page=blog] .journal-main{background:radial-gradient(circle at 84% 14%,
 
 /* Roadmap focus stops: the trail holds while each sign opens and closes. */
 body[data-page=roadmap] .site-header{z-index:220}
+body[data-page=roadmap] .roadmap-hero{
+  height:auto;
+  min-height:100svh;
+  justify-content:center;
+  padding-top:clamp(8rem,15vh,11rem);
+  padding-bottom:clamp(5rem,11vh,8rem);
+  overflow:visible;
+}
+body[data-page=roadmap] .roadmap-hero .display{line-height:.9}
 body[data-page=roadmap] .journey{padding-bottom:18vh}
 body[data-page=roadmap] .milestone{min-height:170svh;pointer-events:none}
 body[data-page=roadmap].has-roadmap-focus .milestone-card{opacity:0!important;visibility:hidden}
@@ -138,7 +147,7 @@ body[data-page=roadmap].has-roadmap-focus .milestone-card{opacity:0!important;vi
   justify-content:center;
   padding:clamp(2rem,7vw,7rem);
   border:clamp(3px,.55vw,8px) solid var(--sign-edge);
-  border-radius:8px;
+  border-radius:14px;
   background:rgba(248,249,246,.97);
   box-shadow:0 35px 100px rgba(54,67,58,.2),inset 0 1px rgba(255,255,255,.95);
   transform:scale(calc(.14 + var(--sign-focus) * .86));
@@ -163,11 +172,13 @@ body[data-page=roadmap].has-roadmap-focus .milestone-card{opacity:0!important;vi
 }
 .roadmap-focus-description{
   max-width:45rem;
-  margin:clamp(1.5rem,4vw,3rem) 0 0 auto;
+  margin:clamp(1.5rem,4vw,3rem) 0 0;
   color:var(--secondary);
   font-size:clamp(1rem,1.6vw,1.3rem);
   line-height:1.75;
 }
+.journey-end .button{margin-top:2rem}
+body[data-page=roadmap] .milestone-card{border-radius:14px}
 .roadmap-focus-hint{
   position:absolute;
   right:clamp(1.5rem,4vw,3rem);

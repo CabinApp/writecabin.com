@@ -176,21 +176,21 @@ function makeRoute(world){
 
 function makeTrailSign(number,state){
   const group=new THREE.Group(),frameColor=state==='done'?C.success:state==='current'?C.warm:C.muted;
-  const post=new THREE.Mesh(new THREE.CylinderGeometry(.055,.075,1.05,18),mat(C.active));post.position.y=.525;group.add(post);
+  const post=new THREE.Mesh(new THREE.CylinderGeometry(.055,.075,.92,18),mat(C.active));post.position.y=.46;group.add(post);
   const frame=box([1.16,.72,.1],frameColor);frame.position.y=1.29;group.add(frame);
   const face=new THREE.Mesh(new THREE.PlaneGeometry(1.04,.6),new THREE.MeshBasicMaterial({map:signTexture(number,state),transparent:false}));
   face.position.set(0,1.29,.056);group.add(face);
-  const cap=new THREE.Mesh(new THREE.CylinderGeometry(.1,.1,.035,18),mat(frameColor));cap.rotation.z=Math.PI/2;cap.position.y=1.04;group.add(cap);
   return group;
 }
 
 function signTexture(number,state){
-  const titles=['Identity','Research','MVP','UX & files','System','Prototype','Editor','Projects','Alpha','Beta','Deploy','Community'];
+  const titles=['Identity','Personas & Research','MVP Selection','UX & File Model','Design System','Prototype','Core Editor','Project System','Closed Alpha','Beta','Deployment','Community Growth'];
   const canvas=document.createElement('canvas');canvas.width=384;canvas.height=220;const ctx=canvas.getContext('2d');
   ctx.fillStyle='#F8F9F6';ctx.fillRect(0,0,384,220);
   ctx.fillStyle=state==='done'?'#78967D':state==='current'?'#A58650':'#68736D';
   ctx.font='600 25px Geist, Arial, sans-serif';ctx.textAlign='center';ctx.fillText(`STAGE ${String(number).padStart(2,'0')}`,192,54);
-  ctx.fillStyle='#202522';ctx.font='500 38px Geist, Arial, sans-serif';ctx.fillText(titles[number-1],192,137);
+  const title=titles[number-1],fontSize=title.length>16?24:title.length>12?28:34;
+  ctx.fillStyle='#202522';ctx.font=`500 ${fontSize}px Geist, Arial, sans-serif`;ctx.fillText(title,192,137);
   ctx.fillStyle='#929B95';ctx.fillRect(122,170,140,2);
   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return texture;
 }
