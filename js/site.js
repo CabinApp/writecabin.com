@@ -1,5 +1,6 @@
 const page = document.body.dataset.page || 'home';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.body.classList.add('ready');
 
 const worldHost = document.querySelector('.webgl-world');
 if (worldHost) import('./world.js').then(({ mountWorld }) => mountWorld(worldHost, page)).catch(() => document.documentElement.classList.add('no-webgl'));

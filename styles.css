@@ -4446,3 +4446,61 @@ body[data-page="home"] .disappear-scene.is-dissolved .disappear-image{opacity:.9
   .philosophy-sheet h2{font-size:clamp(2.4rem,12vw,4.3rem)}
   .philosophy-sheet .margin-note{grid-row:auto;margin-top:1rem}
 }
+
+/* Calm corrections: flat philosophy slides and fog-softened Home chapters. */
+.philosophy-deck-sticky{
+  grid-template-columns:1fr;
+  justify-items:center;
+  padding-inline:clamp(1rem,6vw,6rem);
+}
+.philosophy-deck-sticky:before{display:none}
+.philosophy-deck-index{display:none}
+.philosophy-pages{
+  width:min(92vw,70rem);
+  justify-self:center;
+  perspective:none;
+}
+.philosophy-sheet{
+  color:var(--text);
+  background:
+    repeating-linear-gradient(0deg,transparent 0 43px,rgba(216,222,216,.22) 44px 45px),
+    #FCFCFA;
+  border-color:rgba(216,222,216,.94);
+  border-radius:8px;
+  box-shadow:0 22px 60px rgba(54,67,58,.13),inset 0 1px rgba(255,255,255,.96);
+  backface-visibility:visible;
+  transform-style:flat;
+  filter:none!important;
+}
+.philosophy-sheet:after{display:none}
+
+body[data-page="home"] .principle-moment:after,
+body[data-page="home"] .disappear-scene:after{
+  background:
+    linear-gradient(180deg,var(--canvas) 0,rgba(241,244,240,.58) 8%,transparent 21%,transparent 79%,rgba(241,244,240,.58) 92%,var(--canvas) 100%),
+    linear-gradient(90deg,rgba(252,252,250,.2),rgba(252,252,250,.08));
+}
+body[data-page="home"] .moment-image,
+body[data-page="home"] .disappear-image{
+  inset:0;
+  height:100%;
+  opacity:.84;
+  filter:saturate(.68) contrast(.9) brightness(1.05);
+  transform:none!important;
+  will-change:auto;
+}
+body[data-page="home"] .principle-moment>div,
+body[data-page="home"] .disappear-copy{
+  background:rgba(248,249,246,.78);
+}
+body[data-page="home"] .disappear-copy{
+  width:min(90vw,62rem);
+  padding:clamp(2rem,5vw,5rem);
+}
+body[data-page="home"] .disappear-copy p{max-width:15ch}
+body[data-page="home"] .disappear-scene.is-dissolved .disappear-image{opacity:.84;transform:none!important}
+@media(max-width:760px){
+  .philosophy-pages{width:100%;height:76svh}
+  .philosophy-deck-sticky{padding-inline:1rem}
+  body[data-page="home"] .disappear-copy{width:100%}
+}
