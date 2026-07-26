@@ -193,8 +193,8 @@ function renderBlogList(posts) {
   }
 
   const thread = `
-    <svg class="blog-thread" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M30 95 C185 12 250 184 405 122 S655 48 760 184 S870 348 974 286 C884 396 808 432 690 390 S438 302 350 446 S142 594 34 510"></path>
+    <svg class="blog-thread" aria-hidden="true">
+      <path pathLength="1"></path>
     </svg>`;
   blogList.innerHTML = thread + posts.map((post, index) => `
     <a class="blog-card" href="blog.html?post=${post.slug}" style="--note-tilt:${[-1.8, 1.3, -.7, 1.9][index % 4]}deg">
@@ -211,7 +211,48 @@ function renderBlogList(posts) {
 }
 
 function initBlogBoard() {
-  if (!blogList || prefersReducedMotion) return;
+  if (!blogList) return;
+
+  const drawThread = () => {
+    const svg = blogList.querySelector(".blog-thread");
+    const path = svg?.querySelector("path");
+    const pins = [...blogList.querySelectorAll(".blog-pin")];
+    if (!svg || !path || !pins.length) return;
+
+    const listRect = blogList.getBoundingClientRect();
+    const points = pins.map((pin) => {
+      const rect = pin.getBoundingClientRect();
+      return {
+        x: rect.left + rect.width / 2 - listRect.left,
+        y: rect.top + rect.height / 2 - listRect.top
+      };
+    });
+    const width = blogList.clientWidth;
+    const height = blogList.scrollHeight;
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+    const first = points[0];
+    let route = `M 0 ${Math.max(24, first.y - 42)} C ${first.x * .28} ${Math.max(18, first.y - 58)}, ${first.x * .66} ${first.y - 12}, ${first.x} ${first.y}`;
+
+    for (let index = 1; index < points.length; index += 1) {
+      const previous = points[index - 1];
+      const next = points[index];
+      const direction = next.x >= previous.x ? 1 : -1;
+      const bend = Math.max(70, Math.abs(next.x - previous.x) * .34);
+      route += ` C ${previous.x + direction * bend} ${previous.y + 72}, ${next.x - direction * bend} ${next.y - 72}, ${next.x} ${next.y}`;
+    }
+
+    path.setAttribute("d", route);
+  };
+
+  requestAnimationFrame(drawThread);
+  document.fonts?.ready.then(() => requestAnimationFrame(drawThread));
+  if (!blogList.dataset.threadBound) {
+    blogList.dataset.threadBound = "true";
+    window.addEventListener("resize", () => requestAnimationFrame(drawThread), { passive: true });
+  }
+
+  if (prefersReducedMotion) return;
   blogList.querySelectorAll(".blog-card").forEach((card) => {
     card.addEventListener("pointermove", (event) => {
       const rect = card.getBoundingClientRect();
@@ -546,6 +587,10 @@ function initPhilosophyDeck() {
   let startX = 0;
   let startPosition = 0;
   let frame = null;
+  let pointerInside = false;
+  let pointerX = 0;
+  let pointerY = 0;
+  let centerHovered = false;
 
   const spacing = () => Math.min(window.innerWidth * (window.innerWidth < 760 ? .62 : .3), 350);
   const wrap = value => {
@@ -553,10 +598,21 @@ function initPhilosophyDeck() {
     return ((value + half) % count + count) % count - half;
   };
 
-  const centerCardHovered = () => sheets.some((sheet) => sheet.classList.contains("is-front") && sheet.matches(":hover"));
+  const updateCenterHover = () => {
+    const center = sheets.find((sheet) => sheet.classList.contains("is-front"));
+    if (!center || !pointerInside) {
+      centerHovered = false;
+      sheets.forEach((sheet) => sheet.classList.remove("is-hovered"));
+      return;
+    }
+    const rect = center.getBoundingClientRect();
+    centerHovered = pointerX >= rect.left && pointerX <= rect.right && pointerY >= rect.top && pointerY <= rect.bottom;
+    sheets.forEach((sheet) => sheet.classList.toggle("is-hovered", sheet === center && centerHovered));
+  };
 
   const render = () => {
-    if (centerCardHovered() && !dragging && !manualMotion) {
+    updateCenterHover();
+    if (centerHovered && !dragging && !manualMotion) {
       frame = null;
       return;
     }
@@ -596,7 +652,25 @@ function initPhilosophyDeck() {
     carousel.classList.add("is-dragging");
   });
   carousel.addEventListener("pointermove", event => {
+    pointerInside = true;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    updateCenterHover();
+    if (!centerHovered && !frame && Math.abs(target - position) > .002) {
+      frame = requestAnimationFrame(render);
+    }
     if (dragging) moveTo(startPosition + (event.clientX - startX) / spacing());
+  });
+  carousel.addEventListener("pointerenter", event => {
+    pointerInside = true;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    updateCenterHover();
+  });
+  carousel.addEventListener("pointerleave", () => {
+    pointerInside = false;
+    updateCenterHover();
+    if (!frame && Math.abs(target - position) > .002) frame = requestAnimationFrame(render);
   });
   carousel.addEventListener("pointerup", event => {
     dragging = false;
@@ -617,11 +691,8 @@ function initPhilosophyDeck() {
   });
   deck.querySelector("[data-carousel-prev]")?.addEventListener("click", () => advance(1));
   deck.querySelector("[data-carousel-next]")?.addEventListener("click", () => advance(-1));
-  sheets.forEach((sheet) => sheet.addEventListener("mouseleave", () => {
-    if (!frame && Math.abs(target - position) > .002) frame = requestAnimationFrame(render);
-  }));
   setInterval(() => {
-    if (!centerCardHovered() && !dragging && !document.hidden) advance(-1, false);
+    if (!centerHovered && !dragging && !document.hidden) advance(-1, false);
   }, 2800);
   render();
 }
