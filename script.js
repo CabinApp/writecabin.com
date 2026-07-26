@@ -33,6 +33,7 @@ const stageText = [
 
 document.body.classList.add("ready");
 initMotionLibraries();
+initPhilosophyDeck();
 initImageLoading();
 
 if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
@@ -478,14 +479,30 @@ function initMotionLibraries() {
     gsap.from(".approach-copy", { opacity: 0, y: 42, duration: 1.2, ease: "power4.out" });
     // Workspace uses deterministic scroll math; ScrollTrigger caused uneven reverse playback.
     gsap.utils.toArray(".principle-moment").forEach((item) => {
-      gsap.fromTo(item, { opacity: 0.35, y: 80, scale: 0.96 }, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1,
-        ease: "power4.out",
-        scrollTrigger: { trigger: item, start: "top 72%", end: "top 32%", scrub: 0.7 }
+      const image = item.querySelector(".moment-image");
+      const copy = item.querySelector("div");
+      if (image) gsap.fromTo(image, { yPercent: -7, scale: 1.04 }, {
+        yPercent: 7,
+        scale: 1.08,
+        ease: "none",
+        scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: .8 }
       });
+      if (copy) gsap.fromTo(copy, { autoAlpha: .35, y: 70 }, {
+        autoAlpha: 1,
+        y: -24,
+        ease: "power3.out",
+        scrollTrigger: { trigger: item, start: "top 78%", end: "center 48%", scrub: .7 }
+      });
+    });
+    const disappearImage = document.querySelector(".disappear-image");
+    const disappearCopy = document.querySelector(".disappear-copy");
+    if (disappearImage) gsap.fromTo(disappearImage, { yPercent: -7, scale: 1.04 }, {
+      yPercent: 7, scale: 1.09, ease: "none",
+      scrollTrigger: { trigger: ".disappear-scene", start: "top bottom", end: "bottom top", scrub: .8 }
+    });
+    if (disappearCopy) gsap.fromTo(disappearCopy, { autoAlpha: .3, y: 70 }, {
+      autoAlpha: 1, y: -18, ease: "power3.out",
+      scrollTrigger: { trigger: ".disappear-scene", start: "top 76%", end: "center 48%", scrub: .7 }
     });
     gsap.fromTo(".today-panel", { opacity: 0, y: 48 }, {
       opacity: 1,
@@ -494,6 +511,58 @@ function initMotionLibraries() {
       ease: "power4.out",
       scrollTrigger: { trigger: ".project-today", start: "top 70%" }
     });
+  }
+}
+
+function initPhilosophyDeck() {
+  const deck = document.querySelector("[data-philosophy-deck]");
+  if (!deck) return;
+  const sheets = [...deck.querySelectorAll(".philosophy-sheet")];
+  const counter = deck.querySelector("[data-deck-count]");
+  const progress = deck.querySelector(".philosophy-deck-progress i");
+  if (!sheets.length) return;
+
+  if (prefersReducedMotion || !window.gsap || !window.ScrollTrigger) {
+    deck.classList.add("is-static");
+    sheets.forEach((sheet) => sheet.classList.add("is-active"));
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+  deck.classList.add("is-animated");
+  sheets.forEach((sheet, index) => {
+    gsap.set(sheet, {
+      zIndex: index + 1,
+      autoAlpha: index === 0 ? 1 : 0,
+      yPercent: index === 0 ? 0 : 112,
+      rotateZ: index === 0 ? 0 : 2.4,
+      rotateX: index === 0 ? 0 : 7,
+      transformOrigin: "86% 100%"
+    });
+  });
+
+  const timeline = gsap.timeline({
+    defaults: { duration: 1, ease: "power3.inOut" },
+    scrollTrigger: {
+      trigger: deck,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: .75,
+      onUpdate: self => {
+        const index = Math.min(sheets.length - 1, Math.round(self.progress * (sheets.length - 1)));
+        sheets.forEach((sheet, sheetIndex) => sheet.classList.toggle("is-active", sheetIndex === index));
+        if (counter) counter.textContent = `${String(index + 1).padStart(2, "0")} / ${String(sheets.length).padStart(2, "0")}`;
+        if (progress) progress.style.transform = window.innerWidth <= 760
+          ? `scaleX(${self.progress})`
+          : `scaleY(${self.progress})`;
+      }
+    }
+  });
+
+  for (let index = 1; index < sheets.length; index += 1) {
+    timeline
+      .to(sheets[index - 1], { scale: .94, yPercent: -4, filter: "brightness(.94)", duration: .9 }, index - 1)
+      .to(sheets[index], { autoAlpha: 1, yPercent: 0, rotateZ: 0, rotateX: 0, duration: 1 }, index - 1);
   }
 }
 

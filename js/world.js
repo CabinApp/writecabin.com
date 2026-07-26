@@ -34,9 +34,26 @@ export function mountWorld(host,page='home'){
   const lookCurve=new THREE.CatmullRomCurve3(journey.look,false,'catmullrom',.55);
   let target=0,current=0,px=0,py=0,tx=0,ty=0,running=true,raf=0,last=0;
   const maxScroll=()=>Math.max(1,document.documentElement.scrollHeight-innerHeight);
-  const measure=()=>target=Math.max(0,Math.min(.999,scrollY/maxScroll()));
+  const roadmapMilestones=page==='roadmap'?[...document.querySelectorAll('.milestone')]:[];
+  const roadmapProgress=()=>{
+    if(!roadmapMilestones.length)return scrollY/maxScroll();
+    const cursor=scrollY+innerHeight*.5,firstTop=roadmapMilestones[0].getBoundingClientRect().top+scrollY;
+    if(cursor<firstTop)return 0;
+    for(let i=0;i<roadmapMilestones.length;i++){
+      const item=roadmapMilestones[i],top=item.getBoundingClientRect().top+scrollY,bottom=top+item.offsetHeight;
+      if(cursor<=bottom||i===roadmapMilestones.length-1){
+        if(i===roadmapMilestones.length-1)return 1;
+        const local=Math.max(0,Math.min(1,(cursor-top)/Math.max(1,item.offsetHeight)));
+        const release=Math.max(0,Math.min(1,(local-.78)/.22));
+        const eased=release*release*(3-2*release);
+        return(i+eased)/(roadmapMilestones.length-1);
+      }
+    }
+    return 1;
+  };
+  const measure=()=>target=Math.max(0,Math.min(.999,page==='roadmap'?roadmapProgress():scrollY/maxScroll()));
   const pointer=e=>{if(!compact&&!reduced){tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5;}};
-  const resize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1:1.35));renderer.setSize(innerWidth,innerHeight);};
+  const resize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1:1.35));renderer.setSize(innerWidth,innerHeight);measure();};
   function frame(t=0){
     if(!running)return;
     const dt=Math.min(.04,(t-last)/1000||.016);last=t;
@@ -81,7 +98,7 @@ const builders={
     return{path:route.camera,look:route.look,animate(t,p){
       const near=Math.max(0,Math.min(route.signs.length-1,Number(document.body.dataset.nearStage||1)-1));
       route.signs.forEach((sign,index)=>{
-        const target=index===near?1.38:1;
+        const target=index===near?1.06:1;
         sign.scale.setScalar(sign.scale.x+(target-sign.scale.x)*.075);
         sign.rotation.y+=(sign.userData.facing-sign.rotation.y)*.06;
       });
@@ -160,19 +177,21 @@ function makeRoute(world){
 function makeTrailSign(number,state){
   const group=new THREE.Group(),frameColor=state==='done'?C.success:state==='current'?C.warm:C.muted;
   const post=new THREE.Mesh(new THREE.CylinderGeometry(.055,.075,1.05,18),mat(C.active));post.position.y=.525;group.add(post);
-  const frame=box([1.38,.82,.12],frameColor);frame.position.y=1.34;group.add(frame);
-  const face=new THREE.Mesh(new THREE.PlaneGeometry(1.22,.66),new THREE.MeshBasicMaterial({map:signTexture(number,state),transparent:false}));
-  face.position.set(0,1.34,.066);group.add(face);
+  const frame=box([1.16,.72,.1],frameColor);frame.position.y=1.29;group.add(frame);
+  const face=new THREE.Mesh(new THREE.PlaneGeometry(1.04,.6),new THREE.MeshBasicMaterial({map:signTexture(number,state),transparent:false}));
+  face.position.set(0,1.29,.056);group.add(face);
   const cap=new THREE.Mesh(new THREE.CylinderGeometry(.1,.1,.035,18),mat(frameColor));cap.rotation.z=Math.PI/2;cap.position.y=1.04;group.add(cap);
   return group;
 }
 
 function signTexture(number,state){
-  const canvas=document.createElement('canvas');canvas.width=256;canvas.height=136;const ctx=canvas.getContext('2d');
-  ctx.fillStyle='#F8F9F6';ctx.fillRect(0,0,256,136);
+  const titles=['Identity','Research','MVP','UX & files','System','Prototype','Editor','Projects','Alpha','Beta','Deploy','Community'];
+  const canvas=document.createElement('canvas');canvas.width=384;canvas.height=220;const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#F8F9F6';ctx.fillRect(0,0,384,220);
   ctx.fillStyle=state==='done'?'#78967D':state==='current'?'#A58650':'#68736D';
-  ctx.font='600 22px Geist, Arial, sans-serif';ctx.textAlign='center';ctx.fillText('STAGE',128,34);
-  ctx.fillStyle='#202522';ctx.font='500 68px Geist, Arial, sans-serif';ctx.fillText(String(number).padStart(2,'0'),128,106);
+  ctx.font='600 25px Geist, Arial, sans-serif';ctx.textAlign='center';ctx.fillText(`STAGE ${String(number).padStart(2,'0')}`,192,54);
+  ctx.fillStyle='#202522';ctx.font='500 38px Geist, Arial, sans-serif';ctx.fillText(titles[number-1],192,137);
+  ctx.fillStyle='#929B95';ctx.fillRect(122,170,140,2);
   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return texture;
 }
 function makeMountains(world){

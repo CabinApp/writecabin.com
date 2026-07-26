@@ -101,3 +101,85 @@ body[data-page=blog] .journal-main{background:radial-gradient(circle at 84% 14%,
   body[data-page=roadmap] .milestone-card:after{display:none}
 }
 @media(prefers-reduced-motion:reduce){.webgl-world canvas{opacity:.8}}
+
+/* Roadmap focus stops: the trail holds while each sign opens and closes. */
+body[data-page=roadmap] .site-header{z-index:220}
+body[data-page=roadmap] .journey{padding-bottom:18vh}
+body[data-page=roadmap] .milestone{min-height:170svh;pointer-events:none}
+body[data-page=roadmap].has-roadmap-focus .milestone-card{opacity:0!important;visibility:hidden}
+.roadmap-focus{
+  --sign-focus:0;
+  --sign-edge:var(--outline);
+  position:fixed;
+  z-index:18;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:clamp(5.5rem,9vw,8rem) clamp(1rem,5vw,4rem) clamp(1rem,5vw,4rem);
+  opacity:var(--sign-focus);
+  pointer-events:none;
+}
+.roadmap-focus[aria-hidden=true]{visibility:hidden}
+.roadmap-focus:before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(232,237,232,.72);
+  backdrop-filter:blur(12px);
+}
+.roadmap-focus.is-complete{--sign-edge:var(--success)}
+.roadmap-focus.is-current{--sign-edge:var(--warning)}
+.roadmap-focus-sign{
+  position:relative;
+  width:min(90vw,68rem);
+  min-height:min(72svh,43rem);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:clamp(2rem,7vw,7rem);
+  border:clamp(3px,.55vw,8px) solid var(--sign-edge);
+  border-radius:8px;
+  background:rgba(248,249,246,.97);
+  box-shadow:0 35px 100px rgba(54,67,58,.2),inset 0 1px rgba(255,255,255,.95);
+  transform:scale(calc(.14 + var(--sign-focus) * .86));
+  transform-origin:center 72%;
+}
+.roadmap-focus-stage{
+  margin:0 0 clamp(1.3rem,3vw,2.6rem);
+  color:var(--sign-edge);
+  font-size:.72rem;
+  font-weight:650;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+.roadmap-focus h2{
+  max-width:13ch;
+  margin:0;
+  font-family:Geist,system-ui,sans-serif;
+  font-size:clamp(2.8rem,7vw,7.2rem);
+  font-weight:350;
+  line-height:.94;
+  letter-spacing:-.065em;
+}
+.roadmap-focus-description{
+  max-width:45rem;
+  margin:clamp(1.5rem,4vw,3rem) 0 0 auto;
+  color:var(--secondary);
+  font-size:clamp(1rem,1.6vw,1.3rem);
+  line-height:1.75;
+}
+.roadmap-focus-hint{
+  position:absolute;
+  right:clamp(1.5rem,4vw,3rem);
+  bottom:clamp(1.3rem,3vw,2.4rem);
+  margin:0;
+  color:var(--muted);
+  font-size:.64rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+@media(max-width:800px){
+  body[data-page=roadmap] .milestone{min-height:150svh}
+  .roadmap-focus-sign{width:94vw;min-height:70svh;padding:2rem 1.5rem 5rem}
+  .roadmap-focus-description{margin-left:0}
+}

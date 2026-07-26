@@ -23,29 +23,6 @@ if (window.gsap) {
     }
   ));
 
-  const milestones = gsap.utils.toArray('.milestone');
-  const setNearStage = milestone => {
-    milestones.forEach(item => item.classList.toggle('is-near', item === milestone));
-    document.body.dataset.nearStage = milestone?.dataset.stage || '1';
-  };
-  milestones.forEach((milestone, index) => {
-    const card = milestone.querySelector('.milestone-card');
-    gsap.fromTo(card, { autoAlpha: .28, y: 42 }, {
-      autoAlpha: 1,
-      y: 0,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: milestone,
-        start: 'top 72%',
-        end: 'bottom 34%',
-        scrub: .65,
-        onEnter: () => setNearStage(milestone),
-        onEnterBack: () => setNearStage(milestone)
-      }
-    });
-    if (index === 0) setNearStage(milestone);
-  });
-
   const journey = document.querySelector('.journey');
   if (journey) {
     const progress = document.querySelector('.journey-progress');
@@ -103,3 +80,59 @@ document.querySelectorAll('a[href]').forEach(link => link.addEventListener('clic
   if (window.gsap) gsap.fromTo('.page-wash', { autoAlpha: 0 }, { autoAlpha: 1, duration: .72, ease: 'power2.inOut', onComplete: () => location.href = link.href });
   else location.href = link.href;
 }));
+
+initRoadmapFocus();
+
+function initRoadmapFocus() {
+  const milestones = [...document.querySelectorAll('.milestone')];
+  const overlay = document.querySelector('.roadmap-focus');
+  if (!milestones.length || !overlay) return;
+  const stageLabel = overlay.querySelector('.roadmap-focus-stage');
+  const title = overlay.querySelector('h2');
+  const description = overlay.querySelector('.roadmap-focus-description');
+  let active = -1;
+  let queued = false;
+  document.body.classList.add('has-roadmap-focus');
+
+  const ease = value => value * value * (3 - 2 * value);
+  const update = () => {
+    queued = false;
+    const cursor = scrollY + innerHeight * .5;
+    let index = -1;
+    let local = 0;
+    milestones.forEach((item, itemIndex) => {
+      const top = item.getBoundingClientRect().top + scrollY;
+      if (cursor >= top && cursor <= top + item.offsetHeight) {
+        index = itemIndex;
+        local = (cursor - top) / item.offsetHeight;
+      }
+    });
+    if (index < 0) {
+      overlay.style.setProperty('--sign-focus', '0');
+      overlay.setAttribute('aria-hidden', 'true');
+      return;
+    }
+    const opening = ease(Math.max(0, Math.min(1, (local - .1) / .2)));
+    const closing = 1 - ease(Math.max(0, Math.min(1, (local - .62) / .16)));
+    const focus = reduced ? (local > .2 && local < .68 ? 1 : 0) : Math.min(opening, closing);
+    if (active !== index) {
+      active = index;
+      const milestone = milestones[index], card = milestone.querySelector('.milestone-card');
+      milestones.forEach((item, i) => item.classList.toggle('is-near', i === index));
+      document.body.dataset.nearStage = milestone.dataset.stage;
+      stageLabel.textContent = [...card.querySelectorAll('.stage span')].map(item => item.textContent.trim()).join(' · ');
+      title.textContent = card.querySelector('h2').textContent;
+      description.textContent = card.querySelector('p').textContent;
+      overlay.classList.toggle('is-complete', milestone.classList.contains('is-complete'));
+      overlay.classList.toggle('is-current', milestone.classList.contains('is-current'));
+    }
+    overlay.style.setProperty('--sign-focus', focus.toFixed(3));
+    overlay.setAttribute('aria-hidden', focus < .03 ? 'true' : 'false');
+  };
+  const schedule = () => {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  };
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', schedule, { passive: true });
+  update();
+}
