@@ -4841,52 +4841,15 @@ body.article-view .article-shell header .article-toolbar .article-share-button{m
   .blog-board,.blog-board .blog-card,.blog-board .blog-card:hover,.blog-board .blog-card:focus-visible{transform:none}
 }
 
-/* Home chapter thresholds: mountain shadow and contour depth replace the white flare. */
+/* Home chapters: one restrained dark fade, with no parallax or moving veil. */
 body[data-page="home"] .principle-moment:after,
 body[data-page="home"] .disappear-scene:after{
-  background:
-    linear-gradient(180deg,rgba(32,37,34,.62) 0,rgba(80,100,87,.28) 9%,transparent 24%,transparent 76%,rgba(80,100,87,.30) 91%,rgba(32,37,34,.64) 100%),
-    linear-gradient(90deg,rgba(32,37,34,.18),transparent 42%,rgba(32,37,34,.12));
+  background:linear-gradient(90deg,rgba(32,37,34,.25),transparent 36%,transparent 64%,rgba(32,37,34,.17));
 }
 body[data-page="home"] .moment-image,
 body[data-page="home"] .disappear-image{
-  transform:translate3d(0,var(--chapter-image-shift,0),0) scale(var(--chapter-image-scale,1.03))!important;
-  transform-origin:center;
-  will-change:transform;
-}
-.chapter-threshold{
-  position:absolute;
-  z-index:-1;
-  left:-12%;
-  top:-16%;
-  width:124%;
-  height:44%;
-  pointer-events:none;
-  background:
-    linear-gradient(180deg,rgba(32,37,34,.78),rgba(80,100,87,.48) 46%,rgba(113,139,124,.12) 78%,transparent);
-  filter:drop-shadow(0 24px 28px rgba(32,37,34,.18));
-  transform-origin:center;
-  will-change:transform,opacity;
-}
-.chapter-threshold i{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:clamp(32rem,72vw,78rem);
-  height:clamp(7rem,18vw,18rem);
-  border:1px solid rgba(216,229,220,.19);
-  border-radius:50%;
-  transform:translate(-50%,-50%);
-}
-.chapter-threshold i:nth-child(2){width:82%;height:64%;opacity:.72}
-.chapter-threshold i:nth-child(3){width:64%;height:38%;opacity:.48}
-@media(max-width:760px){
-  .chapter-threshold{height:36%;filter:drop-shadow(0 18px 22px rgba(32,37,34,.16))}
-}
-@media(prefers-reduced-motion:reduce){
-  .chapter-threshold{display:none}
-  body[data-page="home"] .moment-image,
-  body[data-page="home"] .disappear-image{transform:none!important}
+  transform:none!important;
+  will-change:auto;
 }
 
 /* About: a manuscript constellation gathering around one quiet point of view. */
@@ -4906,30 +4869,30 @@ body[data-page="about"]{
   overflow:hidden;
   pointer-events:none;
   background:
-    radial-gradient(circle at 68% 42%,rgba(113,139,124,.2),transparent 31rem),
-    linear-gradient(145deg,var(--canvas),var(--navigation));
+    radial-gradient(ellipse at 72% 46%,rgba(80,100,87,.25),transparent 28rem),
+    linear-gradient(145deg,var(--navigation),var(--canvas) 58%,var(--surface));
 }
 .about-world canvas{
   display:block;
   width:100%;
   height:100%;
-  opacity:.92;
+  opacity:1;
 }
 .about-world-fallback{
   position:absolute;
   inset:0;
   background:
-    repeating-radial-gradient(ellipse at 68% 48%,transparent 0 54px,rgba(80,100,87,.08) 55px 56px),
-    radial-gradient(circle at 68% 48%,rgba(113,139,124,.18),transparent 34rem);
+    radial-gradient(circle at 72% 46%,rgba(80,100,87,.22),transparent 27rem),
+    linear-gradient(112deg,transparent 0 62%,rgba(113,139,124,.08) 62% 63%,transparent 63%);
 }
-.about-world canvas+.about-world-fallback{opacity:.22}
+.about-world canvas+.about-world-fallback{opacity:.18}
 .about-world::after{
   content:"";
   position:absolute;
   inset:0;
   background:
-    linear-gradient(90deg,rgba(241,244,240,.96) 0,rgba(241,244,240,.72) 34%,rgba(241,244,240,.12) 70%,rgba(241,244,240,.42)),
-    linear-gradient(180deg,rgba(241,244,240,.38),transparent 22%,transparent 76%,rgba(241,244,240,.74));
+    linear-gradient(90deg,rgba(241,244,240,.97) 0,rgba(241,244,240,.76) 35%,rgba(241,244,240,.06) 68%,rgba(241,244,240,.24)),
+    linear-gradient(180deg,rgba(241,244,240,.28),transparent 24%,transparent 82%,rgba(241,244,240,.5));
 }
 .about-hero,
 .about-passages,
@@ -4940,10 +4903,10 @@ body[data-page="about"]{
 .about-hero{
   min-height:100svh;
   display:flex;
-  align-items:flex-end;
-  padding:clamp(9rem,15vh,12rem) clamp(1.4rem,6vw,7rem) clamp(3.5rem,8vh,6rem);
+  align-items:flex-start;
+  padding:clamp(2.75rem,5vh,4.5rem) clamp(1.4rem,6vw,7rem) clamp(3.5rem,8vh,6rem);
 }
-.about-hero-copy{width:min(75rem,100%)}
+.about-hero-copy{min-width:0;width:min(75rem,100%)}
 .about-hero .eyebrow{margin-bottom:clamp(1.4rem,3vw,2.4rem)}
 .about-hero h1{
   max-width:9ch;
@@ -4954,7 +4917,7 @@ body[data-page="about"]{
 }
 .about-thesis{
   max-width:43rem;
-  margin:clamp(1.7rem,3vw,2.6rem) 0 0 clamp(0rem,14vw,12rem);
+  margin:clamp(1.7rem,3vw,2.6rem) 0 0;
   color:#3D4841;
   font:400 clamp(1.15rem,2.1vw,1.65rem)/1.65 "Lora",Georgia,serif;
 }
@@ -4993,20 +4956,15 @@ body[data-page="about"]{
 }
 .about-passage{
   min-height:92svh;
-  display:grid;
-  grid-template-columns:minmax(7rem,.32fr) minmax(0,48rem);
-  align-content:center;
-  gap:clamp(2rem,6vw,7rem);
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
 }
 .about-passage:nth-child(even){
-  grid-template-columns:minmax(0,48rem) minmax(7rem,.32fr);
   justify-content:end;
 }
-.about-passage:nth-child(even) .about-role{grid-column:2;grid-row:1}
-.about-passage:nth-child(even)>div{grid-column:1;grid-row:1}
 .about-role{
-  align-self:start;
-  margin:.75rem 0 0;
+  margin:0 0 1.25rem;
   color:var(--accent-active);
   font-size:.68rem;
   font-weight:700;
@@ -5015,6 +4973,7 @@ body[data-page="about"]{
 }
 .about-passage>div{
   position:relative;
+  width:min(48rem,100%);
   padding:clamp(2rem,5vw,4.5rem);
   border:1px solid rgba(216,222,216,.76);
   border-radius:1.25rem;
@@ -5037,7 +4996,7 @@ body[data-page="about"]{
   font:500 clamp(2.8rem,6vw,6.4rem)/.94 "Lora",Georgia,serif;
   letter-spacing:-.06em;
 }
-.about-passage div p{
+.about-passage div p:not(.about-role){
   max-width:38rem;
   margin:clamp(1.8rem,4vw,3rem) 0 0;
   color:var(--secondary);
@@ -5069,6 +5028,22 @@ body[data-page="about"]{
   font:400 clamp(1.1rem,2vw,1.45rem)/1.6 "Lora",Georgia,serif;
 }
 .about-coda .github-link{margin-top:3rem}
+.about-actions{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:.85rem;
+  margin-top:3rem;
+}
+.about-actions .github-link{margin-top:0}
+.about-actions .cabin-account-link{
+  background:var(--accent-active);
+  border-color:var(--accent-active);
+  color:var(--elevated);
+}
+.about-actions .cabin-account-link:hover,
+.about-actions .cabin-account-link:focus-visible{color:var(--elevated);background:var(--accent-hover)}
 body[data-page="about"].no-about-webgl .about-world canvas{display:none}
 
 @media(max-width:760px){
@@ -5076,26 +5051,25 @@ body[data-page="about"].no-about-webgl .about-world canvas{display:none}
   body[data-page="about"] .site-nav{gap:.15rem;justify-content:flex-start;overflow:visible;width:100%}
   body[data-page="about"] .site-nav a{flex:0 0 auto;padding:.4rem .3rem;font-size:.7rem}
   .about-world::after{
-    background:linear-gradient(90deg,rgba(241,244,240,.9),rgba(241,244,240,.45)),linear-gradient(180deg,transparent 65%,rgba(241,244,240,.75));
+    background:linear-gradient(90deg,rgba(241,244,240,.88),rgba(241,244,240,.34) 54%,rgba(241,244,240,.08)),linear-gradient(180deg,transparent 72%,rgba(241,244,240,.54));
   }
   .about-hero{padding-bottom:4rem}
   .about-hero h1{max-width:none;font-size:clamp(3.45rem,14.5vw,5rem);line-height:.86;white-space:nowrap}
-  .about-thesis{margin-left:0}
+  .about-thesis{max-width:100%;width:100%;margin-left:0}
   .about-scroll-cue{display:none}
   .about-passages{padding-block:6rem 10rem}
   .about-passage,
   .about-passage:nth-child(even){
     min-height:82svh;
-    grid-template-columns:1fr;
-    align-content:center;
-    gap:1rem;
+    display:flex;
+    align-items:center;
   }
-  .about-passage:nth-child(even) .about-role,
-  .about-passage:nth-child(even)>div{grid-column:1;grid-row:auto}
   .about-passage>div{padding:2rem 1.5rem}
   .about-passage h2{font-size:clamp(2.65rem,13vw,4.6rem)}
+  .about-actions{align-items:stretch;flex-direction:column}
+  .about-actions .github-link{justify-content:center;width:100%}
 }
 @media(prefers-reduced-motion:reduce){
   .about-scroll-cue i::after{animation:none}
-  .about-world canvas{opacity:.48}
+  .about-world canvas{opacity:.82}
 }

@@ -574,63 +574,87 @@ function initAboutExperience() {
   anchor.add(world);
   world.add(drift);
 
-  scene.add(new THREE.HemisphereLight(0xFCFCFA, 0x60786A, 2.15));
-  const morningLight = new THREE.DirectionalLight(0xF8F9F6, 3.4);
-  morningLight.position.set(-3, 6, 5);
-  scene.add(morningLight);
+  const helix = new THREE.Group();
+  drift.add(helix);
 
-  const pageGeometry = new THREE.BoxGeometry(1.02, 1.38, .035, 1, 1, 1);
-  const pageMaterials = [
-    new THREE.MeshStandardMaterial({ color: 0xFCFCFA, roughness: .9, metalness: 0 }),
-    new THREE.MeshStandardMaterial({ color: 0xF3F6F2, roughness: .94, metalness: 0 }),
-    new THREE.MeshStandardMaterial({ color: 0xE8EDE8, roughness: .96, metalness: 0 })
-  ];
-  const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x718B7C, transparent: true, opacity: .34 });
-  const pageEdges = new THREE.EdgesGeometry(pageGeometry);
-  const pages = [];
+  const makeGlyphTexture = (glyph) => {
+    const textureCanvas = document.createElement("canvas");
+    textureCanvas.width = 64;
+    textureCanvas.height = 64;
+    const context = textureCanvas.getContext("2d");
+    context.clearRect(0, 0, 64, 64);
+    context.fillStyle = "#FFFFFF";
+    context.font = "600 48px monospace";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText(glyph, 32, 30);
+    const texture = new THREE.CanvasTexture(textureCanvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  };
 
-  for (let index = 0; index < 17; index += 1) {
-    const angle = index * .78;
-    const radius = 2.05 + (index % 4) * .16;
-    const page = new THREE.Mesh(pageGeometry, pageMaterials[index % pageMaterials.length]);
-    page.position.set(
-      Math.cos(angle) * radius,
-      (index - 8) * .34,
-      Math.sin(angle) * radius * .58
-    );
-    page.rotation.set(
-      -.08 + Math.sin(angle) * .09,
-      -angle + Math.PI / 2,
-      Math.cos(angle * 1.3) * .08
-    );
-    page.userData.baseY = page.position.y;
-    page.userData.phase = angle;
-    const edges = new THREE.LineSegments(pageEdges, edgeMaterial);
-    edges.scale.setScalar(1.002);
-    page.add(edges);
-    drift.add(page);
-    pages.push(page);
-  }
+  const strandCount = 380;
+  const strandPositions = [new Float32Array(strandCount * 3), new Float32Array(strandCount * 3)];
+  const strandCurves = [[], []];
+  const helixRadius = 1.72;
 
-  const contourMaterial = new THREE.LineBasicMaterial({
-    color: 0x60786A,
-    transparent: true,
-    opacity: .18
-  });
-  for (let ringIndex = 0; ringIndex < 5; ringIndex += 1) {
-    const points = [];
-    const radius = 2.7 + ringIndex * .38;
-    for (let pointIndex = 0; pointIndex < 72; pointIndex += 1) {
-      const angle = pointIndex / 72 * Math.PI * 2;
-      points.push(new THREE.Vector3(
-        Math.cos(angle) * radius,
-        -1.55 + ringIndex * .76,
-        Math.sin(angle) * radius * .42
-      ));
+  for (let strand = 0; strand < 2; strand += 1) {
+    for (let index = 0; index < strandCount; index += 1) {
+      const progress = index / (strandCount - 1);
+      const angle = progress * Math.PI * 10 + strand * Math.PI;
+      const x = Math.cos(angle) * helixRadius;
+      const y = (progress - .5) * 7.2;
+      const z = Math.sin(angle) * 1.08;
+      const offset = index * 3;
+      strandPositions[strand][offset] = x;
+      strandPositions[strand][offset + 1] = y;
+      strandPositions[strand][offset + 2] = z;
+      strandCurves[strand].push(new THREE.Vector3(x, y, z));
     }
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    drift.add(new THREE.LineLoop(geometry, contourMaterial));
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(strandPositions[strand], 3));
+    const material = new THREE.PointsMaterial({
+      color: strand ? 0x506457 : 0x718B7C,
+      map: makeGlyphTexture(strand ? "+" : "·"),
+      size: strand ? .135 : .165,
+      transparent: true,
+      opacity: strand ? .72 : .92,
+      alphaTest: .08,
+      depthWrite: false,
+      sizeAttenuation: true
+    });
+    helix.add(new THREE.Points(geometry, material));
+
+    const lineGeometry = new THREE.BufferGeometry().setFromPoints(strandCurves[strand]);
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: strand ? 0x60786A : 0x718B7C,
+      transparent: true,
+      opacity: .28
+    });
+    helix.add(new THREE.Line(lineGeometry, lineMaterial));
   }
+
+  const rungPositions = [];
+  for (let index = 8; index < strandCount; index += 18) {
+    const offset = index * 3;
+    rungPositions.push(
+      strandPositions[0][offset],
+      strandPositions[0][offset + 1],
+      strandPositions[0][offset + 2],
+      strandPositions[1][offset],
+      strandPositions[1][offset + 1],
+      strandPositions[1][offset + 2]
+    );
+  }
+  const rungGeometry = new THREE.BufferGeometry();
+  rungGeometry.setAttribute("position", new THREE.Float32BufferAttribute(rungPositions, 3));
+  const rungMaterial = new THREE.LineBasicMaterial({
+    color: 0x929B95,
+    transparent: true,
+    opacity: .32
+  });
+  helix.add(new THREE.LineSegments(rungGeometry, rungMaterial));
 
   let pointerTargetX = 0;
   let pointerTargetY = 0;
@@ -654,9 +678,7 @@ function initAboutExperience() {
     pointerY += (pointerTargetY - pointerY) * .035;
     drift.rotation.y = time * .000035 + pointerX * .08;
     drift.rotation.x = pointerY * .035;
-    pages.forEach((page) => {
-      page.position.y = page.userData.baseY + Math.sin(time * .00045 + page.userData.phase) * .035;
-    });
+    helix.rotation.z = Math.sin(time * .00012) * .025;
     renderer.render(scene, camera);
     if (!prefersReducedMotion && !document.hidden) frame = requestAnimationFrame(render);
   };
@@ -758,46 +780,6 @@ function initMotionLibraries() {
     if (document.body.dataset.page !== "home") return;
     gsap.from(".approach-copy", { opacity: 0, y: 42, duration: 1.2, ease: "power4.out" });
     // Workspace uses deterministic scroll math; ScrollTrigger caused uneven reverse playback.
-    const homeChapters = gsap.utils.toArray(".principle-moment, .disappear-scene");
-    homeChapters.forEach((item, index) => {
-      const threshold = document.createElement("div");
-      threshold.className = "chapter-threshold";
-      threshold.setAttribute("aria-hidden", "true");
-      threshold.innerHTML = "<i></i><i></i><i></i>";
-      item.append(threshold);
-
-      gsap.fromTo(item, {
-        "--chapter-image-shift": "-3.5%",
-        "--chapter-image-scale": 1.07
-      }, {
-        "--chapter-image-shift": "3.5%",
-        "--chapter-image-scale": 1.015,
-        ease: "none",
-        scrollTrigger: {
-          trigger: item,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.15
-        }
-      });
-      gsap.fromTo(threshold, {
-        yPercent: -72,
-        opacity: .82,
-        rotate: index % 2 ? 2 : -2
-      }, {
-        yPercent: 92,
-        opacity: .08,
-        rotate: index % 2 ? -1 : 1,
-        ease: "none",
-        scrollTrigger: {
-          trigger: item,
-          start: "top 94%",
-          end: "top 16%",
-          scrub: 1
-        }
-      });
-    });
-
     gsap.utils.toArray(".principle-moment").forEach((item) => {
       const copy = item.querySelector("div");
       if (copy) gsap.fromTo(copy, { autoAlpha: 0 }, {
