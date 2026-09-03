@@ -15,10 +15,9 @@
   <link rel="apple-touch-icon" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="assets/cabin-mountain-morning.png">
-  <link rel="preload" as="image" href="assets/cabin-manuscript-detail.png">
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/experiences.css">
 </head>
 <body data-page="home">
   <div class="paper-grain" aria-hidden="true"></div>
@@ -37,129 +36,162 @@
     </nav>
   </header>
 
-  <main id="main" class="home-journey">
-    <section class="cabin-scene approach-scene">
-      <img class="approach-art-image" src="assets/cabin-mountain-morning.png" alt="" aria-hidden="true">
-      <div class="approach-copy">
+  <main id="main" class="home-room">
+    <section class="home-threshold" aria-labelledby="home-title">
+      <div class="threshold-copy" data-home-intro>
         <p class="eyebrow">A local-first writing environment</p>
-        <h1>A quiet place for stories to grow.</h1>
-        <p>Cabin begins with a blank page and grows only when your story needs more.</p>
+        <h1 id="home-title">A quiet place<br>for stories <em>to grow.</em></h1>
+        <p class="threshold-thesis">Cabin begins with a blank page and grows only when your story needs more.</p>
         <div class="hero-actions">
           <a class="button primary" href="philosophy.html">Discover the philosophy</a>
           <a class="button quiet" href="blog.html">Read the Blog</a>
         </div>
         <p class="project-note">Currently in product design.</p>
       </div>
+
+      <div class="writing-desk" data-writing-desk role="img" aria-label="A dimensional writing desk that gently follows your pointer">
+        <div class="desk-halo" aria-hidden="true"></div>
+        <div class="desk-object" aria-hidden="true">
+          <div class="desk-surface"></div>
+          <div class="desk-shadow"></div>
+          <div class="desk-cup"><i></i><i></i><i></i></div>
+          <div class="desk-pencil"></div>
+          <div class="desk-page page-under"></div>
+          <div class="desk-page page-main">
+            <span class="page-number">01</span>
+            <small>Chapter One</small>
+            <strong>The first morning<br>arrived quietly.</strong>
+            <p>The mountain kept its secrets beneath a white fold of weather.</p>
+            <i class="page-caret"></i>
+          </div>
+          <div class="desk-lamp"><span></span><b></b></div>
+        </div>
+        <p class="desk-instruction">Move gently across the desk</p>
+      </div>
+
+      <a class="threshold-scroll" href="#room-assembles"><span>Enter the writing room</span><i aria-hidden="true"></i></a>
     </section>
 
-    <section class="workspace-sequence" data-workspace-sequence>
-      <div class="workspace-sticky" data-stage="0">
-        <div class="workspace-copy">
-          <h2 data-stage-copy>Begin with only the page.</h2>
-          <p data-stage-detail>The writing surface is quiet first. No chrome, no ceremony, no structure before it has earned a place.</p>
+    <section class="room-assembly" id="room-assembles" data-room-assembly aria-label="How Cabin grows with a story">
+      <div class="room-stage">
+        <div class="assembly-heading" aria-live="polite">
+          <span>01 / 04</span>
+          <p>Begin with only the page.</p>
         </div>
-        <div class="assembling-workspace" aria-label="Conceptual Cabin writing interface assembling around the manuscript">
-          <div class="chapter-rail workspace-part" data-part="rail">
-            <span class="rail-title">Part I</span>
-            <span class="chapter-item is-active">The Ash Valley</span>
-            <span class="chapter-item">The Lantern Road</span>
-            <span class="chapter-item">Under the North Gate</span>
-          </div>
-          <article class="manuscript-page workspace-part" data-part="page">
-            <p class="doc-kicker">Chapter One</p>
-            <h3>The first morning arrived quietly.</h3>
-            <p>The mountain kept its secrets beneath a white fold of weather. Elian waited by the cold stove, listening for the bell that only rang when someone crossed the old bridge.</p>
-            <p>When it came, the sound was small and silver. Not a warning. Not yet.</p>
-            <span class="caret"></span>
-          </article>
-          <aside class="inspector workspace-part" data-part="inspector">
-            <p class="note-label">Character note</p>
-            <strong>Elian Voss</strong>
-            <span class="note-field"><b>Role</b> Watchtower keeper</span>
-            <span class="note-field"><b>Object</b> Brass key</span>
-            <span class="note-field"><b>Question</b> Why does the bridge bell answer him?</span>
-          </aside>
-          <div class="fantasy-timeline workspace-part" data-part="timeline">
-            <div class="timeline-route" data-timeline-path aria-hidden="true"></div>
-            <span class="current-event">Current chapter: The Bridge Bell</span>
-            <span>Bridge Collapse</span>
-            <span>Watchtower Signal</span>
+        <div class="cabin-workspace" data-assembly-stage="0" aria-hidden="true">
+          <div class="workspace-glow"></div>
+          <div class="workspace-shell">
+            <div class="workspace-topbar"><i></i><i></i><i></i><span>The Ash Valley</span></div>
+            <div class="workspace-rail assembly-layer" data-layer="rail">
+              <small>Part I</small>
+              <b>The Ash Valley</b>
+              <span>The Lantern Road</span>
+              <span>Under the North Gate</span>
+            </div>
+            <article class="workspace-page">
+              <small>Chapter One</small>
+              <h3>The first morning arrived quietly.</h3>
+              <p>The mountain kept its secrets beneath a white fold of weather. Elian waited by the cold stove, listening for the bell that only rang when someone crossed the old bridge.</p>
+              <p>When it came, the sound was small and silver. Not a warning. Not yet.</p>
+              <i></i>
+            </article>
+            <aside class="workspace-note assembly-layer" data-layer="note">
+              <small>Character note</small>
+              <strong>Elian Voss</strong>
+              <span><b>Role</b> Watchtower keeper</span>
+              <span><b>Object</b> Brass key</span>
+              <span><b>Question</b> Why does the bridge bell answer him?</span>
+            </aside>
+            <div class="workspace-time assembly-layer" data-layer="time">
+              <i></i><i></i><i></i>
+              <span>Current chapter: The Bridge Bell</span><span>Bridge Collapse</span><span>Watchtower Signal</span>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="assembly-steps">
+        <article class="assembly-step is-active" data-room-step="0">
+          <span>01</span>
+          <h2>Begin with only the page.</h2>
+          <p>The writing surface is quiet first. No chrome, no ceremony, no structure before it has earned a place.</p>
+        </article>
+        <article class="assembly-step" data-room-step="1">
+          <span>02</span>
+          <h2>Let chapters appear beside it.</h2>
+          <p>A quiet rail is drawn on the left when the draft needs shape and sequence.</p>
+        </article>
+        <article class="assembly-step" data-room-step="2">
+          <span>03</span>
+          <h2>Keep character notes close.</h2>
+          <p>A margin note opens on the right, near enough to guide the scene without taking over.</p>
+        </article>
+        <article class="assembly-step" data-room-step="3">
+          <span>04</span>
+          <h2>Trace the world underneath.</h2>
+          <p>A fantasy timeline settles below the manuscript, keeping the larger world visible at the edge.</p>
+        </article>
+      </div>
     </section>
 
-    <section class="principles-cinema" aria-label="Cabin principles">
-      <div class="principles-intro">
+    <section class="home-principles" aria-labelledby="principles-title">
+      <header class="principles-prologue">
         <p class="eyebrow">Why Cabin exists</p>
-        <h2>Most writing software asks you to manage the tool before you can hear the sentence.</h2>
+        <h2 id="principles-title">Most writing software asks you to manage the tool before you can hear the sentence.</h2>
         <p>Cabin is built against that interruption. Structure is useful. Ownership matters. Assistance can help. But the writing must stay in the center of the room.</p>
-      </div>
-      <article class="principle-moment">
-        <img class="moment-image" src="assets/cabin-manuscript-detail.png" alt="" aria-hidden="true">
-        <div>
-          <span>Manuscript</span>
-          <h2>Writing comes first.</h2>
+      </header>
+      <div class="principle-windows">
+        <article class="principle-window" data-tilt-card>
+          <span>01 / Manuscript</span><h3>Writing comes first.</h3>
           <p>The manuscript remains central. Everything else is furniture around the work.</p>
-        </div>
-      </article>
-      <article class="principle-moment">
-        <div>
-          <span>Structure</span>
-          <h2>Complexity is invited, never imposed.</h2>
+          <i aria-hidden="true">Aa</i>
+        </article>
+        <article class="principle-window" data-tilt-card>
+          <span>02 / Structure</span><h3>Complexity is invited, never imposed.</h3>
           <p>Panels arrive slowly, only when the story asks for structure.</p>
-        </div>
-        <img class="moment-image" src="assets/cabin-structure-arrives.png" alt="" aria-hidden="true">
-      </article>
-      <article class="principle-moment">
-        <img class="moment-image" src="assets/cabin-local-files.png" alt="" aria-hidden="true">
-        <div>
-          <span>Ownership</span>
-          <h2>Your work stays yours.</h2>
+          <i aria-hidden="true">+</i>
+        </article>
+        <article class="principle-window" data-tilt-card>
+          <span>03 / Ownership</span><h3>Your work stays yours.</h3>
           <p>Local folders, readable files and open exports keep ownership visible.</p>
-        </div>
-      </article>
-      <article class="principle-moment">
-        <div>
-          <span>Quiet</span>
-          <h2>Calm before clever.</h2>
+          <i aria-hidden="true">↘</i>
+        </article>
+        <article class="principle-window" data-tilt-card>
+          <span>04 / Quiet</span><h3>Calm before clever.</h3>
           <p>Cabin should feel like a room prepared for thought, not a machine demanding management.</p>
-        </div>
-        <img class="moment-image" src="assets/cabin-quiet-room.png" alt="" aria-hidden="true">
-      </article>
-      <article class="principle-moment">
-        <img class="moment-image" src="assets/cabin-editor-notes.png" alt="" aria-hidden="true">
-        <div>
-          <span>Editor</span>
-          <h2>AI may question the work. It does not author it.</h2>
+          <i aria-hidden="true">○</i>
+        </article>
+        <article class="principle-window" data-tilt-card>
+          <span>05 / Editor</span><h3>AI may question the work. It does not author it.</h3>
           <p>It can notice grammar, pacing and continuity. The voice stays human.</p>
-        </div>
-      </article>
+          <i aria-hidden="true">?</i>
+        </article>
+      </div>
     </section>
 
-    <section class="project-today">
-      <div class="today-panel">
+    <section class="home-status" aria-labelledby="status-title">
+      <div class="status-orbit" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
+      <div>
         <p class="eyebrow">The project today</p>
-        <h2>Cabin is currently in product design.</h2>
+        <h2 id="status-title">Cabin is currently in product design.</h2>
         <p>Its workflows, file model and interface are being defined before development begins.</p>
-        <div class="inline-links">
+        <nav class="inline-links" aria-label="Learn more about Cabin">
           <a href="philosophy.html">Philosophy</a>
           <a href="roadmap.html">Roadmap</a>
           <a href="blog.html">Blog</a>
-        </div>
+        </nav>
       </div>
     </section>
 
-    <section class="disappear-scene" data-disappear-scene>
-      <img class="disappear-image" src="assets/cabin-story-remains.png" alt="" aria-hidden="true">
-      <div class="disappear-copy">
-        <p>The software should disappear, leaving only the story.</p>
-      </div>
+    <section class="home-coda" aria-label="Cabin design aim">
+      <div class="coda-door" aria-hidden="true"><span></span></div>
+      <p>The software should disappear,<br><em>leaving only the story.</em></p>
     </section>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>
+  <script src="js/experiences.js"></script>
 </body>
 </html>
