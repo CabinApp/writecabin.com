@@ -50,8 +50,9 @@
       </div>
 
       <div class="writing-desk" data-writing-desk role="img" aria-label="A dimensional writing desk that gently follows your pointer">
+        <canvas class="home-desk-canvas" data-home-desk-canvas aria-hidden="true"></canvas>
         <div class="desk-halo" aria-hidden="true"></div>
-        <div class="desk-object" aria-hidden="true">
+        <div class="desk-object home-desk-fallback" aria-hidden="true">
           <div class="desk-surface"></div>
           <div class="desk-shadow"></div>
           <div class="desk-cup"><i></i><i></i><i></i></div>
@@ -103,8 +104,16 @@
               <span><b>Question</b> Why does the bridge bell answer him?</span>
             </aside>
             <div class="workspace-time assembly-layer" data-layer="time">
-              <i></i><i></i><i></i>
-              <span>Current chapter: The Bridge Bell</span><span>Bridge Collapse</span><span>Watchtower Signal</span>
+              <div class="timeline-spine"><i></i></div>
+              <div class="timeline-event is-current">
+                <b>01</b><i></i><small>Current chapter</small><span>The Bridge Bell</span>
+              </div>
+              <div class="timeline-event">
+                <b>07</b><i></i><small>Turning point</small><span>Bridge Collapse</span>
+              </div>
+              <div class="timeline-event">
+                <b>12</b><i></i><small>Later event</small><span>Watchtower Signal</span>
+              </div>
             </div>
           </div>
         </div>
@@ -170,7 +179,20 @@
     </section>
 
     <section class="home-status" aria-labelledby="status-title">
-      <div class="status-orbit" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
+      <div class="status-blueprint" aria-hidden="true">
+        <div class="blueprint-board">
+          <header><span>Cabin / Product definition</span><b>04</b></header>
+          <svg viewBox="0 0 600 420" preserveAspectRatio="none">
+            <path class="blueprint-grid" d="M100 0V420M200 0V420M300 0V420M400 0V420M500 0V420M0 84H600M0 168H600M0 252H600M0 336H600"/>
+            <path class="blueprint-route" d="M86 210 C155 210 158 116 232 116 S318 304 384 304 S454 210 522 210"/>
+            <circle cx="86" cy="210" r="9"/><circle cx="232" cy="116" r="9"/><circle cx="384" cy="304" r="9"/><circle cx="522" cy="210" r="9"/>
+          </svg>
+          <div class="blueprint-label label-workflow"><small>01</small><strong>Workflows</strong><span>How writing moves</span></div>
+          <div class="blueprint-label label-files"><small>02</small><strong>File model</strong><span>How work stays yours</span></div>
+          <div class="blueprint-label label-interface"><small>03</small><strong>Interface</strong><span>How the room responds</span></div>
+          <footer><i></i><span>Defining before developing</span></footer>
+        </div>
+      </div>
       <div>
         <p class="eyebrow">The project today</p>
         <h2 id="status-title">Cabin is currently in product design.</h2>
@@ -189,6 +211,7 @@
     </section>
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>

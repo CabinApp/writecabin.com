@@ -208,3 +208,61 @@ body[data-page="404"]{overflow:hidden;background:#dce5df}body[data-page="404"] .
   .page-caret,.threshold-scroll i:after,.maker-scroll i:after,.status-orbit i,.fog{animation:none!important}
   .desk-object,.principle-window,.workspace-shell{transition-duration:0s!important}
 }
+
+/* -------------------------------------------------------------------------- */
+/* Refinement: higher-fidelity desk, legible timeline, product blueprint      */
+/* -------------------------------------------------------------------------- */
+
+.home-desk-canvas{position:absolute;z-index:3;inset:-7% -4%;width:108%;height:114%;pointer-events:none;opacity:0;filter:drop-shadow(0 2.4rem 2.5rem rgba(48,63,52,.14));transition:opacity 800ms ease}
+.has-home-desk .home-desk-canvas{opacity:1}.home-desk-fallback{transition:opacity 600ms ease}.has-home-desk .home-desk-fallback{opacity:0}.has-home-desk .desk-halo{transform:translate(10%,-5%) scale(1.12)}
+
+.cabin-workspace[data-assembly-stage="3"] .workspace-shell{grid-template-rows:2.5rem minmax(0,1fr) 28%}
+.workspace-time{grid-template-columns:repeat(3,1fr);align-items:stretch;gap:0;padding:0 7%;overflow:visible;background:linear-gradient(180deg,rgba(230,237,231,.86),rgba(244,247,243,.98))}
+.workspace-time:before{display:none}.timeline-spine{position:absolute;z-index:1;left:13%;right:13%;top:38%;height:1px;background:#b6c4b9}
+.workspace-time .timeline-spine i{display:block;width:100%;height:100%;border:0;border-radius:0;transform:scaleX(0);transform-origin:left;background:var(--accent-active);transition:transform 1.4s var(--ease) .25s}
+.cabin-workspace[data-assembly-stage="3"] .timeline-spine i{transform:scaleX(1)}
+.timeline-event{position:relative;z-index:2;display:grid;grid-template-rows:auto 1fr auto auto;justify-items:center;min-width:0;padding:.7rem .45rem .65rem;text-align:center}
+.timeline-event>b{color:#89958d;font-size:clamp(.42rem,.62vw,.58rem);font-weight:650;letter-spacing:.1em}
+.workspace-time .timeline-event>i{align-self:center;width:.65rem;height:.65rem;border:3px solid #e7eee8;border-radius:50%;background:#879b8d;box-shadow:0 0 0 1px #a7b7ab}
+.workspace-time .timeline-event.is-current>i{width:.78rem;height:.78rem;background:var(--accent-active);box-shadow:0 0 0 1px var(--accent),0 0 0 .34rem rgba(113,139,124,.1)}
+.timeline-event small{margin-top:.1rem;color:#87938b;font-size:clamp(.38rem,.54vw,.5rem);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.timeline-event span{max-width:16ch;margin-top:.12rem;color:#445148;font:500 clamp(.5rem,.75vw,.7rem)/1.15 "Lora",Georgia,serif}
+
+.status-blueprint{position:relative;justify-self:center;width:min(42vw,39rem);aspect-ratio:1.18;perspective:1200px}
+.status-blueprint:before{content:"";position:absolute;inset:7% -5% -8% 6%;border-radius:50%;transform:rotateX(62deg) translateZ(-3rem);background:rgba(63,83,68,.18);filter:blur(2.2rem)}
+.blueprint-board{position:absolute;inset:0;overflow:hidden;border:1px solid rgba(88,109,94,.35);border-radius:.65rem;transform:rotateX(3deg) rotateY(8deg) rotateZ(-2deg);background:linear-gradient(145deg,rgba(251,251,246,.98),rgba(229,237,230,.94));box-shadow:-2rem 2.7rem 5rem rgba(47,63,52,.14),inset 0 1px #fff;transition:transform 900ms var(--ease)}
+.status-blueprint:hover .blueprint-board{transform:rotateX(1deg) rotateY(2deg) rotateZ(0)}
+.blueprint-board header,.blueprint-board footer{position:absolute;z-index:3;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,2.2vw,2rem);color:#65736a;font-size:clamp(.45rem,.65vw,.62rem);font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+.blueprint-board header{top:0;height:14%;border-bottom:1px solid rgba(113,139,124,.22)}.blueprint-board header b{display:grid;place-items:center;width:1.8rem;height:1.8rem;border:1px solid var(--accent);border-radius:50%;color:var(--accent-active)}
+.blueprint-board svg{position:absolute;inset:14% 0 12%;width:100%;height:74%}.blueprint-grid{fill:none;stroke:rgba(113,139,124,.1);stroke-width:1}.blueprint-route{fill:none;stroke:#647e6d;stroke-width:2.5;stroke-dasharray:8 8}.blueprint-board circle{fill:#f5f7f1;stroke:#506457;stroke-width:3}
+.blueprint-label{position:absolute;z-index:3;display:flex;flex-direction:column;padding:.7rem .85rem;border:1px solid rgba(113,139,124,.25);border-radius:.35rem;background:rgba(250,251,247,.92);box-shadow:0 .7rem 1.5rem rgba(62,78,66,.07)}
+.blueprint-label small{color:var(--accent-active);font-size:.48rem;font-weight:750}.blueprint-label strong{margin-top:.2rem;color:#344238;font:500 clamp(.65rem,1.1vw,1rem)/1.1 "Lora",Georgia,serif}.blueprint-label span{margin-top:.22rem;color:#7a877f;font-size:clamp(.4rem,.62vw,.56rem)}
+.label-workflow{left:5%;top:45%}.label-files{left:34%;top:22%}.label-interface{right:4%;bottom:20%}
+.blueprint-board footer{bottom:0;height:12%;justify-content:flex-start;gap:.6rem;border-top:1px solid rgba(113,139,124,.22)}.blueprint-board footer i{width:.5rem;height:.5rem;border-radius:50%;background:#718b7c;box-shadow:0 0 0 .3rem rgba(113,139,124,.1)}
+
+/* -------------------------------------------------------------------------- */
+/* About refinement: the maker's cabinet                                      */
+/* -------------------------------------------------------------------------- */
+
+.maker-cabinet-section{position:relative;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(25rem,.88fr);background:radial-gradient(circle at 25% 42%,rgba(113,139,124,.13),transparent 34rem),#e8eee8}
+.cabinet-sticky{position:sticky;top:0;height:100svh;min-width:0;display:grid;grid-template-rows:minmax(0,1fr) auto;padding:clamp(5.5rem,10vh,8rem) clamp(1.5rem,4vw,4rem) 2.5rem;overflow:hidden;border-right:1px solid rgba(113,139,124,.22)}
+.cabinet-stage{position:relative;min-height:0;overflow:hidden;border:1px solid rgba(113,139,124,.22);border-radius:45% 45% .9rem .9rem;background:radial-gradient(circle at 52% 35%,rgba(255,253,243,.92),transparent 40%),linear-gradient(180deg,rgba(248,250,246,.78),rgba(218,228,220,.68))}
+.cabinet-stage:before{content:"";position:absolute;z-index:2;left:1.4rem;right:1.4rem;top:1.4rem;height:1px;background:rgba(113,139,124,.18)}.cabinet-stage:after{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;box-shadow:inset 0 -5rem 6rem rgba(215,226,217,.62)}
+.cabinet-stage canvas{position:absolute;z-index:1;inset:0;width:100%;height:100%;filter:drop-shadow(0 2rem 2rem rgba(48,63,52,.12))}
+.cabinet-fallback{position:absolute;inset:15% 15% 12%;display:flex;flex-direction:column;justify-content:center;perspective:900px}.cabinet-fallback>div{position:relative;height:24%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem;padding:0 1.2rem;border:1px solid #9b8565;border-bottom-color:#715e43;transform:rotateY(-8deg);background:linear-gradient(90deg,#cbb38e,#e0cba8);box-shadow:.7rem .8rem 1.2rem rgba(61,72,62,.12)}
+.cabinet-fallback>div:first-child{transform:translate3d(1.8rem,0,1rem) rotateY(-8deg)}.cabinet-fallback span{font-size:.55rem}.cabinet-fallback b{font:500 1rem/1 "Lora",Georgia,serif}.cabinet-fallback i{font:400 1.3rem/1 "Lora",Georgia,serif}.has-maker-webgl .cabinet-fallback{opacity:0}
+.cabinet-label{position:absolute;z-index:4;left:2rem;bottom:1.8rem;display:flex;align-items:baseline;gap:.85rem}.cabinet-label span{color:var(--accent-active);font-size:.62rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase}.cabinet-label strong{color:#3e4c42;font:500 clamp(1.4rem,2.5vw,2.5rem)/1 "Lora",Georgia,serif}
+.cabinet-hint{position:absolute;z-index:4;right:1.7rem;bottom:1.8rem;color:#849087;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.cabinet-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;padding-top:1.1rem}.cabinet-controls button{display:flex;align-items:center;justify-content:center;gap:.55rem;min-height:2.8rem;border:1px solid rgba(113,139,124,.25);border-radius:999px;color:var(--secondary);background:rgba(248,250,246,.56);font:600 .68rem/1 "Geist",sans-serif;letter-spacing:.04em;cursor:pointer;transition:color 300ms ease,background 300ms ease,border-color 300ms ease}
+.cabinet-controls button span{color:var(--muted);font-size:.56rem}.cabinet-controls button:hover,.cabinet-controls button.is-active{border-color:var(--accent-active);color:#fff;background:var(--accent-active)}.cabinet-controls button.is-active span{color:#d9e2db}
+
+@media(max-width:980px){.maker-cabinet-section{grid-template-columns:minmax(0,1.05fr) minmax(19rem,.95fr)}}
+@media(max-width:760px){
+  .home-desk-canvas{inset:-12% -8%;width:116%;height:124%}.has-home-desk .writing-desk{min-height:21rem}
+  .cabin-workspace[data-assembly-stage="3"] .workspace-shell{grid-template-rows:1.6rem minmax(0,1fr) 30%}
+  .workspace-time{padding-inline:3%}.timeline-event{padding:.4rem .1rem}.timeline-event small{display:none}.timeline-event span{font-size:clamp(.42rem,1.8vw,.58rem)}.timeline-spine{left:12%;right:12%;top:38%}
+  .status-blueprint{width:min(88vw,31rem)}
+  .maker-cabinet-section{display:block}.cabinet-sticky{z-index:3;top:64px;height:56svh;padding:1rem;border-right:0;border-bottom:1px solid rgba(113,139,124,.22);background:rgba(232,238,232,.92);backdrop-filter:blur(10px)}
+  .cabinet-stage{border-radius:44% 44% .7rem .7rem}.cabinet-label{left:1.2rem;bottom:1rem}.cabinet-hint{display:none}.cabinet-controls{gap:.35rem;padding-top:.55rem}.cabinet-controls button{min-height:2.2rem;gap:.3rem;font-size:.58rem}
+}
+@media(prefers-reduced-motion:reduce){.home-desk-canvas{display:none}.home-desk-fallback{opacity:1!important}.blueprint-board{transition:none}}
