@@ -13,6 +13,13 @@
             "excerpt": "Cabin starts minimal, and grows with you.",
             "path": "defining-cabin.md",
             "slug": "defining-cabin"
+        },
+                {
+            "title": "The Minimum Lovable Cabin",
+            "date": "2026-08-29",
+            "excerpt": "An explosion of features is always a risk.",
+            "path": "the-minimum-lovable-cabin.md",
+            "slug": "the-minimum-lovable-cabin"
         }
     ]
 }
