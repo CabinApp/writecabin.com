@@ -1,11 +1,18 @@
 {
-  "posts": [
-    {
-      "title": "Welcome to Cabin",
-      "date": "2026-07-12",
-      "excerpt": "Cabin is writing software designed to grow with you.",
-      "path": "welcome-to-cabin.md",
-      "slug": "welcome-to-cabin"
-    }
-  ]
+    "posts": [
+        {
+            "title": "Welcome to Cabin",
+            "date": "2026-07-12",
+            "excerpt": "Cabin is writing software designed to grow with you.",
+            "path": "welcome-to-cabin.md",
+            "slug": "welcome-to-cabin"
+        },
+        {
+            "title": "Defining Cabin",
+            "date": "2026-07-14",
+            "excerpt": "Cabin starts minimal, and grows with you.",
+            "path": "defining-cabin.md",
+            "slug": "defining-cabin"
+        }
+    ]
 }
