@@ -1,2 +1,7 @@
 .agents/
 tools/
+
+# Local visual QA and intermediate Blender renders
+/qa/
+/assets/nordic/*.png
+/assets/nordic/*.blend1

@@ -18,7 +18,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="css/experiences.css">
+
+<link rel="stylesheet" href="css/nordic.css">
 </head>
 <body data-page="about">
   <div class="paper-grain" aria-hidden="true"></div>
@@ -34,79 +35,12 @@
     </nav>
   </header>
 
-  <main id="main" class="maker-story">
-    <section class="maker-hero" aria-labelledby="about-title">
-      <div class="maker-index" aria-hidden="true"><span>About the maker</span><b>01</b></div>
-      <div class="maker-hero-copy" data-about-intro>
-        <p class="eyebrow">Student &middot; Solo developer &middot; Writer</p>
-        <h1 id="about-title">Rishit<br><em>Choudhary.</em></h1>
-        <p>I am building the writing room I always wanted to enter: quiet at first, capable when needed, and honest about whose words matter.</p>
-      </div>
-      <div class="maker-signature" aria-hidden="true">
-        <svg viewBox="0 0 260 110"><path d="M9 79c25-33 34-55 47-54 18 1-5 71 8 70 18-1 27-66 49-73 24-8-6 77 12 72 19-5 23-48 37-52 18-6 0 49 13 48 16-1 26-20 35-17 8 3-3 17 17 13 11-2 17-5 24-9"/></svg>
-        <span>Building in public</span>
-      </div>
-      <a class="maker-scroll" href="#three-threads"><span>Three threads, one practice</span><i></i></a>
-    </section>
+<main id="main" class="nordic-main">
+<section class="n-about-hero n-wrap" aria-labelledby="about-title"><div><p class="n-label">A note from the maker</p><h1 class="n-heading" id="about-title">Hi, I’m Rishit.<br><em>I’m building<br>Cabin.</em></h1><p class="n-about-lede">Student, solo developer, and a writer still finding his sentences. Making a little room for all three.</p><a class="n-link" href="#my-practice">Pull up a chair <span aria-hidden="true">↓</span></a></div><div class="n-art" data-model-art><img src="assets/nordic/workbench.webp" width="1200" height="1200" alt="An oak writing desk with a green lamp, a stack of books, a manuscript and a cup of coffee."><div class="n-model-view" data-model-view role="img" aria-label="Interactive 3D oak writing desk"></div><div class="n-art-label"><span>A few things worth keeping close</span><span>Study no. 02</span></div><button class="n-explore" type="button" data-explore-model>Turn the workbench ↻</button><p class="n-model-status" aria-live="polite" data-model-status></p></div></section>
+<section class="n-about-body n-wrap" id="my-practice"><div><p class="n-label">Three threads, one practice</p><h2 style="margin-top:25px">A work in progress.<br>Much like its maker.</h2></div><div><details class="n-practice" open><summary>01. Still learning.</summary><p>Cabin is being shaped while I am still learning—through research, prototypes, wrong turns and the discipline of asking better questions before writing more code.</p></details><details class="n-practice"><summary>02. Building with care.</summary><p>I design the interface, define the file model and build the product myself. One pair of hands keeps every decision close to the original reason Cabin exists: writing deserves a calmer place.</p></details><details class="n-practice"><summary>03. Finding the words.</summary><p>I have not published anything major. I simply like writing—and I know how quickly a thought can disappear when the software around it becomes louder than the page.</p></details></div></section>
+<section class="n-letter"><p class="n-label">The reason for the room</p><h2>Good tools make space<br>for the person using them.</h2><p>I am building the writing room I always wanted to enter: quiet at first, capable when needed, and honest about whose words matter.</p><nav aria-label="Find Rishit and Cabin"><a class="n-link" href="https://github.com/rishitc17" target="_blank" rel="noopener noreferrer">Rishit on GitHub <span aria-hidden="true">↗</span></a><a class="n-link" href="https://github.com/CabinApp" target="_blank" rel="noopener noreferrer">Cabin on GitHub <span aria-hidden="true">↗</span></a></nav></section></main>
 
-    <section class="maker-cabinet-section" id="three-threads" data-maker-section aria-label="The three practices behind Cabin">
-      <div class="cabinet-sticky">
-        <div class="cabinet-stage">
-          <canvas data-maker-canvas aria-hidden="true"></canvas>
-          <div class="cabinet-fallback" aria-hidden="true">
-            <div><span>01</span><b>Student</b><i>▤</i></div>
-            <div><span>02</span><b>Developer</b><i>⌘</i></div>
-            <div><span>03</span><b>Writer</b><i>✎</i></div>
-          </div>
-          <div class="cabinet-label" aria-live="polite"><span>Drawer 01</span><strong>Student</strong></div>
-          <p class="cabinet-hint">Scroll to open each drawer</p>
-        </div>
-        <div class="cabinet-controls" role="group" aria-label="Choose a part of Rishit's practice">
-          <button class="is-active" type="button" data-maker-control="0" aria-pressed="true"><span>01</span>Student</button>
-          <button type="button" data-maker-control="1" aria-pressed="false"><span>02</span>Developer</button>
-          <button type="button" data-maker-control="2" aria-pressed="false"><span>03</span>Writer</button>
-        </div>
-      </div>
-
-      <div class="maker-chapters">
-        <article class="maker-chapter is-active" data-maker-chapter="0">
-          <p class="about-role">Student</p>
-          <h2>Learning in public.</h2>
-          <p>Cabin is being shaped while I am still learning&mdash;through research, prototypes, wrong turns and the discipline of asking better questions before writing more code.</p>
-        </article>
-        <article class="maker-chapter" data-maker-chapter="1">
-          <p class="about-role">Solo developer</p>
-          <h2>One pair of hands. One coherent room.</h2>
-          <p>I design the interface, define the file model and build the product myself. That constraint keeps every decision close to the original reason Cabin exists.</p>
-        </article>
-        <article class="maker-chapter" data-maker-chapter="2">
-          <p class="about-role">Writer</p>
-          <h2>Still finding the sentences.</h2>
-          <p>I have not published anything major. I simply like writing&mdash;and I know how quickly a thought can disappear when the software around it becomes louder than the page.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="maker-coda" aria-labelledby="about-coda-title">
-      <div class="coda-rule" aria-hidden="true"><i></i><b></b><i></i></div>
-      <p class="eyebrow">Why Cabin exists</p>
-      <h2 id="about-coda-title">Writing deserves software that knows when to leave you alone.</h2>
-      <p>Cabin is my attempt to make that kind of place.</p>
-      <div class="about-actions">
-        <a class="github-link" href="https://github.com/rishitc17" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-github" aria-hidden="true"></i><span>My personal account</span>
-        </a>
-        <a class="github-link cabin-account-link" href="https://github.com/CabinApp" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-github" aria-hidden="true"></i><span>The GitHub organisation for Cabin</span>
-        </a>
-      </div>
-    </section>
-  </main>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-  <script src="script.js"></script>
-  <script src="js/experiences.js"></script>
+<footer class="n-footer"><a href="index.html">Cabin · A quiet place for stories to grow.</a><div class="n-footer-links"><a href="philosophy.html">Philosophy</a><a href="blog.html">Journal</a><a href="about.html">Meet the maker ↗</a></div><span>Made with intention.</span></footer>
+<script src="js/nordic.js" defer></script>
 </body>
 </html>
