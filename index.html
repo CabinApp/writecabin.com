@@ -17,47 +17,208 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-
-<link rel="stylesheet" href="css/nordic.css">
+  <link rel="stylesheet" href="css/experiences.css">
+  <link rel="stylesheet" href="css/navigation.css">
+<link rel="stylesheet" href="css/walkthrough.css">
+<noscript><style>body{opacity:1}.walk-start{display:none}</style></noscript>
 </head>
 <body data-page="home">
   <div class="paper-grain" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header scenic-nav" data-header>
-    <a class="brand" href="index.html" aria-label="Cabin home">
-      <img src="assets/logo.png" alt="" class="brand-mark">
-      <span>Cabin</span>
-    </a>
-    <nav class="site-nav" aria-label="Primary navigation">
-      <a href="index.html" aria-current="page">Home</a>
-      <a href="philosophy.html">Philosophy</a>
-      <a href="blog.html">Blog</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="about.html">About</a>
-    </nav>
-  </header>
+            <a class="brand" href="index.html" aria-label="Cabin home"
+                ><img src="assets/logo.png" alt="" class="brand-mark" /><span>Cabin</span></a
+            >
+            <nav class="site-nav" aria-label="Primary navigation">
+                <a href="index.html" aria-current="page">Home</a>
+                <a href="philosophy.html">Philosophy</a>
+                <a href="blog.html">Blog</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="about.html">About</a>
+            </nav>
+        </header>
 
-<main id="main" class="nordic-main">
-<section class="n-hero" aria-labelledby="home-title">
- <div class="n-landscape" aria-hidden="true"><img src="assets/nordic/refuge.webp" width="1800" height="1200" alt="" fetchpriority="high"></div>
- <div class="n-wrap"><div class="n-hero-copy"><p class="n-label">A little less noise. A little more room.</p>
- <h1 id="home-title" class="n-heading">Somewhere<br>your words<br>can <em>breathe.</em></h1>
- <p>A quiet writing environment, inspired by the mountains. Begin with a page. Let the rest arrive when you need it.</p>
- <a href="#writing-room" class="n-button">Step inside <span aria-hidden="true">↘</span></a></div></div>
- <div class="n-hero-bottom"><p>Local-first. Yours by design.<br>Currently taking shape.</p><a class="n-link" href="#the-idea">Follow the path <span aria-hidden="true">↓</span></a><div class="n-location">A place for thought<br>Inspired by the Scandinavian wild</div></div>
+  <main id="main" class="home-room">
+    <section class="refuge-journey" data-refuge-journey aria-label="A walk into Cabin">
+  <div class="refuge-stage">
+    <div class="refuge-world" data-refuge-world aria-hidden="true"></div>
+    <div class="refuge-fallback" data-refuge-fallback>
+      <img src="assets/nordic/refuge.webp" alt="Cabin among Scandinavian mountains." width="1800" height="1200">
+    </div>
+    <div class="refuge-shade" aria-hidden="true"></div>
+    <div class="walk-copy" data-walk-copy="0" data-home-intro>
+      <p class="eyebrow">A local-first writing environment</p>
+      <h1 id="home-title">A quiet place<br>for stories <em>to grow.</em></h1>
+      <p>Leave the noise behind.<br>There’s a room here for your story.</p>
+      <a class="button quiet walk-start" href="#refuge-path">Walk towards the light <span aria-hidden="true">↓</span></a>
+    </div>
+    <div class="walk-copy" data-walk-copy="1" hidden>
+      <p class="eyebrow">01 / Across the water</p>
+      <h2>A little further<br>from the noise.</h2>
+      <p>Space to think. Time to find the next sentence.</p>
+    </div>
+    <div class="walk-copy walk-copy-small" data-walk-copy="2" hidden>
+      <p class="eyebrow">02 / At the threshold</p>
+      <h2>Make yourself<br>at home.</h2>
+      <p>No ceremony. No structure before you need it.</p>
+    </div>
+    <div class="walk-copy walk-copy-small" data-walk-copy="3" hidden>
+      <p class="eyebrow">03 / Just the page</p>
+      <h2>The world outside.<br>Your story within.</h2>
+      <p>Begin with the page. Let the rest arrive slowly.</p>
+    </div>
+    <div class="refuge-guide">
+      <div><span class="refuge-chapter" data-refuge-chapter>Approach / 01</span><span class="refuge-track" aria-hidden="true"><i data-refuge-progress></i></span></div>
+      <p data-refuge-hint>Scroll to find your way in</p>
+      <a href="#room-assembles">Skip to the writing room <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+  <span id="refuge-path" class="refuge-path-anchor" aria-hidden="true"></span>
 </section>
-<section id="the-idea" class="n-intro n-wrap"><div class="n-label">01 / Leave the noise outside</div><div><h2>You came here to write.<br>Everything else can wait.</h2><p>Not every thought needs a dashboard. Not every story needs a system. Cabin starts with the quiet of a blank page, then makes room for the things your story asks for.</p><a href="philosophy.html" class="n-link">The thinking behind Cabin <span aria-hidden="true">↗</span></a></div></section>
-<section id="writing-room" class="n-room n-wrap" aria-labelledby="room-title">
- <header class="n-section-top"><div><p class="n-label">02 / Make yourself at home</p><h2 id="room-title">A room that grows<br>with your story.</h2></div><p>Try the small study below. Invite a little structure in, at your own pace.</p></header>
- <div class="n-workspace"><div class="n-room-tabs" role="group" aria-label="Explore the writing room"><p class="n-label">The Ash Valley</p><button type="button" data-room-mode="0" aria-pressed="true"><span>01</span>Just the page</button><button type="button" data-room-mode="1" aria-pressed="false"><span>02</span>A little structure</button><button type="button" data-room-mode="2" aria-pressed="false"><span>03</span>A wider world</button><small>An interactive design study.<br>Cabin is still in product design.</small></div>
- <div class="n-draft-stage"><article class="n-draft"><p class="n-label" data-draft-label>Chapter one</p><h3>The first morning<br>arrived quietly.</h3><p>The mountain kept its secrets beneath a white fold of weather. Elian waited by the cold stove, listening for the bell that only rang when someone crossed the old bridge.</p><p>When it came, the sound was small and silver. Not a warning. Not yet.</p><i class="n-caret" aria-hidden="true"></i></article><aside class="n-margin" hidden data-room-note><span class="n-label" data-note-label>In the margin</span><strong data-note-title></strong><p data-note-copy></p></aside></div></div>
- <div class="n-room-caption"><p aria-live="polite" data-room-caption>Only the page. Enough room to hear the next sentence.</p><span>DESIGN STUDY / 01—03</span></div>
-</section>
-<section class="n-values n-wrap" aria-label="The foundations of Cabin"><article class="n-value"><span>01 / Space</span><h3>Quiet by default.</h3><p>Chapters, research and timelines have a place. They enter only when the manuscript needs them.</p></article><article class="n-value"><span>02 / Ownership</span><h3>Your words. Your files.</h3><p>Local folders, readable Markdown and open exports. Your writing should remain yours when the app is closed.</p></article><article class="n-value"><span>03 / Voice</span><h3>A human at the centre.</h3><p>AI may help you question a sentence. It never writes it for you. The voice on the page stays human.</p></article></section>
-<section class="n-closing"><div class="n-closing-art"><img src="assets/nordic/workbench.webp" width="1200" height="1200" alt="A Blender-crafted oak desk with manuscript pages, books, a ceramic cup and a green reading lamp." loading="lazy"></div><div><p class="n-label">03 / The light is on</p><h2>Built slowly.<br>With intention.</h2><p>Cabin is in product design. I’m working out its workflows, file model and interface before development begins. You can follow along as the room takes shape.</p><a href="blog.html" class="n-link">Notes from the workbench <span aria-hidden="true">↗</span></a></div></section>
-</main>
 
-<footer class="n-footer"><a href="index.html">Cabin · A quiet place for stories to grow.</a><div class="n-footer-links"><a href="philosophy.html">Philosophy</a><a href="blog.html">Journal</a><a href="about.html">Meet the maker ↗</a></div><span>Made with intention.</span></footer>
-<script src="js/nordic.js" defer></script>
+    <section class="room-assembly" id="room-assembles" data-room-assembly aria-label="How Cabin grows with a story">
+      <div class="room-stage">
+        <div class="assembly-heading" aria-live="polite">
+          <span>01 / 04</span>
+          <p>Begin with only the page.</p>
+        </div>
+        <div class="cabin-workspace" data-assembly-stage="0" aria-hidden="true">
+          <div class="workspace-glow"></div>
+          <div class="workspace-shell">
+            <div class="workspace-topbar"><i></i><i></i><i></i><span>The Ash Valley</span></div>
+            <div class="workspace-rail assembly-layer" data-layer="rail">
+              <small>Part I</small>
+              <b>The Ash Valley</b>
+              <span>The Lantern Road</span>
+              <span>Under the North Gate</span>
+            </div>
+            <article class="workspace-page">
+              <small>Chapter One</small>
+              <h3>The first morning arrived quietly.</h3>
+              <p>The mountain kept its secrets beneath a white fold of weather. Elian waited by the cold stove, listening for the bell that only rang when someone crossed the old bridge.</p>
+              <p>When it came, the sound was small and silver. Not a warning. Not yet.</p>
+              <i></i>
+            </article>
+            <aside class="workspace-note assembly-layer" data-layer="note">
+              <small>Character note</small>
+              <strong>Elian Voss</strong>
+              <span><b>Role</b> Watchtower keeper</span>
+              <span><b>Object</b> Brass key</span>
+              <span><b>Question</b> Why does the bridge bell answer him?</span>
+            </aside>
+            <div class="workspace-time assembly-layer" data-layer="time">
+              <div class="timeline-spine"><i></i></div>
+              <div class="timeline-event is-current">
+                <b>01</b><i></i><small>Current chapter</small><span>The Bridge Bell</span>
+              </div>
+              <div class="timeline-event">
+                <b>07</b><i></i><small>Turning point</small><span>Bridge Collapse</span>
+              </div>
+              <div class="timeline-event">
+                <b>12</b><i></i><small>Later event</small><span>Watchtower Signal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="assembly-steps">
+        <article class="assembly-step is-active" data-room-step="0">
+          <span>01</span>
+          <h2>Begin with only the page.</h2>
+          <p>The writing surface is quiet first. No chrome, no ceremony, no structure before it has earned a place.</p>
+        </article>
+        <article class="assembly-step" data-room-step="1">
+          <span>02</span>
+          <h2>Let chapters appear beside it.</h2>
+          <p>A quiet rail is drawn on the left when the draft needs shape and sequence.</p>
+        </article>
+        <article class="assembly-step" data-room-step="2">
+          <span>03</span>
+          <h2>Keep character notes close.</h2>
+          <p>A margin note opens on the right, near enough to guide the scene without taking over.</p>
+        </article>
+        <article class="assembly-step" data-room-step="3">
+          <span>04</span>
+          <h2>Trace the world underneath.</h2>
+          <p>A fantasy timeline settles below the manuscript, keeping the larger world visible at the edge.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-principles" aria-labelledby="principles-title">
+      <header class="principles-prologue">
+        <p class="eyebrow">Why Cabin exists</p>
+        <h2 id="principles-title">Most writing software asks you to manage the tool before you can hear the sentence.</h2>
+        <p>Cabin is built against that interruption. Structure is useful. Ownership matters. Assistance can help. But the writing must stay in the center of the room.</p>
+      </header>
+      <div class="principle-windows">
+        <article class="principle-window" data-tilt-card>
+          <span>01 / Manuscript</span><h3>Writing comes first.</h3>
+          <p>The manuscript remains central. Everything else is furniture around the work.</p>
+          <i aria-hidden="true">Aa</i>
+        </article>
+        <article class="principle-window" data-tilt-card>
+          <span>02 / Structure</span><h3>Complexity is invited, never imposed.</h3>
+          <p>Panels arrive slowly, only when the story asks for structure.</p>
+          <i aria-hidden="true">+</i>
+        </article>
+        <article class="principle-window" data-tilt-card>
+          <span>03 / Ownership</span><h3>Your work stays yours.</h3>
+          <p>Local folders, readable files and open exports keep ownership visible.</p>
+          <i aria-hidden="true">↘</i>
+        </article>
+        <article class="principle-window" data-tilt-card>
+          <span>04 / Quiet</span><h3>Calm before clever.</h3>
+          <p>Cabin should feel like a room prepared for thought, not a machine demanding management.</p>
+          <i aria-hidden="true">○</i>
+        </article>
+        <article class="principle-window" data-tilt-card>
+          <span>05 / Editor</span><h3>AI may question the work. It does not author it.</h3>
+          <p>It can notice grammar, pacing and continuity. The voice stays human.</p>
+          <i aria-hidden="true">?</i>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-status" aria-labelledby="status-title">
+      <div class="status-blueprint" aria-hidden="true">
+        <div class="blueprint-board">
+          <header><span>Cabin / Product definition</span><b>04</b></header>
+          <svg viewBox="0 0 600 420" preserveAspectRatio="none">
+            <path class="blueprint-grid" d="M100 0V420M200 0V420M300 0V420M400 0V420M500 0V420M0 84H600M0 168H600M0 252H600M0 336H600"/>
+            <path class="blueprint-route" d="M86 210 C155 210 158 116 232 116 S318 304 384 304 S454 210 522 210"/>
+            <circle cx="86" cy="210" r="9"/><circle cx="232" cy="116" r="9"/><circle cx="384" cy="304" r="9"/><circle cx="522" cy="210" r="9"/>
+          </svg>
+          <div class="blueprint-label label-workflow"><small>01</small><strong>Workflows</strong><span>How writing moves</span></div>
+          <div class="blueprint-label label-files"><small>02</small><strong>File model</strong><span>How work stays yours</span></div>
+          <div class="blueprint-label label-interface"><small>03</small><strong>Interface</strong><span>How the room responds</span></div>
+          <footer><i></i><span>Defining before developing</span></footer>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow">The project today</p>
+        <h2 id="status-title">Cabin is currently in product design.</h2>
+        <p>Its workflows, file model and interface are being defined before development begins.</p>
+        <nav class="inline-links" aria-label="Learn more about Cabin">
+          <a href="philosophy.html">Philosophy</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="blog.html">Blog</a>
+        </nav>
+      </div>
+    </section>
+
+    <section class="home-coda" aria-label="Cabin design aim">
+      <div class="coda-door" aria-hidden="true"><span></span></div>
+      <p>The software should disappear,<br><em>leaving only the story.</em></p>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+  <script src="js/experiences.js"></script>
+<script type="module" src="js/walkthrough.js"></script>
 </body>
 </html>

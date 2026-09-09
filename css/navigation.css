@@ -1,0 +1,57 @@
+/* Roadmap's fixed glass navigation, shared without page-specific overrides. */
+body[data-page] .site-header,
+body[data-page] .site-header.scenic-nav {
+  position: fixed; inset: 0 0 auto; z-index: 220;
+  display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+  min-height: 82px; gap: 24px; padding: 15px clamp(20px,4vw,52px);
+  font-family: "Geist",system-ui,sans-serif; line-height: 1.55;
+  background: linear-gradient(180deg,rgba(248,249,246,.70),rgba(248,249,246,.30));
+  border: 0; border-bottom: 1px solid rgba(216,222,216,.46);
+  box-shadow: 0 14px 38px rgba(54,67,58,.06);
+  -webkit-backdrop-filter: blur(18px) saturate(1.06);
+  backdrop-filter: blur(18px) saturate(1.06);
+}
+body[data-page] .site-header.is-scrolled {
+  background: rgba(248,249,246,.86); border-bottom-color: rgba(216,222,216,.68);
+  box-shadow: var(--shadow-soft);
+}
+body[data-page] .site-header .brand {
+  display: inline-flex; align-items: center; gap: 12px; flex: 0 0 auto;
+  width: max-content; font-size: 1.18rem; font-weight: 650; letter-spacing: -.025em;
+}
+body[data-page] .site-header .brand img.brand-mark {
+  width:48px; height:48px; padding:0; border:0; border-radius:0;
+  background:transparent; box-shadow:none; object-fit:contain; mix-blend-mode:normal;
+}
+body[data-page] .site-nav {display:flex; align-items:center; flex:0 1 auto; width:auto; gap:6px; overflow:visible; padding:0}
+body[data-page] .site-nav a {
+  flex:0 0 auto; min-height:44px; padding:9px 15px; font-size:1.02rem;
+  font-weight:500; border:1px solid transparent; border-radius:999px; color:var(--secondary);
+}
+body[data-page] .site-nav a:hover, body[data-page] .site-nav a[aria-current=page] {
+  background:rgba(252,252,250,.66); border-color:rgba(216,222,216,.72); color:var(--text);
+}
+body[data-page] .button {
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  border-radius:999px; min-height:48px; padding:0 18px; font-weight:650; cursor:pointer;
+}
+body[data-page] .button.primary {background:var(--text); border:1px solid var(--text); color:var(--elevated); box-shadow:0 12px 28px rgba(32,37,34,.12)}
+body[data-page] .button.quiet {background:rgba(252,252,250,.72); border:1px solid var(--outline); color:var(--text)}
+@media(max-width:760px) {
+  body[data-page] .site-header,body[data-page] .site-header.scenic-nav {
+    min-height:122px; flex-direction:column; align-items:flex-start; gap:10px;
+  }
+  body[data-page] .site-nav {width:100%; justify-content:flex-start; overflow-x:auto; padding-bottom:3px}
+}
+
+/* Roadmap's wordmark uses the Georgia fallback; keep it identical here. */
+body[data-page] .site-header .brand span {font-family:Georgia,serif}
+@media(max-width:760px){
+  body[data-page] .site-nav {gap:4px}
+  body[data-page] .site-nav a {font-size:.82rem;padding:9px 8px}
+}
+@media(max-width:360px){
+  body[data-page] .site-nav a {font-size:.75rem;padding-inline:5px}
+}
+
+@media(max-width:360px){body[data-page] .site-nav{gap:2px}body[data-page] .site-nav a{padding-inline:4px}}

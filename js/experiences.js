@@ -48,7 +48,13 @@
 
     if (steps.length) {
       setStep(0);
-      if ("IntersectionObserver" in window) {
+      if (!reduced && window.gsap && window.ScrollTrigger) {
+        window.gsap.registerPlugin(window.ScrollTrigger);
+        steps.forEach((step,index) => window.ScrollTrigger.create({
+          trigger:step, start:"top center", end:"bottom center",
+          onEnter:() => setStep(index), onEnterBack:() => setStep(index)
+        }));
+      } else if ("IntersectionObserver" in window) {
         const observer = new IntersectionObserver((entries) => {
           const centered = entries
             .filter((entry) => entry.isIntersecting)
@@ -84,7 +90,7 @@
         stagger: .09,
         ease: "power3.out"
       });
-      window.gsap.from(".writing-desk", {
+      if (desk) window.gsap.from(".writing-desk", {
         autoAlpha: 0,
         y: 45,
         duration: 1.35,
@@ -437,7 +443,17 @@
         });
 
         let targetX = 0, targetY = 0, pointerX = 0, pointerY = 0, focusY = drawerY[0], frame = 0;
-        selectDrawer = (index) => { selected = index; };
+        selectDrawer = (index) => {
+          selected = index;
+          if (reduced) {
+            focusY = drawerY[index];
+            drawers.forEach((drawer, i) => { drawer.position.z = i === index ? 1.95 : .12; });
+            requestAnimationFrame(() => {
+              camera.lookAt(0, focusY * .16, 0);
+              renderer.render(scene, camera);
+            });
+          }
+        };
         select(selected);
         const resize = () => {
           const rect = stage.getBoundingClientRect();

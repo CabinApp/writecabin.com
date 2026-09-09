@@ -17,23 +17,36 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/css/nordic.css">
+  <link rel="stylesheet" href="/css/navigation.css">
 </head>
 <body data-page="404">
   <div class="paper-grain" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header" data-header>
-    <a class="brand" href="/index.html" aria-label="Cabin home"><img src="/assets/logo.png" alt="" class="brand-mark"><span>Cabin</span></a>
-    <nav class="site-nav" aria-label="Primary navigation">
-      <a href="/index.html">Home</a>
-      <a href="/philosophy.html">Philosophy</a>
-      <a href="/blog.html">Blog</a>
-      <a href="/roadmap.html">Roadmap</a>
-      <a href="/about.html">About</a>
-    </nav>
-  </header>
-<main id="main" class="nordic-main"><section class="n-lost" aria-labelledby="lost-title"><div class="n-landscape" aria-hidden="true"><img src="/assets/nordic/refuge.webp" width="1800" height="1200" alt=""></div><div class="n-lost-copy"><div class="n-lost-number" aria-hidden="true">404</div><p class="n-label">A quiet wrong turn</p><h1 id="lost-title">This path got<br>lost in the fog.</h1><p>The page you’re looking for isn’t here. Stay a moment, find your bearings, then follow the light home.</p><div class="n-lost-actions"><button type="button" class="n-lantern" aria-pressed="false" data-lantern>Light the lantern</button><a href="/index.html" class="n-button">Back to Cabin <span aria-hidden="true">↗</span></a></div><p class="n-lost-message" data-lantern-message aria-live="polite">Even a wrong turn can be a quiet moment.</p></div><div class="n-lost-path"><span>Off the map / 404</span><span>There’s always a way home</span></div></section></main>
-
-<script src="/js/nordic.js" defer></script>
+  <header class="site-header scenic-nav" data-header>
+            <a class="brand" href="/index.html" aria-label="Cabin home"
+                ><img src="/assets/logo.png" alt="" class="brand-mark" /><span>Cabin</span></a
+            >
+            <nav class="site-nav" aria-label="Primary navigation">
+                <a href="/index.html">Home</a>
+                <a href="/philosophy.html">Philosophy</a>
+                <a href="/blog.html">Blog</a>
+                <a href="/roadmap.html">Roadmap</a>
+                <a href="/about.html">About</a>
+            </nav>
+        </header>
+  <main id="main">
+    <section class="not-found">
+      <div class="not-found-panel">
+        <p class="eyebrow">A quiet wrong turn</p>
+        <h1>404</h1>
+        <p>This path disappears into fog. The manuscript is safe; the page simply is not here.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="/index.html">Return home</a>
+          <a class="button quiet" href="/roadmap.html">See what is being built</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,47 @@
+/* A real camera journey; the manuscript remains the next chapter. */
+.home-room {overflow:clip}
+.refuge-journey {position:relative;min-height:100svh;background:#e6ece6}
+.refuge-journey.is-live {height:450svh}
+.refuge-stage {position:sticky;top:0;height:100svh;min-height:650px;isolation:isolate;overflow:hidden}
+.refuge-world,.refuge-fallback,.refuge-shade {position:absolute;inset:0}
+.refuge-world {z-index:-3}.refuge-world canvas{display:block;width:100%;height:100%}
+.refuge-fallback {z-index:-2;background:#e6ece6}.refuge-fallback img{width:100%;height:100%;object-fit:cover}
+.refuge-journey.is-live .refuge-fallback {display:none}
+.refuge-shade {z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(241,244,240,.93),rgba(241,244,240,.64) 28%,transparent 66%),linear-gradient(0deg,rgba(241,244,240,.92),transparent 18%)}
+.walk-copy {position:absolute;left:clamp(24px,6vw,96px);top:50%;transform:translateY(-45%);width:min(43%,620px)}
+.walk-copy[hidden]{display:none}
+.walk-copy h1,.walk-copy h2 {font-size:clamp(3.6rem,6.5vw,6.7rem);line-height:.98;letter-spacing:-.055em}
+.walk-copy h1 em{font-weight:400;color:var(--accent-active)}
+.walk-copy>p:not(.eyebrow) {font-family:"Lora",Georgia,serif;max-width:28ch;margin-top:28px;line-height:1.65;font-size:clamp(1rem,1.5vw,1.25rem);color:#536257}
+.walk-start {margin-top:30px}
+.walk-copy-small h2{font-size:clamp(3rem,5vw,5rem)}
+.refuge-guide {position:absolute;bottom:25px;left:clamp(24px,4vw,52px);right:clamp(24px,4vw,52px);display:flex;align-items:center;justify-content:space-between;gap:24px}
+.refuge-guide>div{display:grid;gap:12px;width:170px}
+.refuge-guide p,.refuge-guide a,.refuge-chapter{font-size:.7rem;color:#506457;letter-spacing:.04em}
+.refuge-guide a{padding:10px 0;border-bottom:1px solid #9ba99e}
+.refuge-track{display:block;height:1px;background:#9ba99e70;width:100%}.refuge-track i{display:block;height:1px;background:#506457;transform:scaleX(0);transform-origin:left}
+.refuge-path-anchor{position:absolute;top:80vh}
+.refuge-journey[data-phase="3"] .refuge-shade{background:linear-gradient(90deg,rgba(241,244,240,.94),rgba(241,244,240,.7) 28%,transparent 63%)}
+.refuge-journey.is-static {height:auto}
+.refuge-journey.is-static .walk-start {display:none}
+#room-assembles{scroll-margin-top:82px}
+@media(max-width:760px){
+ .refuge-stage{min-height:700px}
+ .walk-copy{top:180px;transform:none;width:88%;left:6%}
+ .walk-copy h1,.walk-copy h2{font-size:clamp(2.8rem,11vw,4.2rem);max-width:12ch}
+ .walk-copy>p:not(.eyebrow){font-size:.93rem;margin-top:20px;max-width:30ch}
+ .walk-copy .eyebrow{font-size:.6rem}
+ .walk-start{margin-top:20px}
+ .refuge-shade{background:linear-gradient(180deg,#f1f4f0 15%,rgba(241,244,240,.85) 28%,transparent 66%,rgba(241,244,240,.94) 98%)}
+ .refuge-journey[data-phase="3"] .refuge-shade{background:linear-gradient(180deg,rgba(241,244,240,.96) 16%,rgba(241,244,240,.77) 34%,transparent 65%,rgba(241,244,240,.94) 98%)}
+ .refuge-guide{left:6%;right:6%;bottom:18px;gap:20px}.refuge-guide p{display:none}.refuge-guide>div{width:90px}
+ .refuge-guide a,.refuge-chapter{font-size:.62rem}
+ .room-stage{top:136px;height:45svh}
+ .assembly-heading{top:20px}
+ .cabinet-sticky{top:136px;height:45svh}
+ #room-assembles{scroll-margin-top:136px}
+}
+@media(prefers-reduced-motion:reduce){
+ .refuge-journey.is-live{height:100svh}.refuge-stage{position:relative}
+ .refuge-guide p{display:none}
+}
