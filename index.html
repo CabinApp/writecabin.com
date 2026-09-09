@@ -11,30 +11,30 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://writecabin.com/">
   <meta property="og:image" content="https://writecabin.com/assets/logo.png">
-  <link rel="icon" type="image/png" href="assets/logo.png">
-  <link rel="apple-touch-icon" href="assets/logo.png">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+  <link rel="apple-touch-icon" href="/assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="css/experiences.css">
-  <link rel="stylesheet" href="css/navigation.css">
-<link rel="stylesheet" href="css/walkthrough.css">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/css/experiences.css">
+  <link rel="stylesheet" href="/css/navigation.css">
+<link rel="stylesheet" href="/css/walkthrough.css">
 <noscript><style>body{opacity:1}.walk-start{display:none}</style></noscript>
 </head>
 <body data-page="home">
   <div class="paper-grain" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header scenic-nav" data-header>
-            <a class="brand" href="index.html" aria-label="Cabin home"
-                ><img src="assets/logo.png" alt="" class="brand-mark" /><span>Cabin</span></a
+            <a class="brand" href="/" aria-label="Cabin home"
+                ><img src="/assets/logo.png" alt="" class="brand-mark" /><span>Cabin</span></a
             >
             <nav class="site-nav" aria-label="Primary navigation">
-                <a href="index.html" aria-current="page">Home</a>
-                <a href="philosophy.html">Philosophy</a>
-                <a href="blog.html">Blog</a>
-                <a href="roadmap.html">Roadmap</a>
-                <a href="about.html">About</a>
+                <a href="/" aria-current="page">Home</a>
+                <a href="/philosophy">Philosophy</a>
+                <a href="/blog">Blog</a>
+                <a href="/roadmap">Roadmap</a>
+                <a href="/about">About</a>
             </nav>
         </header>
 
@@ -43,7 +43,7 @@
   <div class="refuge-stage">
     <div class="refuge-world" data-refuge-world aria-hidden="true"></div>
     <div class="refuge-fallback" data-refuge-fallback>
-      <img src="assets/nordic/refuge.webp" alt="Cabin among Scandinavian mountains." width="1800" height="1200">
+      <img src="/assets/nordic/refuge.webp" alt="Cabin among Scandinavian mountains." width="1800" height="1200">
     </div>
     <div class="refuge-shade" aria-hidden="true"></div>
     <div class="walk-copy" data-walk-copy="0" data-home-intro>
@@ -201,9 +201,9 @@
         <h2 id="status-title">Cabin is currently in product design.</h2>
         <p>Its workflows, file model and interface are being defined before development begins.</p>
         <nav class="inline-links" aria-label="Learn more about Cabin">
-          <a href="philosophy.html">Philosophy</a>
-          <a href="roadmap.html">Roadmap</a>
-          <a href="blog.html">Blog</a>
+          <a href="/philosophy">Philosophy</a>
+          <a href="/roadmap">Roadmap</a>
+          <a href="/blog">Blog</a>
         </nav>
       </div>
     </section>
@@ -214,11 +214,19 @@
     </section>
   </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-  <script src="script.js"></script>
-  <script src="js/experiences.js"></script>
-<script type="module" src="js/walkthrough.js"></script>
+
+
+
+
+
+
+<template data-page-scripts>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="/script.js"></script>
+<script src="/js/experiences.js"></script>
+<script type="module" src="/js/walkthrough.js"></script>
+</template>
+<script type="module" src="/js/router.js"></script>
 </body>
 </html>

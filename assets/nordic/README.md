@@ -1,6 +1,6 @@
 # Cabin's scroll walkthrough
 
-The Home journey uses `refuge-walkthrough.glb`, built in Blender through Blender MCP. A GSAP ScrollTrigger drives the camera from the mountains, across the boardwalk, through sliding doors, and into the writing room. The original software mockup and About drawer sequence follow the existing scroll interaction model.
+The Home journey uses `refuge-walkthrough.glb`, built in Blender through Blender MCP. A GSAP ScrollTrigger drives the camera from the mountains, across the boardwalk, through sliding doors, and into the writing room. The original software mockup follows the existing scroll interaction model.
 
 ## Assets and source
 
@@ -28,6 +28,8 @@ python -c "from PIL import Image; Image.open('assets/nordic/refuge-supported.png
 
 `js/walkthrough.js` and `css/walkthrough.css` integrate the live Home journey. Rendering happens on scroll or resize and pauses off screen. Reduced motion uses a static camera without the long scroll sequence. Loading or WebGL failure leaves the still and the direct writing-room link available.
 
-Blog, Philosophy and 404 retain their original main content and interactions. About retains the original scroll-controlled drawers, with mobile height adjusted to leave room for its text. The original Home mockup reveals its chapter rail, character notes and timeline through GSAP.
+Blog and Philosophy retain their original main content and interactions. About uses maker-desk.glb: an oak desk, notebook and pen, laptop, and typewriter. Scroll moves the camera to each surface; canvas textures put readable biography text directly on the pages and screen. The laptop illuminates as the camera approaches. Reduced motion and WebGL failure expose the semantic text transcript. The original Home mockup reveals its chapter rail, character notes and timeline through GSAP.
 
 The local Three.js 0.160.0 files retain their license in `js/vendor/THREE-LICENSE.txt`. PNG intermediates and Blender backups are ignored by Git.
+
+The desk source is `maker-desk.blend`, generated through Blender MCP with `build_maker_desk.py`. Rebuild using `blender --background --python assets/nordic/build_maker_desk.py`. `maker-desk.webp` is its fallback render.

@@ -1,11 +1,13 @@
 import * as T from './vendor/three.module.js';
 import { GLTFLoader } from './vendor/GLTFLoader.js';
 
+export async function mount(scope) {
 const host = document.querySelector('[data-refuge-world]');
 const journey = document.querySelector('[data-refuge-journey]');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches ||
   new URLSearchParams(location.search).has('reduced-motion');
 const clamp = T.MathUtils.clamp;
+let sceneModel, visibilityObserver;
 let renderer, trigger, resizeObserver, frame = 0, visible = true, failed = false;
 let draw = () => {};
 const progress = { value: 0 };
@@ -15,7 +17,7 @@ function staticFallback() {
   resizeObserver?.disconnect();
   trigger?.kill();
   cancelAnimationFrame(frame);
-  renderer?.dispose();
+  renderer?.dispose();renderer?.forceContextLoss();
   renderer?.domElement.remove();
   journey.classList.remove('is-live');
   journey.classList.add('is-static');
@@ -24,7 +26,7 @@ function staticFallback() {
   window.ScrollTrigger?.refresh();
 }
 
-async function mount() {
+async function mountWorld() {
   try {
     renderer = new T.WebGLRenderer({antialias:true,powerPreference:'low-power'});
     renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 760 ? 1.25 : 1.5));
@@ -47,7 +49,9 @@ async function mount() {
     scene.add(sun);
     const roomLight = new T.PointLight(0xffd9a1,7,6,2);
     roomLight.position.set(3,2.5,-.5); scene.add(roomLight);
-    const model = (await new GLTFLoader().loadAsync('assets/nordic/refuge-walkthrough.glb')).scene;
+    const model = (await new GLTFLoader().loadAsync('/assets/nordic/refuge-walkthrough.glb')).scene;
+    sceneModel=model;
+    if(!scope.active){model.traverse(o=>o.geometry?.dispose());return;}
     model.traverse(obj => {
       if (!obj.isMesh) return;
       obj.castShadow = true; obj.receiveShadow = true;
@@ -73,7 +77,7 @@ async function mount() {
     let phase=-1;
     draw = () => {
       frame=0;
-      if (failed || !visible || document.hidden) return;
+      if (!scope.active || failed || !visible || document.hidden) return;
       const p=clamp(progress.value,0,1), scaled=p*4;
       const index=Math.min(3,Math.floor(scaled)), t=T.MathUtils.smoothstep(scaled-index,0,1);
       camera.position.lerpVectors(positions[index],positions[index+1],t);
@@ -106,11 +110,11 @@ async function mount() {
       camera.updateProjectionMatrix(); schedule();
     };
     resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);resize();
-    new IntersectionObserver(entries=>{
+    visibilityObserver=new IntersectionObserver(entries=>{
       visible=entries[0].isIntersecting;if(visible)schedule();
-    }).observe(journey);
-    document.addEventListener('visibilitychange',schedule);
-    renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();staticFallback();});
+    });visibilityObserver.observe(journey);
+    scope.listen(document,'visibilitychange',schedule);
+    scope.listen(renderer.domElement,'webglcontextlost',event=>{event.preventDefault();staticFallback();});
     if(!reduced && window.gsap && window.ScrollTrigger){
       window.gsap.registerPlugin(window.ScrollTrigger);
       const tween=window.gsap.to(progress,{value:1,ease:'none',onUpdate:schedule,
@@ -123,6 +127,12 @@ async function mount() {
       document.querySelector('[data-refuge-hint]').textContent='A quiet place to begin';
     }
     draw();
-  } catch { staticFallback(); }
+  } catch { if(scope.active)staticFallback(); }
 }
-if(host && journey) mount();
+scope.onCleanup(()=>{
+ failed=true;cancelAnimationFrame(frame);trigger?.kill();resizeObserver?.disconnect();visibilityObserver?.disconnect();
+ sceneModel?.traverse(o=>{o.geometry?.dispose();for(const m of [].concat(o.material||[]))m.dispose();});
+ renderer?.dispose();renderer?.forceContextLoss();
+});
+if(host && journey) await mountWorld();
+}

@@ -1,7 +1,10 @@
+window.CabinPageScripts ||= {};
+window.CabinPageScripts.shared = (scope) => {
+  const {window,document,addEventListener,removeEventListener,requestAnimationFrame,cancelAnimationFrame,setTimeout,clearTimeout,setInterval,clearInterval,fetch,IntersectionObserver,ResizeObserver,MutationObserver} = scope.env;
 const forcedReducedMotion = new URLSearchParams(window.location.search).has('reduced-motion');
 const prefersReducedMotion = forcedReducedMotion || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const header = document.querySelector('[data-header]');
-const blogManifestPath = 'blog/index.json';
+const blogManifestPath = '/blog/index.json';
 const workspaceSequence = document.querySelector('[data-workspace-sequence]');
 const workspaceSticky = document.querySelector('.workspace-sticky');
 const stageCopy = document.querySelector('[data-stage-copy]');
@@ -36,19 +39,6 @@ initImageLoading();
 initAboutExperience();
 initMotionLibraries();
 initPhilosophyDeck();
-
-if (window.location.pathname.endsWith('/') || window.location.pathname.endsWith('index.html')) {
-    const params = new URLSearchParams(window.location.search);
-    const page = params.get('page');
-    if (page && page !== 'home') {
-        const map = {
-            philosophy: 'philosophy.html',
-            blog: 'blog.html',
-            roadmap: 'roadmap.html',
-        };
-        if (map[page]) window.location.replace(map[page]);
-    }
-}
 
 let ticking = false;
 
@@ -106,24 +96,13 @@ document.addEventListener('click', async (event) => {
         return;
     }
 
-    const link = event.target.closest('a[href]');
-    if (!link || prefersReducedMotion) return;
-    const url = new URL(link.href, window.location.href);
-    const isInternal = url.origin === window.location.origin && !link.hash && link.target !== '_blank';
-    if (!isInternal) return;
-    event.preventDefault();
-    document.body.classList.add('page-leaving');
-    window.setTimeout(() => {
-        window.location.href = link.href;
-    }, 180);
+
 });
 
 const blogList = document.querySelector('[data-blog-list]');
 let articleMount = document.querySelector('[data-article-mount]');
 
-if (blogList || articleMount) {
-    loadBlog();
-}
+const pendingBlog = (blogList || articleMount) ? loadBlog() : Promise.resolve();
 
 initReveals();
 initRoadmapPath();
@@ -132,8 +111,8 @@ updateScrollEffects();
 
 async function loadBlog() {
     const posts = await getPosts();
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get('post');
+    if (!scope.active) return;
+    const slug = location.pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1];
 
     if (slug) {
         const post = posts.find((item) => item.slug === slug);
@@ -211,7 +190,7 @@ function renderBlogList(posts) {
         posts
             .map(
                 (post, index) => `
-    <a class="blog-card" href="blog.html?post=${post.slug}" style="--note-tilt:${[-1.8, 1.3, -0.7, 1.9][index % 4]}deg">
+    <a class="blog-card" href="/blog/${encodeURIComponent(post.slug)}" style="--note-tilt:${[-1.8, 1.3, -0.7, 1.9][index % 4]}deg">
       <i class="blog-pin" aria-hidden="true"></i>
       <span class="blog-card-meta"><time datetime="${post.date}">${formatDate(post.date)}</time><span>${post.readingTime} min read</span></span>
       <span class="blog-card-copy">
@@ -311,6 +290,7 @@ async function renderArticle(post) {
         return;
     }
 
+    if (!scope.active) return;
     const content = stripFrontmatter(markdown);
     const parsed = window.marked ? marked.parse(content) : basicMarkdown(content);
 
@@ -321,10 +301,10 @@ async function renderArticle(post) {
     setMeta('description', post.excerpt || 'A Cabin blog post.');
     setMeta('og:title', `${post.title} - Cabin Blog`, true);
     setMeta('og:description', post.excerpt || 'A Cabin blog post.', true);
-    setCanonical(`https://writecabin.com/blog.html?post=${post.slug}`);
+    setCanonical(`https://writecabin.com/blog/${encodeURIComponent(post.slug)}`);
 
     articleMount.innerHTML = `
-    <a class="article-back-link" href="blog.html">
+    <a class="article-back-link" href="/blog">
       <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
       <span>Back to All Blogs</span>
     </a>
@@ -808,7 +788,7 @@ function initMotionLibraries() {
     if (window.gsap && window.ScrollTrigger) {
         gsap.registerPlugin(ScrollTrigger);
         if (document.body.dataset.page !== 'home') return;
-        gsap.from('.approach-copy', { opacity: 0, y: 42, duration: 1.2, ease: 'power4.out' });
+        if(document.querySelector('.approach-copy')) gsap.from('.approach-copy', { opacity: 0, y: 42, duration: 1.2, ease: 'power4.out' });
         // Workspace uses deterministic scroll math; ScrollTrigger caused uneven reverse playback.
         gsap.utils.toArray('.principle-moment').forEach((item) => {
             const copy = item.querySelector('div');
@@ -837,7 +817,7 @@ function initMotionLibraries() {
                     scrollTrigger: { trigger: '.disappear-scene', start: 'top 68%', once: true },
                 },
             );
-        gsap.fromTo(
+        if(document.querySelector('.today-panel')) gsap.fromTo(
             '.today-panel',
             { opacity: 0, y: 48 },
             {
@@ -1225,3 +1205,6 @@ function initImageLoading() {
         image.addEventListener('error', markLoaded, { once: true });
     });
 }
+
+return pendingBlog;
+};

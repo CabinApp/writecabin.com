@@ -1,52 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page not found - Cabin</title>
-  <meta name="description" content="The requested Cabin page could not be found.">
-  <link rel="canonical" href="https://writecabin.com/404.html">
-  <meta property="og:title" content="Page not found - Cabin">
-  <meta property="og:description" content="This path disappears into fog. Return to Cabin.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://writecabin.com/404.html">
-  <meta property="og:image" content="https://writecabin.com/assets/logo.png">
-  <link rel="icon" type="image/png" href="/assets/logo.png">
-  <link rel="apple-touch-icon" href="/assets/logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/css/navigation.css">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="robots" content="noindex">
+ <meta name="description" content="A quiet wrong turn. Find your way back to Cabin.">
+ <title>404 — A quiet wrong turn · Cabin</title>
+ <link rel="icon" href="/assets/logo.png" type="image/png">
+ <link rel="stylesheet" href="/css/not-found.css">
 </head>
 <body data-page="404">
-  <div class="paper-grain" aria-hidden="true"></div>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header scenic-nav" data-header>
-            <a class="brand" href="/index.html" aria-label="Cabin home"
-                ><img src="/assets/logo.png" alt="" class="brand-mark" /><span>Cabin</span></a
-            >
-            <nav class="site-nav" aria-label="Primary navigation">
-                <a href="/index.html">Home</a>
-                <a href="/philosophy.html">Philosophy</a>
-                <a href="/blog.html">Blog</a>
-                <a href="/roadmap.html">Roadmap</a>
-                <a href="/about.html">About</a>
-            </nav>
-        </header>
-  <main id="main">
-    <section class="not-found">
-      <div class="not-found-panel">
-        <p class="eyebrow">A quiet wrong turn</p>
-        <h1>404</h1>
-        <p>This path disappears into fog. The manuscript is safe; the page simply is not here.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="/index.html">Return home</a>
-          <a class="button quiet" href="/roadmap.html">See what is being built</a>
-        </div>
-      </div>
-    </section>
-  </main>
-  <script src="/script.js"></script>
+ <main class="forest-error" id="main">
+  <div class="error-content">
+   <h1 class="sr-only">404 — Page not found</h1>
+   <svg class="forest-digits" viewBox="0 0 760 300" aria-hidden="true">
+    <defs><pattern id="woodgrain" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M0 4H12M0 10H12" stroke="#f1f4f0" stroke-width="1.5" opacity=".55"/></pattern></defs>
+    <g fill="none" stroke="#718b7c" stroke-width="21" stroke-linecap="round" stroke-linejoin="round">
+     <path d="M161 48L57 191H190M161 48V251"/>
+     <path d="M599 48L495 191H628M599 48V251" transform="translate(63 0)"/>
+     <path d="M381 41C328 41 301 78 301 150S328 260 381 260S461 222 461 150S434 41 381 41Z"/>
+    </g>
+    <g fill="none" stroke="#9aaa92" stroke-width="2" stroke-linecap="round">
+     <path d="M329 180L356 143L377 169L399 129L438 180M320 202Q373 179 443 204M324 214Q379 193 439 217"/>
+     <path d="M374 93L363 116H385ZM374 108L358 136H390ZM374 135V151"/>
+     <path d="M111 233L99 252H123ZM111 249V261M548 78L536 100H560ZM548 95L531 123H565ZM548 119V137"/>
+     <path d="M53 280Q192 266 257 280M498 280Q619 269 716 280"/>
+    </g>
+    <path d="M150 53L57 181H150Z" fill="url(#woodgrain)" opacity=".5"/>
+   </svg>
+   <p>A little off the trail.</p>
+   <nav aria-label="Find your way back"><a href="/">Back to Cabin <span aria-hidden="true">↗</span></a><button type="button" data-router-back>Go back <span aria-hidden="true">↶</span></button></nav>
+  </div>
+ </main>
+ <noscript><style>[data-router-back]{display:none}</style></noscript>
+<template data-page-scripts>
+
+</template>
+<script type="module" src="/js/router.js"></script>
 </body>
 </html>

@@ -65,6 +65,6 @@ I then moved towards the logo design. I don't know at the time of writing what t
 
 ## Cabin Is Now Defined
 
-After quite a bit of brainstorming, I finally defined a core problem I wanted to address, how I would address it, named Cabin, decided its [philosophy](https://writecabin.com/philosophy.html), and created a visual identity.
+After quite a bit of brainstorming, I finally defined a core problem I wanted to address, how I would address it, named Cabin, decided its [philosophy](https://writecabin.com/philosophy), and created a visual identity.
 
 Great! Now all I have to do is decide a bunch of stuff and actually make the thing :)

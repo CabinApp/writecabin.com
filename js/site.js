@@ -72,6 +72,7 @@ menu?.addEventListener('click', () => {
 });
 
 document.querySelectorAll('a[href]').forEach(link => link.addEventListener('click', event => {
+  if (window.CabinRouter) return;
   const href = link.getAttribute('href');
   if (!href || href.startsWith('#') || link.target === '_blank' || event.metaKey || event.ctrlKey) return;
   const target = new URL(link.href, location.href);

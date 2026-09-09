@@ -1,4 +1,7 @@
-(() => {
+window.CabinPageScripts ||= {};
+window.CabinPageScripts.experiences = (scope) => {
+  const {window,document,addEventListener,removeEventListener,requestAnimationFrame,cancelAnimationFrame,setTimeout,clearTimeout,setInterval,clearInterval,fetch,IntersectionObserver,ResizeObserver,MutationObserver} = scope.env;
+
   "use strict";
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
@@ -730,4 +733,4 @@
     }
     render();
   }
-})();
+};
