@@ -2244,6 +2244,7 @@ p {
 
     .article-shell {
         max-width: calc(100vw - 28px);
+        padding-top: 0;
     }
 
     .article-content {
