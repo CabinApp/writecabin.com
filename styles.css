@@ -1929,7 +1929,8 @@ p {
 }
 
 .article-shell {
-    max-width: min(1240px, calc(100vw - clamp(20px, 4vw, 48px)));
+    max-width: 880px;
+    width: min(100%, 880px);
 }
 
 .article-shell header {
@@ -3913,30 +3914,6 @@ body[data-page='roadmap'] .page-hero::after {
     }
 }
 
-@media (min-width: 1180px) {
-    .article-shell {
-        column-gap: clamp(16px, 2vw, 28px);
-        display: grid;
-        grid-template-columns: minmax(160px, 220px) minmax(0, 880px);
-        max-width: min(1240px, calc(100vw - clamp(20px, 4vw, 48px)));
-    }
-
-    .article-back-link {
-        align-self: start;
-        grid-column: 1;
-        grid-row: 1;
-        justify-self: end;
-        margin: 4px clamp(10px, 2vw, 24px) 0 0;
-        white-space: nowrap;
-    }
-
-    .article-shell header,
-    .article-content {
-        grid-column: 2;
-        margin-left: 0;
-        width: 100%;
-    }
-}
 .blog-card-meta {
     display: grid;
     gap: 8px;
