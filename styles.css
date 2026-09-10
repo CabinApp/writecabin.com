@@ -3907,6 +3907,12 @@ body[data-page='roadmap'] .page-hero::after {
     z-index: 12;
 }
 
+@media (max-width: 760px) {
+    .article-back-link {
+        top: 136px;
+    }
+}
+
 @media (min-width: 1180px) {
     .article-shell {
         column-gap: clamp(16px, 2vw, 28px);
