@@ -3910,7 +3910,7 @@ body[data-page='roadmap'] .page-hero::after {
 
 @media (max-width: 760px) {
     .article-back-link {
-        top: 136px;
+        top: 146px;
     }
 }
 
@@ -4205,7 +4205,8 @@ body.article-view {
 
 @media (max-width: 760px) {
     .article-progress {
-        top: 122px;
+        top: 136px;
+        z-index: 10;
     }
 }
 
