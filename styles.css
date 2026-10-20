@@ -4974,6 +4974,7 @@ body[data-page='blog']:not(.article-view) main {
 }
 .blog-board-section {
     max-width: 1360px;
+    padding-top: clamp(2rem, 4vw, 4rem);
     padding-bottom: clamp(6rem, 11vw, 10rem);
 }
 .blog-board {
