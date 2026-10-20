@@ -337,6 +337,8 @@ function enhanceArticle(path) {
     }
 
     articleProgressBar = articleMount.querySelector('[data-article-progress] span');
+    new ResizeObserver(updateArticleProgress).observe(articleMount);
+    window.addEventListener('resize', updateArticleProgress, { passive: true });
     enhanceCodeBlocks();
     enhanceArticleImages(path);
     requestAnimationFrame(() => {
@@ -375,9 +377,10 @@ function estimateReadingTime(markdown) {
 }
 
 function updateArticleProgress() {
-    if (!articleProgressBar || !document.body.classList.contains('article-view')) return;
-    const max = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) - window.innerHeight;
-    const progress = max > 0 ? clamp(window.scrollY / max, 0, 1) : 1;
+    if (!scope.active || !articleProgressBar || !document.body.classList.contains('article-view')) return;
+    const scroller = document.scrollingElement || document.documentElement;
+    const max = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+    const progress = max <= 1 || max - scroller.scrollTop <= 1 ? 1 : clamp(scroller.scrollTop / max, 0, 1);
     articleProgressBar.style.transform = `scaleX(${progress})`;
 }
 

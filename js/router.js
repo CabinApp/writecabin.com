@@ -101,7 +101,15 @@ async function styles(doc){
   }));
  }
  await Promise.all(waits);
- return ()=>document.querySelectorAll('link[rel="stylesheet"]').forEach(link=>{if(!desired.includes(link.href))link.remove()});
+ return ()=>{
+  const links=[...document.querySelectorAll('link[rel="stylesheet"]')];
+  links.forEach(link=>{if(!desired.includes(link.href))link.remove()});
+  // Shared styles must keep the same precedence as a direct page load.
+  for(const href of desired){
+   const link=links.find(link=>link.href===href);
+   if(link)document.head.append(link);
+  }
+ };
 }
 function metadata(doc,url){
  document.title=doc.title;
