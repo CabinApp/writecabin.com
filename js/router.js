@@ -4,8 +4,17 @@ import {routeMap} from './routes.js';
 const cache=new Map(),scripts=new Map(),scrolls=new Map();
 let scope,sequence=0,currentKey=history.state?.cabinKey||crypto.randomUUID(),currentPage=document.body.dataset.page;
 let currentURL=location.href;
+let headerObserver;
 history.scrollRestoration='manual';
 history.replaceState({...history.state,cabinKey:currentKey},'',location.href);
+
+function observeHeader(){
+ headerObserver?.disconnect();
+ const header=document.querySelector('[data-header]');
+ if(!header)return;
+ const measure=()=>document.documentElement.style.setProperty('--site-header-height',`${header.getBoundingClientRect().height}px`);
+ measure();headerObserver=new ResizeObserver(measure);headerObserver.observe(header);
+}
 
 function clean(input){
  const url=new URL(input,location.href);
@@ -126,7 +135,7 @@ async function navigate(input,{replace=false,pop=false,initial=false}={}){
   scope?.cleanup();scope=null;
   if(source){
    const body=document.importNode(doc.body,true);
-   body.querySelectorAll(':scope > script').forEach(script=>script.remove());
+   body.querySelectorAll(':scope > script:not([type="application/json"])').forEach(script=>script.remove());
    document.body.replaceWith(body);
    document.documentElement.className='';
    document.documentElement.style.scrollBehavior='';
@@ -138,6 +147,7 @@ async function navigate(input,{replace=false,pop=false,initial=false}={}){
   }
   currentKey=nextKey;currentURL=url.href;currentPage=record.page;
   document.body.classList.add('ready');
+  observeHeader();
   if(record.page!=='roadmap'){
    scope=new PageScope();
    await mountScripts(doc,token);

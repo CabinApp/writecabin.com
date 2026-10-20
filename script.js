@@ -121,6 +121,10 @@ async function loadBlog() {
             document.querySelector('.page-hero')?.remove();
             blogList?.closest('.blog-board-section')?.remove();
             document.body.classList.add('article-view');
+            if (articleMount.querySelector('.article-content')) {
+                enhanceArticle(post.path);
+                return;
+            }
             articleMount.classList.add('is-loading');
             await renderArticle(post);
             return;
@@ -142,32 +146,28 @@ function ensureArticleMount() {
 
 async function getPosts() {
     try {
-        const response = await fetch(blogManifestPath);
-        const manifest = await response.json();
+        const embedded = document.querySelector('[data-blog-posts]');
+        let manifest;
+        if (embedded) {
+            manifest = JSON.parse(embedded.textContent);
+        } else {
+            const response = await fetch(blogManifestPath);
+            if (!response.ok) throw new Error('Blog index unavailable');
+            manifest = await response.json();
+        }
         const manifestUrl = new URL(blogManifestPath, window.location.href);
 
-        const posts = await Promise.all(
-            manifest.posts.map(async (post) => {
-                const path = new URL(post.path, manifestUrl).href;
-                let content = '';
-                try {
-                    const markdownResponse = await fetch(path, { cache: 'no-cache' });
-                    if (markdownResponse.ok) content = await markdownResponse.text();
-                } catch {
-                    content = '';
-                }
-
-                return {
-                    title: post.title,
-                    date: post.date,
-                    excerpt: post.excerpt,
-                    path,
-                    content,
-                    readingTime: estimateReadingTime(content || post.excerpt || ''),
-                    slug: post.slug || post.path.split('/').pop().replace(/\.md$/, ''),
-                };
-            }),
-        );
+        const posts = manifest.posts.map((post) => {
+            const path = new URL(post.path, manifestUrl).href;
+            return {
+                title: post.title,
+                date: post.date,
+                excerpt: post.excerpt,
+                path,
+                readingTime: post.readingTime || 1,
+                slug: post.slug || post.path.split('/').pop().replace(/\.md$/, ''),
+            };
+        });
 
         return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
     } catch {
@@ -262,22 +262,20 @@ function initBlogBoard() {
 }
 
 async function renderArticle(post) {
-    let markdown = post.content || '';
+    const articles = window.CabinArticleCache ||= new Map();
+    let markdown = articles.get(post.path) || '';
 
     if (!markdown) {
         try {
-            const response = await fetch(post.path, {
-                cache: 'no-cache',
-            });
+            const response = await fetch(post.path);
 
-            if (response.ok) {
-                markdown = await response.text();
-            }
+            if (response.ok) markdown = await response.text();
         } catch {
             markdown = '';
         }
     }
 
+    if (!scope.active) return;
     if (!markdown) {
         articleMount.innerHTML = `
       <header>
@@ -291,6 +289,8 @@ async function renderArticle(post) {
     }
 
     if (!scope.active) return;
+    articles.set(post.path, markdown);
+    if (articles.size > 20) articles.delete(articles.keys().next().value);
     const content = stripFrontmatter(markdown);
     const parsed = window.marked ? marked.parse(content) : basicMarkdown(content);
 
@@ -304,10 +304,12 @@ async function renderArticle(post) {
     setCanonical(`https://writecabin.com/blog/${encodeURIComponent(post.slug)}`);
 
     articleMount.innerHTML = `
-    <a class="article-back-link" href="/blog">
-      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-      <span>Back to All Blogs</span>
-    </a>
+    <nav class="article-navigation" aria-label="Blog navigation">
+      <a class="article-back-link" href="/blog">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        <span>Back to All Blogs</span>
+      </a>
+    </nav>
 
     <header>
       <time class="article-date" datetime="${post.date}">${formatDate(post.date)}</time>
@@ -324,17 +326,22 @@ async function renderArticle(post) {
     <div class="article-content">${html}</div>
   `;
 
+    enhanceArticle(post.path);
+    revealArticleMount();
+}
+
+function enhanceArticle(path) {
+    articleMount.querySelector('[data-copy-post-link]')?.removeAttribute('hidden');
     if (window.hljs) {
         articleMount.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
     }
 
     articleProgressBar = articleMount.querySelector('[data-article-progress] span');
     enhanceCodeBlocks();
-    enhanceArticleImages(post.path);
+    enhanceArticleImages(path);
     requestAnimationFrame(() => {
         updateArticleProgress();
     });
-    revealArticleMount();
 }
 
 function revealArticleMount() {

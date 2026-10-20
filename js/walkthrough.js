@@ -8,7 +8,7 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches ||
   new URLSearchParams(location.search).has('reduced-motion');
 const clamp = T.MathUtils.clamp;
 let sceneModel, visibilityObserver;
-let renderer, trigger, resizeObserver, frame = 0, visible = true, failed = false;
+let renderer, trigger, resizeObserver, frame = 0, visible = true, failed = false, painted = false;
 let draw = () => {};
 const progress = { value: 0 };
 
@@ -21,8 +21,12 @@ function staticFallback() {
   renderer?.domElement.remove();
   journey.classList.remove('is-live');
   journey.classList.add('is-static');
-  document.querySelectorAll('[data-walk-copy]').forEach((copy,i) => {copy.hidden=i!==0;});
-  document.querySelector('[data-refuge-hint]').textContent = 'The writing room is just below';
+  delete journey.dataset.phase;
+  document.querySelectorAll('[data-walk-copy]').forEach((copy,i) => {
+    copy.hidden=i!==0;
+    copy.style.removeProperty('opacity');copy.style.removeProperty('visibility');
+    copy.setAttribute('aria-hidden',String(i!==0));
+  });
   window.ScrollTrigger?.refresh();
 }
 
@@ -49,7 +53,7 @@ async function mountWorld() {
     scene.add(sun);
     const roomLight = new T.PointLight(0xffd9a1,7,6,2);
     roomLight.position.set(3,2.5,-.5); scene.add(roomLight);
-    const model = (await new GLTFLoader().loadAsync('/assets/nordic/refuge-walkthrough.glb')).scene;
+    const model = (await new GLTFLoader().loadAsync('/assets/nordic/refuge-walkthrough.glb?v=454574f50d4d')).scene;
     sceneModel=model;
     if(!scope.active){model.traverse(o=>o.geometry?.dispose());return;}
     model.traverse(obj => {
@@ -73,7 +77,8 @@ async function mountWorld() {
       new T.Vector3(2.9,1.6,-.65)
     ];
     const copies=[...document.querySelectorAll('[data-walk-copy]')];
-    const names=['Approach / 01','Across the water / 02','The threshold / 03','The page / 04'];
+    const boundaries=[0,.23,.52,.79,1];
+    copies.forEach(copy=>{copy.hidden=false;});
     let phase=-1;
     draw = () => {
       frame=0;
@@ -95,11 +100,18 @@ async function mountWorld() {
       const next=p<.23?0:p<.52?1:p<.79?2:3;
       if(next!==phase){
         phase=next; journey.dataset.phase=String(next);
-        copies.forEach((copy,i)=>copy.hidden=i!==next);
-        document.querySelector('[data-refuge-chapter]').textContent=names[next];
+        copies.forEach((copy,i)=>copy.setAttribute('aria-hidden',String(i!==next)));
       }
-      document.querySelector('[data-refuge-progress]').style.transform='scaleX('+p+')';
+      copies.forEach((copy,i)=>{
+        // Finish fading one paragraph before the next occupies the same space.
+        const entering=i===0?1:T.MathUtils.smoothstep(p,boundaries[i],boundaries[i]+.04);
+        const leaving=i===copies.length-1?1:1-T.MathUtils.smoothstep(p,boundaries[i+1]-.04,boundaries[i+1]);
+        const opacity=Math.min(entering,leaving);
+        copy.style.opacity=String(opacity);
+        copy.style.visibility=opacity>0?'visible':'hidden';
+      });
       renderer.render(scene,camera);
+      if(!painted){painted=true;journey.classList.add('is-rendered');}
     };
     const schedule = () => {if(!frame)frame=requestAnimationFrame(draw);};
     host.append(renderer.domElement);
@@ -124,7 +136,6 @@ async function mountWorld() {
       window.ScrollTrigger.refresh();
     } else {
       journey.classList.add('is-static');
-      document.querySelector('[data-refuge-hint]').textContent='A quiet place to begin';
     }
     draw();
   } catch { if(scope.active)staticFallback(); }

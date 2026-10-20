@@ -2696,7 +2696,7 @@ body[data-page='philosophy'] {
 }
 
 body[data-page='blog'] {
-    --page-hero-image: url('assets/cabin-blog-room.png');
+    --page-hero-image: url('assets/cabin-blog-room.webp');
 }
 
 body[data-page='roadmap'] {
@@ -3902,16 +3902,36 @@ body[data-page='roadmap'] .page-hero::after {
     background: rgba(248, 249, 246, 0.9);
     border: 1px solid rgba(216, 222, 216, 0.78);
     border-radius: 999px;
-    box-shadow: var(--shadow-soft);
+    box-shadow: none;
     padding: 10px 14px;
-    position: sticky;
-    top: 92px;
-    z-index: 12;
+    position: static;
+    margin: 0;
+    min-height: 44px;
 }
 
-@media (max-width: 760px) {
-    .article-back-link {
-        top: 136px;
+.article-navigation {
+    position: sticky;
+    top: calc(var(--site-header-height, 82px) + 5px);
+    z-index: 211;
+    background: var(--canvas);
+    padding: 12px 0;
+    margin-bottom: 28px;
+}
+
+@media (min-width: 1280px) {
+    .article-navigation {
+        height: 0;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+    }
+
+    .article-navigation .article-back-link {
+        position: absolute;
+        top: 12px;
+        right: calc(100% + 24px);
+        white-space: nowrap;
+        background: var(--surface);
     }
 }
 
@@ -4040,6 +4060,14 @@ body.has-lightbox {
 
 body.article-view {
     min-height: 100svh;
+}
+
+body.article-view main {
+    padding-top: var(--site-header-height, 82px);
+}
+
+body.article-view .article-shell {
+    padding-top: clamp(20px, 4vw, 48px);
 }
 
 .article-progress {
@@ -4176,7 +4204,7 @@ body.article-view {
         0 1px 0 rgba(252, 252, 250, 0.86),
         0 8px 18px rgba(32, 37, 34, 0.06);
     height: 5px;
-    top: 82px;
+    top: var(--site-header-height, 82px);
     z-index: 210;
 }
 
@@ -4206,8 +4234,7 @@ body.article-view {
 
 @media (max-width: 760px) {
     .article-progress {
-        top: 136px;
-        z-index: 10;
+        top: var(--site-header-height, 128px);
     }
 }
 
@@ -5480,20 +5507,6 @@ body[data-page='about'].no-about-webgl .about-world canvas {
 }
 
 @media (max-width: 760px) {
-    body[data-page='about'] .site-header {
-        padding-inline: 14px;
-    }
-    body[data-page='about'] .site-nav {
-        gap: 0.15rem;
-        justify-content: flex-start;
-        overflow: visible;
-        width: 100%;
-    }
-    body[data-page='about'] .site-nav a {
-        flex: 0 0 auto;
-        padding: 0.4rem 0.3rem;
-        font-size: 0.7rem;
-    }
     .about-world::after {
         background:
             linear-gradient(90deg, rgba(241, 244, 240, 0.88), rgba(241, 244, 240, 0.34) 54%, rgba(241, 244, 240, 0.08)),

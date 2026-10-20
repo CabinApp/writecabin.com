@@ -6,7 +6,7 @@ export async function mount(scope) {
  if(!root)return;
  const host=root.querySelector('[data-maker-desk-world]');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches||new URLSearchParams(location.search).has('reduced-motion');
- let renderer,model,trigger,frame=0,observer,resizeObserver,disposed=false;
+ let renderer,model,trigger,frame=0,observer,resizeObserver,disposed=false,painted=false;
  const textures=[],materials=[];
  scope.onCleanup(()=>{
    disposed=true;cancelAnimationFrame(frame);trigger?.kill();observer?.disconnect();resizeObserver?.disconnect();
@@ -16,7 +16,7 @@ export async function mount(scope) {
  });
  const fallback=()=>{
    root.classList.remove('is-live');root.classList.add('is-static');
-   root.querySelector('[data-desk-instruction]').textContent='Three practices, one desk. Read the notes below.';
+   root.style.removeProperty('--desk-caption-opacity');
  };
  function canvasTexture(w,h,paint){
    const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
@@ -99,6 +99,7 @@ export async function mount(scope) {
    function render(){
      frame=0;if(disposed||!scope.active||!visible||document.hidden)return;
      const progress=p.value;let a=0,b=0,t=0;
+     root.style.setProperty('--desk-caption-opacity',String(1-T.MathUtils.smoothstep(progress,.025,.16)));
      // Hold on each readable surface, then travel to the next object.
      if(progress<.18){a=0;b=1;t=T.MathUtils.smoothstep(progress,0,.18);}
      else if(progress<.34){a=b=1;}
@@ -118,9 +119,9 @@ export async function mount(scope) {
      camera.lookAt(target);
      screen.material.color.setScalar(.018+.982*T.MathUtils.smoothstep(progress,.38,.48));
      const index=progress<.11?0:progress<.39?1:progress<.68?2:3;
-     if(index!==last){last=index;root.dataset.stop=String(index);root.querySelector('[data-desk-label]').textContent=['At the desk','01 / Student','02 / Developer','03 / Writer'][index];}
-     root.querySelector('[data-desk-progress]').style.transform='scaleX('+progress+')';
+     if(index!==last){last=index;root.dataset.stop=String(index);}
      renderer.render(scene,camera);
+     if(!painted){painted=true;root.classList.add('is-rendered');}
    }
    const schedule=()=>{if(!frame&&scope.active)frame=requestAnimationFrame(render);};
    host.append(renderer.domElement);root.classList.add('is-live');
@@ -130,7 +131,7 @@ export async function mount(scope) {
    scope.listen(document,'visibilitychange',schedule);
    scope.listen(renderer.domElement,'webglcontextlost',e=>{e.preventDefault();trigger?.kill();fallback();});
    if(!reduced&&window.gsap&&window.ScrollTrigger){
-     const tween=gsap.to(p,{value:1,ease:'none',onUpdate:schedule,scrollTrigger:{trigger:root,start:()=>innerWidth<760?'top 136px':'top 82px',end:'bottom bottom',scrub:.65,invalidateOnRefresh:true}});
+     const tween=gsap.to(p,{value:1,ease:'none',onUpdate:schedule,scrollTrigger:{trigger:root,start:()=>`top ${document.querySelector('[data-header]').getBoundingClientRect().height}px`,end:'bottom bottom',scrub:.65,invalidateOnRefresh:true}});
      trigger=tween.scrollTrigger;
    }else{root.classList.add('is-static');}
    resize();window.ScrollTrigger?.refresh();

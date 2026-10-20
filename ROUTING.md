@@ -1,6 +1,8 @@
 # Clean routes on the static host
 
-Run `python scripts/build_routes.py` after changing page HTML or adding a post to `blog/index.json`. Commit the generated directories and `js/routes.js` with the sources. No server rewrite configuration is required: each known clean route has a static index document. GitHub Pages serves the root `404.html` with a 404 response for unknown paths.
+For adding or updating posts, follow [BLOGGING.md](BLOGGING.md). On Windows, `.\scripts\build-site.cmd` selects the available runtimes and rebuilds the site.
+
+Run `python scripts/build_routes.py` after changing page HTML or adding or editing a post in `blog/`. The build uses Node.js and the bundled Marked renderer to include every blog card and full article in the HTML, so reading does not wait for JavaScript or Markdown requests. Set `NODE_BINARY` or pass `--node /path/to/node` if Node is not on PATH. No package install is required. Commit `blog.html`, the generated directories and `js/routes.js` with the sources. No server rewrite configuration is required: each known clean route has a static index document. GitHub Pages serves the root `404.html` with a 404 response for unknown paths.
 
 `js/router.js` intercepts ordinary internal navigation, loads page content without reloading the document, manages titles/styles, and restores history scroll positions. Page scopes dispose animation, observers, event handlers, and WebGL resources. Roadmap deliberately uses native document navigation to preserve its existing world and Lenis lifecycle.
 

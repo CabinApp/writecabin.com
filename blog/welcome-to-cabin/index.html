@@ -4,18 +4,23 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Welcome to Cabin — Cabin Blog</title>
-        <meta name="description" content="Cabin is writing software designed to grow with you." />
-        <link rel="canonical" href="https://writecabin.com/blog/welcome-to-cabin" />
-        <meta property="og:title" content="Welcome to Cabin — Cabin Blog" />
-        <meta property="og:description" content="Cabin is writing software designed to grow with you." />
+        <meta
+            name="description"
+            content="Essays and project notes from Cabin as the local-first writing environment is designed and built."
+        />
+        <link rel="canonical" href="https://writecabin.com/blog/welcome-to-cabin">
+        <meta property="og:title" content="Welcome to Cabin — Cabin Blog">
+        <meta
+            property="og:description"
+            content="Read Cabin posts about product design, writing software and local-first workflows."
+        />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://writecabin.com/blog/welcome-to-cabin" />
+        <meta property="og:url" content="https://writecabin.com/blog/welcome-to-cabin">
         <meta property="og:image" content="https://writecabin.com/assets/logo.png" />
         <link rel="icon" type="image/png" href="/assets/logo.png" />
         <link rel="apple-touch-icon" href="/assets/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link rel="preload" as="image" href="/assets/cabin-blog-room.png" />
         <link
             href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
             rel="stylesheet"
@@ -23,12 +28,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
         <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+            href="/css/highlight-github.min.css"
         />
         <link rel="stylesheet" href="/styles.css?v=20260910" />
         <link rel="stylesheet" href="/css/navigation.css" />
     </head>
-    <body data-page="blog">
+    <body data-page="blog" class="ready article-view">
         <div class="paper-grain" aria-hidden="true"></div>
         <a class="skip-link" href="#main">Skip to content</a>
         <header class="site-header scenic-nav" data-header>
@@ -43,19 +48,27 @@
                 <a href="/about">About</a>
             </nav>
         </header>
-        <main id="main">
-            <article class="article-shell" data-article-mount>
-                <header>
-                    <h1>Welcome to Cabin</h1>
-                    <p>Cabin is writing software designed to grow with you.</p>
-                </header>
-            </article>
-        </main>
+        <main id="main"><article class="article-shell is-ready" data-article-mount>
+      <nav class="article-navigation" aria-label="Blog navigation">
+        <a class="article-back-link" href="/blog"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Back to All Blogs</span></a>
+      </nav>
+      <header>
+        <time class="article-date" datetime="2026-07-12">July 12, 2026</time>
+        <h1>Welcome to Cabin</h1><p>Cabin is writing software designed to grow with you.</p>
+        <div class="article-meta-row"><span class="article-read-time">1 min read</span>
+          <div class="article-toolbar"><button class="article-share-button" type="button" data-copy-post-link aria-live="polite" aria-label="Copy article link" hidden><i class="fa-solid fa-link" aria-hidden="true"></i><i class="fa-solid fa-check copied-icon" aria-hidden="true"></i><span class="sr-only">Copy link</span></button></div>
+        </div>
+      </header>
+      <div class="article-progress" data-article-progress aria-hidden="true"><span></span></div>
+      <div class="article-content"><h2>Hi! Welcome to Cabin!</h2>
+<p>Cabin is writing software that is designed to grow with you. Arising from my personal frustration with existing writing programs always missing one feature or another, I decided to use my software development knowledge to create an app that grows with you.</p>
+<h2>The Purpose of this Blog</h2>
+<p>I have only recently conceptualised and started work on Cabin. This blog will be a running collection of insights, design choices, research findings, and devlogs. You can gain an insight into my process and track the progress of the project on a much finer scale than the <a href="https://writecabin.com/roadmap">Roadmap</a></p>
+</div>
+    </article></main>
 
+        <script type="application/json" data-blog-posts>{"posts": [{"title": "Welcome to Cabin", "date": "2026-07-12", "excerpt": "Cabin is writing software designed to grow with you.", "path": "welcome-to-cabin.md", "slug": "welcome-to-cabin", "readingTime": 1}, {"title": "Defining Cabin", "date": "2026-07-14", "excerpt": "Cabin starts minimal, and grows with you.", "path": "defining-cabin.md", "slug": "defining-cabin", "readingTime": 6}, {"title": "The Minimum Lovable Cabin", "date": "2026-08-29", "excerpt": "An explosion of features is always a risk.", "path": "the-minimum-lovable-cabin.md", "slug": "the-minimum-lovable-cabin", "readingTime": 3}]}</script>
         <template data-page-scripts>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.11/purify.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
             <script src="/script.js"></script>
         </template>
         <script type="module" src="/js/router.js"></script>

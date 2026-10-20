@@ -1,4 +1,5 @@
 /* Roadmap's fixed glass navigation, shared without page-specific overrides. */
+:root { --site-header-height: 82px; }
 body[data-page] .site-header,
 body[data-page] .site-header.scenic-nav {
     position: fixed;
@@ -94,6 +95,7 @@ body[data-page] .button.quiet {
     color: var(--text);
 }
 @media (max-width: 760px) {
+    :root { --site-header-height: 128px; }
     body[data-page] .site-header,
     body[data-page] .site-header.scenic-nav {
         min-height: 122px;

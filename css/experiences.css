@@ -49,7 +49,7 @@ body[data-page="home"]{background:#edf1ec}
 
 /* assembly */
 .room-assembly{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(22rem,.75fr);background:linear-gradient(90deg,rgba(31,42,34,.035) 1px,transparent 1px),#e8eee8;background-size:12vw 100%}
-.room-stage{position:sticky;top:0;height:100svh;min-width:0;display:grid;place-items:center;overflow:hidden;border-right:1px solid rgba(113,139,124,.22)}
+.room-stage{position:sticky;top:var(--site-header-height);height:calc(100svh - var(--site-header-height));min-width:0;display:grid;place-items:center;overflow:hidden;border-right:1px solid rgba(113,139,124,.22)}
 .room-stage:before{content:"";position:absolute;width:78%;aspect-ratio:1;border:1px solid rgba(113,139,124,.12);border-radius:50%;box-shadow:0 0 0 7vw rgba(113,139,124,.035)}
 .assembly-heading{position:absolute;left:clamp(1.2rem,3.5vw,4rem);right:clamp(1.2rem,3.5vw,4rem);top:clamp(6.5rem,12vh,8.5rem);display:flex;align-items:baseline;justify-content:space-between;gap:2rem}
 .assembly-heading span{color:var(--accent-active);font-size:.68rem;font-weight:700;letter-spacing:.12em}.assembly-heading p{color:var(--muted);font:italic 400 clamp(.85rem,1.2vw,1rem)/1.4 "Lora",Georgia,serif}
@@ -169,11 +169,6 @@ body[data-page="404"]{overflow:hidden;background:#dce5df}body[data-page="404"] .
 }
 
 @media(max-width:760px){
-  body[data-page="home"] .site-header,body[data-page="about"] .site-header,body[data-page="404"] .site-header{min-height:64px;align-items:center;gap:.45rem;padding:.55rem .75rem}
-  body[data-page="home"] .brand,body[data-page="about"] .brand,body[data-page="404"] .brand{gap:.3rem;font-size:.84rem}
-  body[data-page="home"] .brand-mark,body[data-page="about"] .brand-mark,body[data-page="404"] .brand-mark{width:30px;height:30px}
-  body[data-page="home"] .site-nav,body[data-page="about"] .site-nav,body[data-page="404"] .site-nav{width:auto;flex:1;justify-content:flex-end;gap:0;overflow:visible}
-  body[data-page="home"] .site-nav a,body[data-page="about"] .site-nav a,body[data-page="404"] .site-nav a{flex:0 0 auto;padding:.4rem .28rem;border:0;font-size:clamp(.58rem,2.35vw,.72rem)}
   .home-threshold{min-height:100svh;grid-template-columns:1fr;align-content:start;padding:7.8rem 1.25rem 5rem}
   .threshold-copy h1{max-width:8ch;font-size:clamp(3.6rem,16vw,5.6rem)}.threshold-thesis{max-width:29rem;font-size:1.02rem}
   .writing-desk{min-height:18rem;margin-top:-1.5rem}.desk-object{width:min(85vw,30rem)}.desk-instruction{display:none}

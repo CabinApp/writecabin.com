@@ -129,7 +129,7 @@ function initRoadmapFocus() {
       overlay.classList.toggle('is-current', milestone.classList.contains('is-current'));
     }
     overlay.style.setProperty('--sign-focus', focus.toFixed(3));
-    overlay.setAttribute('aria-hidden', focus < .03 ? 'true' : 'false');
+    overlay.setAttribute('aria-hidden', focus <= 0 ? 'true' : 'false');
   };
   const schedule = () => {
     if (!queued) { queued = true; requestAnimationFrame(update); }

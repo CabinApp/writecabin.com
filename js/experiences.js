@@ -35,8 +35,6 @@ window.CabinPageScripts.experiences = (scope) => {
     const assembly = room.querySelector("[data-room-assembly]");
     const workspace = assembly?.querySelector(".cabin-workspace");
     const steps = [...(assembly?.querySelectorAll("[data-room-step]") || [])];
-    const headingNumber = assembly?.querySelector(".assembly-heading span");
-    const headingCopy = assembly?.querySelector(".assembly-heading p");
     let activeStep = -1;
 
     const setStep = (index) => {
@@ -45,8 +43,6 @@ window.CabinPageScripts.experiences = (scope) => {
       activeStep = next;
       workspace?.setAttribute("data-assembly-stage", String(next));
       steps.forEach((step, stepIndex) => step.classList.toggle("is-active", stepIndex === next));
-      if (headingNumber) headingNumber.textContent = `${String(next + 1).padStart(2, "0")} / 04`;
-      if (headingCopy) headingCopy.textContent = steps[next]?.querySelector("h2")?.textContent || "";
     };
 
     if (steps.length) {

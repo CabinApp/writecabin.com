@@ -1,8 +1,9 @@
 :root{--world-veil:rgba(241,244,240,.74)}
 .webgl-world{position:fixed;z-index:0;inset:0;overflow:hidden;pointer-events:none;background:linear-gradient(145deg,var(--canvas),var(--nav))}
-.webgl-world canvas{display:block;width:100%;height:100%}
-.world-fallback{position:absolute;inset:0;background:radial-gradient(circle at 72% 28%,rgba(252,252,250,.8),transparent 28%),linear-gradient(145deg,var(--canvas),var(--nav))}
-.webgl-world canvas+.world-fallback{display:none}
+.webgl-world canvas{display:block;width:100%;height:100%;opacity:0;transition:opacity 500ms ease}
+.webgl-world.is-rendered canvas{opacity:1}
+.world-fallback{position:absolute;inset:0;background:radial-gradient(circle at 72% 28%,rgba(252,252,250,.8),transparent 28%),linear-gradient(145deg,var(--canvas),var(--nav));opacity:1;transition:opacity 500ms ease}
+.webgl-world.is-rendered .world-fallback{opacity:0}
 .webgl-world:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(241,244,240,.88),rgba(241,244,240,.42) 47%,rgba(241,244,240,.06) 75%),linear-gradient(0deg,rgba(241,244,240,.45),transparent 42%);mix-blend-mode:normal}
 .page,.home-sections,.journal-main,.article-view{position:relative;z-index:3}
 .home-main,.philosophy-cover,.roadmap-hero,.about-main{isolation:isolate}
@@ -100,7 +101,7 @@ body[data-page=blog] .journal-main{background:radial-gradient(circle at 84% 14%,
   body[data-page=roadmap] .milestone-card:before,
   body[data-page=roadmap] .milestone-card:after{display:none}
 }
-@media(prefers-reduced-motion:reduce){.webgl-world canvas{opacity:.8}}
+@media(prefers-reduced-motion:reduce){.webgl-world.is-rendered canvas{opacity:.8}.webgl-world canvas,.world-fallback{transition:none}}
 
 /* Roadmap focus stops: the trail holds while each sign opens and closes. */
 body[data-page=roadmap] .site-header{z-index:220}

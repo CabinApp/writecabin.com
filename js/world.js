@@ -61,6 +61,7 @@ export function mountWorld(host, page = 'home') {
         tx = 0,
         ty = 0,
         running = true,
+        painted = false,
         raf = 0,
         last = 0;
     const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
@@ -112,6 +113,7 @@ export function mountWorld(host, page = 'home') {
         camera.lookAt(look.x + px * 0.08, look.y - py * 0.05, look.z);
         journey.animate?.(t, current);
         renderer.render(scene, camera);
+        if (!painted) { painted = true; host.classList.add('is-rendered'); }
         if (!reduced) raf = requestAnimationFrame(frame);
     }
     addEventListener('scroll', measure, { passive: true });
@@ -422,9 +424,10 @@ function signTexture(number, state) {
         'Community Growth',
     ];
     const canvas = document.createElement('canvas');
-    canvas.width = 384;
-    canvas.height = 220;
+    canvas.width = 768;
+    canvas.height = 440;
     const ctx = canvas.getContext('2d');
+    ctx.scale(2, 2);
     ctx.fillStyle = '#F8F9F6';
     ctx.fillRect(0, 0, 384, 220);
     ctx.fillStyle = state === 'done' ? '#78967D' : state === 'current' ? '#A58650' : '#68736D';
@@ -440,6 +443,7 @@ function signTexture(number, state) {
     ctx.fillRect(122, 170, 140, 2);
     const texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = 4;
     return texture;
 }
 function makeMountains(world) {

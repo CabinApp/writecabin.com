@@ -22,7 +22,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link rel="preload" as="image" href="/assets/nordic/refuge.webp" fetchpriority="high" />
-        <link rel="preload" as="fetch" href="/assets/nordic/refuge-walkthrough.glb" crossorigin />
+        <link rel="preload" as="fetch" href="/assets/nordic/refuge-walkthrough.glb?v=454574f50d4d" crossorigin />
         <link rel="modulepreload" href="/js/walkthrough.js" />
         <link rel="modulepreload" href="/js/vendor/three.module.js" />
         <link rel="modulepreload" href="/js/vendor/GLTFLoader.js" />
@@ -39,9 +39,6 @@
             ><style>
                 body {
                     opacity: 1;
-                }
-                .walk-start {
-                    display: none;
                 }
             </style></noscript
         >
@@ -79,9 +76,6 @@
                         <p class="eyebrow">A local-first writing environment</p>
                         <h1 id="home-title">A quiet place<br />for stories <em>to grow.</em></h1>
                         <p>Leave the noise behind.<br />There’s a room here for your story.</p>
-                        <a class="button quiet walk-start" href="#refuge-path"
-                            >Walk towards the light <span aria-hidden="true">↓</span></a
-                        >
                     </div>
                     <div class="walk-copy" data-walk-copy="1" hidden>
                         <p class="eyebrow">01 / Across the water</p>
@@ -98,16 +92,7 @@
                         <h2>The world outside.<br />Your story within.</h2>
                         <p>Begin with the page. Let the rest arrive slowly.</p>
                     </div>
-                    <div class="refuge-guide">
-                        <div>
-                            <span class="refuge-chapter" data-refuge-chapter>Approach / 01</span
-                            ><span class="refuge-track" aria-hidden="true"><i data-refuge-progress></i></span>
-                        </div>
-                        <p data-refuge-hint>Scroll to find your way in</p>
-                        <a href="#room-assembles">Skip to the writing room <span aria-hidden="true">↓</span></a>
-                    </div>
                 </div>
-                <span id="refuge-path" class="refuge-path-anchor" aria-hidden="true"></span>
             </section>
 
             <section
@@ -117,10 +102,6 @@
                 aria-label="How Cabin grows with a story"
             >
                 <div class="room-stage">
-                    <div class="assembly-heading" aria-live="polite">
-                        <span>01 / 04</span>
-                        <p>Begin with only the page.</p>
-                    </div>
                     <div class="cabin-workspace" data-assembly-stage="0" aria-hidden="true">
                         <div class="workspace-glow"></div>
                         <div class="workspace-shell">
