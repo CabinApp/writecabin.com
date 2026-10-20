@@ -39,6 +39,22 @@ function external(src){
  });
  scripts.set(src,promise);return promise;
 }
+function preload(doc){
+ const links=[...doc.querySelectorAll('link[rel="preload"],link[rel="modulepreload"]')];
+ const items=[...doc.querySelector('template[data-page-scripts]')?.content.querySelectorAll('script[src]')||[]];
+ for(const item of items){
+  const link=document.createElement('link');
+  link.rel=item.type==='module'?'modulepreload':'preload';link.as='script';
+  link.href=new URL(item.getAttribute('src').replace('gsap@3.12.5','gsap@3.13.0'),location.origin).href;
+  links.push(link);
+ }
+ // Fetch in parallel; mountScripts still executes dependencies in their declared order.
+ for(const link of links){
+  const href=new URL(link.getAttribute('href'),location.origin).href;
+  if([...document.head.querySelectorAll('link[rel="preload"],link[rel="modulepreload"]')].some(existing=>existing.href===href&&existing.rel===link.rel))continue;
+  document.head.append(document.importNode(link,true));
+ }
+}
 async function mountScripts(doc,token){
  const items=[...doc.querySelector('template[data-page-scripts]')?.content.querySelectorAll('script')||[]];
  for(const item of items){
@@ -104,6 +120,7 @@ async function navigate(input,{replace=false,pop=false,initial=false}={}){
   const source=initial?null:await html(record.source);
   if(token!==sequence)return;
   const doc=source?new DOMParser().parseFromString(source,'text/html'):document;
+  preload(doc);
   const trimStyles=source?await styles(doc):()=>{};
   if(token!==sequence)return;
   scope?.cleanup();scope=null;

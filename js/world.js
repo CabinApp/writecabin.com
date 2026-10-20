@@ -357,8 +357,9 @@ function makeWordBars() {
     return g;
 }
 function makeRoute(world) {
+    const milestones = [...document.querySelectorAll('.milestone')];
     const points = [];
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < milestones.length; i++) {
         const z = 8 - i * 6,
             x = Math.sin(i * 0.72) * 3;
         points.push(v(x, height(x, z, 'roadmap') + 0.24, z));
@@ -371,7 +372,10 @@ function makeRoute(world) {
     world.add(trail);
     const signs = [];
     points.forEach((p, i) => {
-        const state = i < 3 ? 'done' : i === 3 ? 'current' : 'future';
+        const milestone = milestones[i];
+        const state = milestone.classList.contains('is-complete')
+            ? 'done'
+            : milestone.classList.contains('is-current') ? 'current' : 'future';
         const sign = makeTrailSign(i + 1, state);
         sign.position.copy(p);
         sign.userData.facing = Math.sin(i * 0.72) * 0.08;
