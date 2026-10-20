@@ -337,13 +337,24 @@ function enhanceArticle(path) {
     }
 
     articleProgressBar = articleMount.querySelector('[data-article-progress] span');
-    new ResizeObserver(updateArticleProgress).observe(articleMount);
-    window.addEventListener('resize', updateArticleProgress, { passive: true });
+    let progressFrame = null;
+    const scheduleProgress = () => {
+        if (progressFrame !== null) return;
+        progressFrame = requestAnimationFrame(() => {
+            progressFrame = null;
+            updateArticleProgress();
+        });
+    };
+    new ResizeObserver(scheduleProgress).observe(articleMount);
+    window.addEventListener('scroll', scheduleProgress, { passive: true });
+    window.addEventListener('resize', scheduleProgress, { passive: true });
+    if (window.visualViewport) {
+        scope.listen(window.visualViewport, 'scroll', scheduleProgress, { passive: true });
+        scope.listen(window.visualViewport, 'resize', scheduleProgress, { passive: true });
+    }
     enhanceCodeBlocks();
     enhanceArticleImages(path);
-    requestAnimationFrame(() => {
-        updateArticleProgress();
-    });
+    scheduleProgress();
 }
 
 function revealArticleMount() {
@@ -378,9 +389,17 @@ function estimateReadingTime(markdown) {
 
 function updateArticleProgress() {
     if (!scope.active || !articleProgressBar || !document.body.classList.contains('article-view')) return;
-    const scroller = document.scrollingElement || document.documentElement;
-    const max = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
-    const progress = max <= 1 || max - scroller.scrollTop <= 1 ? 1 : clamp(scroller.scrollTop / max, 0, 1);
+    const content = articleMount.querySelector('.article-content');
+    if (!content) return;
+    const last = content.lastElementChild || content;
+    const viewport = window.visualViewport;
+    const height = viewport?.height || window.innerHeight;
+    const top = window.scrollY + (viewport?.offsetTop || 0);
+    // Finish at the actual text, excluding card padding and mobile toolbar geometry.
+    const end = window.scrollY + last.getBoundingClientRect().bottom;
+    const max = Math.max(0, end - height);
+    const progress = max <= 1 || max - top <= 1 ? 1 : clamp(top / max, 0, 1);
+    articleProgressBar.style.transition = progress === 1 ? 'none' : '';
     articleProgressBar.style.transform = `scaleX(${progress})`;
 }
 
@@ -997,7 +1016,6 @@ function updateScrollEffects() {
 
     if (!workspacePinnedByScrollTrigger) updateWorkspace(scrollY);
     updateDisappearance(scrollY);
-    updateArticleProgress();
 }
 
 function updateWorkspace(scrollY) {

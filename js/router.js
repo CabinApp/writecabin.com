@@ -77,7 +77,8 @@ async function mountScripts(doc,token){
    else{
     await external(src);
     if(token!==sequence)return;
-    const key=src.endsWith('/script.js')?'shared':src.endsWith('/experiences.js')?'experiences':null;
+    const scriptPath=new URL(src).pathname;
+    const key=scriptPath.endsWith('/script.js')?'shared':scriptPath.endsWith('/experiences.js')?'experiences':null;
     if(key){
      let pending;
      if(window.gsap){scope.context ||= gsap.context(()=>{});scope.context.add(()=>{pending=window.CabinPageScripts[key](scope)});}

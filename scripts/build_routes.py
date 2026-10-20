@@ -107,7 +107,8 @@ for post, content in zip(posts, rendered):
     </article></main>'''
     text = re.sub(r'<main[\s\S]*?</main>', lambda _: article, text)
     if '<pre>' in content:
-        text = text.replace('<script src="/script.js">', '<script src="/js/vendor/highlight.min.js"></script>\n            <script src="/script.js">')
+        text = re.sub(r'(?=<script src="/script\.js(?:\?[^\"]*)?">)',
+                      '<script src="/js/vendor/highlight.min.js"></script>\n            ', text)
     target = ROOT / source.lstrip('/')
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(text, encoding='utf-8')
