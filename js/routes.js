@@ -31,5 +31,13 @@ export const routeMap = {
   "/blog/the-minimum-lovable-cabin": {
     "page": "blog",
     "source": "/blog/the-minimum-lovable-cabin/index.html"
+  },
+  "/blog/giving-cabin-its-shape": {
+    "page": "blog",
+    "source": "/blog/giving-cabin-its-shape/index.html"
+  },
+  "/bouncy-buttons.html": {
+    "page": "bouncy-buttons",
+    "source": "/bouncy-buttons.html"
   }
 };

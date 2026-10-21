@@ -6,6 +6,8 @@ Run `python scripts/build_routes.py` after changing page HTML or adding or editi
 
 `js/router.js` intercepts ordinary internal navigation, loads page content without reloading the document, manages titles/styles, and restores history scroll positions. Page scopes dispose animation, observers, event handlers, and WebGL resources. Roadmap deliberately uses native document navigation to preserve its existing world and Lenis lifecycle.
 
+`/bouncy-buttons.html` is a standalone demo; the SPA preserves its `.html` path and uses native document navigation to keep its inline styles and script intact.
+
 Legacy `.html` URLs and `/blog?post=slug` links normalize to clean paths. Articles use `/blog/slug`. Modified clicks and external links retain native behavior. The light 404 has no navigation bar and offers home/back actions.
 
 Preview with `python scripts/serve.py --port 8766`; this serves the same custom 404 for invalid direct requests.

@@ -26,7 +26,8 @@ function clean(input){
  if(['/blog','/blog/','/blog.html'].includes(url.pathname)&&url.searchParams.has('post')){
   url.pathname='/blog/'+encodeURIComponent(url.searchParams.get('post'));url.searchParams.delete('post');
  }
- url.pathname=url.pathname.replace(/\/index\.html$/,'/').replace(/\.html$/,'');
+ if(url.pathname!=='/bouncy-buttons.html')
+  url.pathname=url.pathname.replace(/\/index\.html$/,'/').replace(/\.html$/,'');
  if(url.pathname!=='/')url.pathname=url.pathname.replace(/\/+$/,'');
  return url;
 }
@@ -128,6 +129,9 @@ function place(url,y=0){
 }
 async function navigate(input,{replace=false,pop=false,initial=false}={}){
  const url=clean(input),record=resolve(url),token=++sequence;
+ if(!initial&&record.page==='bouncy-buttons'){
+  location.assign(url.href);return;
+ }
  if(!initial&&(record.page==='roadmap'||currentPage==='roadmap')){
   // Roadmap owns its long-running world and Lenis loop; preserve that native lifecycle.
   location.assign(url.href);return;
