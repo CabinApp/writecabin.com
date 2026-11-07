@@ -1,281 +1,489 @@
 <!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Cabin - A quiet place for stories to grow</title>
-        <meta
-            name="description"
-            content="Cabin is a local-first writing environment that begins with a blank page and grows only when your story needs more."
-        />
-        <link rel="canonical" href="https://writecabin.com/" />
-        <meta property="og:title" content="Cabin - A quiet place for stories to grow" />
-        <meta
-            property="og:description"
-            content="A local-first writing environment that begins with a blank page and grows only when your story needs more."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://writecabin.com/" />
-        <meta property="og:image" content="https://writecabin.com/assets/logo.png" />
-        <link rel="icon" type="image/png" href="/assets/logo.png" />
-        <link rel="apple-touch-icon" href="/assets/logo.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link rel="preload" as="image" href="/assets/nordic/refuge.webp" fetchpriority="high" />
-        <link rel="preload" as="fetch" href="/assets/nordic/refuge-walkthrough.glb?v=454574f50d4d" crossorigin />
-        <link rel="modulepreload" href="/js/walkthrough.js" />
-        <link rel="modulepreload" href="/js/vendor/three.module.js" />
-        <link rel="modulepreload" href="/js/vendor/GLTFLoader.js" />
-        <link rel="modulepreload" href="/js/vendor/BufferGeometryUtils.js" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="/styles.css?v=20260910" />
-        <link rel="stylesheet" href="/css/experiences.css" />
-        <link rel="stylesheet" href="/css/navigation.css" />
-        <link rel="stylesheet" href="/css/walkthrough.css" />
-        <noscript
-            ><style>
-                body {
-                    opacity: 1;
-                }
-            </style></noscript
+<html lang="en-GB" data-theme="dawn">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#F1F4F0" />
+    <title>Cabin | A writing app that grows with you</title>
+    <meta
+      name="description"
+      content="Your story. Your space. Cabin is a local-first desktop writing app that grows with you, from a single manuscript to a workspace of your own. Coming soon."
+    />
+    <link rel="canonical" href="https://writecabin.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content="Cabin" />
+    <meta property="og:title" content="Cabin | Your story. Your space." />
+    <meta
+      property="og:description"
+      content="A local-first writing app that grows with you. Begin with a manuscript. Make room for more when you need it. Coming soon."
+    />
+    <meta property="og:url" content="https://writecabin.com/" />
+    <meta
+      property="og:image"
+      content="https://writecabin.com/assets/social.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Cabin. Your story. Your space. A local-first writing app that grows with you."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Cabin | Your story. Your space." />
+    <meta
+      name="twitter:description"
+      content="A local-first desktop writing app that grows with you. Coming soon."
+    />
+    <meta
+      name="twitter:image"
+      content="https://writecabin.com/assets/social.png"
+    />
+    <link rel="icon" type="image/png" href="/assets/logo.png" />
+    <link
+      rel="preload"
+      href="/assets/fonts/geist-400.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/lora-400.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/theme.js"></script>
+    <script type="module" src="/main.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Cabin",
+        "url": "https://writecabin.com/",
+        "description": "A local-first desktop writing application that grows with the writer.",
+        "inLanguage": "en-GB"
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/" aria-label="Cabin home"
+        ><img src="/assets/logo.png" width="36" height="36" alt="" /><span
+          >Cabin</span
+        ></a
+      >
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="primary-nav"
+        hidden
+      >
+        Menu
+      </button>
+      <nav id="primary-nav" aria-label="Main navigation">
+        <a href="#features">The workspace</a
+        ><a href="#philosophy">Our philosophy</a
+        ><a class="nav-availability" href="#availability">Coming soon</a>
+      </nav>
+      <button
+        class="theme-toggle"
+        type="button"
+        aria-label="Switch to Aurora theme"
+        hidden
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="19"
+          height="19"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
         >
-    </head>
-    <body data-page="home">
-        <div class="paper-grain" aria-hidden="true"></div>
-        <a class="skip-link" href="#main">Skip to content</a>
-        <header class="site-header scenic-nav" data-header>
-            <a class="brand" href="/" aria-label="Cabin home"
-                ><img src="/assets/logo.png" alt="" class="brand-mark" /><span>Cabin</span></a
+          <path
+            d="M20.5 13.2A8.7 8.7 0 0 1 10.8 3.5a8.7 8.7 0 1 0 9.7 9.7Z"
+          /></svg
+        ><span class="theme-name">Dawn</span>
+      </button>
+    </header>
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-intro">
+          <h1 id="hero-title">Your story.<br /><em>Your space.</em></h1>
+          <div class="hero-copy">
+            <p>
+              A writing app that grows with you.<br />From the first sentence to
+              the world around it.
+            </p>
+            <p class="hero-description">
+              A calm, local-first desktop home for your manuscript. As your
+              story grows, make room for the tools you need.
+            </p>
+            <a class="button" href="#availability"
+              >Cabin is coming soon <span aria-hidden="true">↗</span></a
             >
-            <nav class="site-nav" aria-label="Primary navigation">
-                <a href="/" aria-current="page">Home</a>
-                <a href="/philosophy">Philosophy</a>
-                <a href="/blog">Blog</a>
-                <a href="/roadmap">Roadmap</a>
-                <a href="/about">About</a>
-            </nav>
-        </header>
-
-        <main id="main" class="home-room">
-            <section class="refuge-journey" data-refuge-journey aria-label="A walk into Cabin">
-                <div class="refuge-stage">
-                    <div class="refuge-world" data-refuge-world aria-hidden="true"></div>
-                    <div class="refuge-fallback" data-refuge-fallback>
-                        <img
-                            src="/assets/nordic/refuge.webp"
-                            alt="Cabin among Scandinavian mountains."
-                            width="1800"
-                            height="1200"
-                        />
-                    </div>
-                    <div class="refuge-shade" aria-hidden="true"></div>
-                    <div class="walk-copy" data-walk-copy="0" data-home-intro>
-                        <p class="eyebrow">A local-first writing environment</p>
-                        <h1 id="home-title">A quiet place<br />for stories <em>to grow.</em></h1>
-                        <p>Leave the noise behind.<br />There’s a room here for your story.</p>
-                    </div>
-                    <div class="walk-copy" data-walk-copy="1" hidden>
-                        <p class="eyebrow">01 / Across the water</p>
-                        <h2>A little further<br />from the noise.</h2>
-                        <p>Space to think. Time to find the next sentence.</p>
-                    </div>
-                    <div class="walk-copy walk-copy-small" data-walk-copy="2" hidden>
-                        <p class="eyebrow">02 / At the threshold</p>
-                        <h2>Make yourself<br />at home.</h2>
-                        <p>No ceremony. No structure before you need it.</p>
-                    </div>
-                    <div class="walk-copy walk-copy-small" data-walk-copy="3" hidden>
-                        <p class="eyebrow">03 / Just the page</p>
-                        <h2>The world outside.<br />Your story within.</h2>
-                        <p>Begin with the page. Let the rest arrive slowly.</p>
-                    </div>
+          </div>
+        </div>
+        <div class="hero-product" data-ui>
+          <div class="preview-titlebar">
+            <div class="preview-brand">
+              <img src="/assets/logo.png" alt="" width="25" height="25" /><span
+                >Cabin</span
+              >
+            </div>
+            <span class="project-title">The Salt House</span
+            ><span class="preview-label">Interface preview</span>
+          </div>
+          <div class="hero-workspace">
+            <aside class="hero-tree" aria-label="Sample manuscript structure">
+              <div class="tree-heading">Manuscript</div>
+              <div class="tree-folder">The Salt House</div>
+              <div class="tree-item selected">The house at low tide</div>
+              <div class="tree-item">What the sea keeps</div>
+              <div class="tree-item">A letter, unopened</div>
+              <span class="tree-bottom">A little more, each day.</span>
+            </aside>
+            <div class="hero-paper">
+              <div class="paper-tools">
+                <span>Writing</span
+                ><button
+                  class="focus-toggle"
+                  type="button"
+                  aria-pressed="false"
+                  hidden
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg
+                  ><span>Deep Writing</span>
+                </button>
+              </div>
+              <article class="manuscript">
+                <p class="chapter-label">Chapter one</p>
+                <h2>The house at low tide</h2>
+                <p>
+                  By the time Mara reached the house, the sea had given back the
+                  path.
+                </p>
+                <p>
+                  She stood at the gate with her father’s key in her palm.
+                  Beyond it, the windows held the last of the afternoon light,
+                  and somewhere inside, a clock was still keeping time.
+                </p>
+                <p>
+                  Nothing had changed. That was the strange part. The blue door,
+                  the crooked letterbox, the rosemary growing through the step.
+                  All of it had carried on without her.
+                </p>
+                <p>
+                  She turned the key.<span
+                    class="caret"
+                    aria-hidden="true"
+                  ></span>
+                </p>
+              </article>
+              <div class="paper-status">
+                <span>Sample manuscript</span><span>Saved on your device</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-caption">
+          <span>A little structure. A lot of room to write.</span
+          ><a href="#features"
+            >Make room for your story <span aria-hidden="true">↓</span></a
+          >
+        </div>
+      </section>
+      <section
+        class="growth-section section-space"
+        id="features"
+        aria-labelledby="growth-title"
+      >
+        <div class="wrap">
+          <div class="section-heading">
+            <h2 id="growth-title">
+              Start with a page.<br /><em>Grow from there.</em>
+            </h2>
+            <p>
+              You shouldn’t have to plan an entire novel to write its first
+              line. Cabin begins simply. Add structure when your story asks for
+              it.
+            </p>
+          </div>
+          <div
+            class="growth-controls"
+            role="group"
+            aria-label="Workspace stages"
+            hidden
+          >
+            <button type="button" data-stage="0" aria-pressed="true">
+              Just write</button
+            ><button type="button" data-stage="1" aria-pressed="false">
+              Organise</button
+            ><button type="button" data-stage="2" aria-pressed="false">
+              Develop <small>Planned</small></button
+            ><button type="button" data-stage="3" aria-pressed="false">
+              Your workspace <small>Planned</small>
+            </button>
+          </div>
+          <div class="growth-preview" data-stage-view="0" data-ui>
+            <div class="growth-bar">
+              <span>The Salt House</span
+              ><span class="stage-status">Writing</span>
+            </div>
+            <div class="growth-body">
+              <aside
+                class="growth-tree"
+                aria-label="Illustrative chapter navigation"
+                hidden
+              >
+                <strong>Manuscript</strong
+                ><button class="selected" type="button" data-chapter="0">
+                  The house at low tide</button
+                ><button type="button" data-chapter="1">
+                  What the sea keeps</button
+                ><button type="button" data-chapter="2">
+                  A letter, unopened
+                </button>
+              </aside>
+              <div class="growth-paper">
+                <span class="chapter-label">The Salt House</span>
+                <h3 id="demo-chapter">The house at low tide</h3>
+                <p id="demo-paragraph">
+                  By the time Mara reached the house, the sea had given back the
+                  path.
+                </p>
+                <p>
+                  She stood at the gate with her father’s key in her palm.
+                  Beyond it, the windows held the last of the afternoon light.
+                </p>
+              </div>
+              <aside class="growth-notes" hidden>
+                <span class="planned-label">Planned concept</span>
+                <h4>Story notes</h4>
+                <p>
+                  The house has been empty for seven years. Why is the clock
+                  still running?
+                </p>
+                <div class="character-note" hidden>
+                  <h4>Mara Ellis</h4>
+                  <p>
+                    Returns to the coast with a key and a question she has never
+                    asked.
+                  </p>
+                  <span>Character note</span>
                 </div>
-            </section>
-
-            <section
-                class="room-assembly"
-                id="room-assembles"
-                data-room-assembly
-                aria-label="How Cabin grows with a story"
-            >
-                <div class="room-stage">
-                    <div class="cabin-workspace" data-assembly-stage="0" aria-hidden="true">
-                        <div class="workspace-glow"></div>
-                        <div class="workspace-shell">
-                            <div class="workspace-topbar"><i></i><i></i><i></i><span>The Ash Valley</span></div>
-                            <div class="workspace-rail assembly-layer" data-layer="rail">
-                                <small>Part I</small>
-                                <b>The Ash Valley</b>
-                                <span>The Lantern Road</span>
-                                <span>Under the North Gate</span>
-                            </div>
-                            <article class="workspace-page">
-                                <small>Chapter One</small>
-                                <h3>The first morning arrived quietly.</h3>
-                                <p>
-                                    The mountain kept its secrets beneath a white fold of weather. Elian waited by the
-                                    cold stove, listening for the bell that only rang when someone crossed the old
-                                    bridge.
-                                </p>
-                                <p>When it came, the sound was small and silver. Not a warning. Not yet.</p>
-                                <i></i>
-                            </article>
-                            <aside class="workspace-note assembly-layer" data-layer="note">
-                                <small>Character note</small>
-                                <strong>Elian Voss</strong>
-                                <span><b>Role</b> Watchtower keeper</span>
-                                <span><b>Object</b> Brass key</span>
-                                <span><b>Question</b> Why does the bridge bell answer him?</span>
-                            </aside>
-                            <div class="workspace-time assembly-layer" data-layer="time">
-                                <div class="timeline-spine"><i></i></div>
-                                <div class="timeline-event is-current">
-                                    <b>01</b><i></i><small>Current chapter</small><span>The Bridge Bell</span>
-                                </div>
-                                <div class="timeline-event">
-                                    <b>07</b><i></i><small>Turning point</small><span>Bridge Collapse</span>
-                                </div>
-                                <div class="timeline-event">
-                                    <b>12</b><i></i><small>Later event</small><span>Watchtower Signal</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="assembly-steps">
-                    <article class="assembly-step is-active" data-room-step="0">
-                        <span>01</span>
-                        <h2>Begin with only the page.</h2>
-                        <p>
-                            The writing surface is quiet first. No chrome, no ceremony, no structure before it has
-                            earned a place.
-                        </p>
-                    </article>
-                    <article class="assembly-step" data-room-step="1">
-                        <span>02</span>
-                        <h2>Let chapters appear beside it.</h2>
-                        <p>A quiet rail is drawn on the left when the draft needs shape and sequence.</p>
-                    </article>
-                    <article class="assembly-step" data-room-step="2">
-                        <span>03</span>
-                        <h2>Keep character notes close.</h2>
-                        <p>A margin note opens on the right, near enough to guide the scene without taking over.</p>
-                    </article>
-                    <article class="assembly-step" data-room-step="3">
-                        <span>04</span>
-                        <h2>Trace the world underneath.</h2>
-                        <p>
-                            A fantasy timeline settles below the manuscript, keeping the larger world visible at the
-                            edge.
-                        </p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="home-principles" aria-labelledby="principles-title">
-                <header class="principles-prologue">
-                    <p class="eyebrow">Why Cabin exists</p>
-                    <h2 id="principles-title">
-                        Most writing software asks you to manage the tool before you can hear the sentence.
-                    </h2>
-                    <p>
-                        Cabin is built against that interruption. Structure is useful. Ownership matters. Assistance can
-                        help. But the writing must stay in the center of the room.
-                    </p>
-                </header>
-                <div class="principle-windows">
-                    <article class="principle-window" data-tilt-card>
-                        <span>01 / Manuscript</span>
-                        <h3>Writing comes first.</h3>
-                        <p>The manuscript remains central. Everything else is furniture around the work.</p>
-                        <i aria-hidden="true">Aa</i>
-                    </article>
-                    <article class="principle-window" data-tilt-card>
-                        <span>02 / Structure</span>
-                        <h3>Complexity is invited, never imposed.</h3>
-                        <p>Panels arrive slowly, only when the story asks for structure.</p>
-                        <i aria-hidden="true">+</i>
-                    </article>
-                    <article class="principle-window" data-tilt-card>
-                        <span>03 / Ownership</span>
-                        <h3>Your work stays yours.</h3>
-                        <p>Local folders, readable files and open exports keep ownership visible.</p>
-                        <i aria-hidden="true">↘</i>
-                    </article>
-                    <article class="principle-window" data-tilt-card>
-                        <span>04 / Quiet</span>
-                        <h3>Calm before clever.</h3>
-                        <p>Cabin should feel like a room prepared for thought, not a machine demanding management.</p>
-                        <i aria-hidden="true">○</i>
-                    </article>
-                    <article class="principle-window" data-tilt-card>
-                        <span>05 / Editor</span>
-                        <h3>AI may question the work. It does not author it.</h3>
-                        <p>It can notice grammar, pacing and continuity. The voice stays human.</p>
-                        <i aria-hidden="true">?</i>
-                    </article>
-                </div>
-            </section>
-
-            <section class="home-status" aria-labelledby="status-title">
-                <div class="status-blueprint" aria-hidden="true">
-                    <div class="blueprint-board">
-                        <header><span>Cabin / Product definition</span><b>04</b></header>
-                        <svg viewBox="0 0 600 420" preserveAspectRatio="none">
-                            <path
-                                class="blueprint-grid"
-                                d="M100 0V420M200 0V420M300 0V420M400 0V420M500 0V420M0 84H600M0 168H600M0 252H600M0 336H600"
-                            />
-                            <path
-                                class="blueprint-route"
-                                d="M86 210 C155 210 158 116 232 116 S318 304 384 304 S454 210 522 210"
-                            />
-                            <circle cx="86" cy="210" r="9" />
-                            <circle cx="232" cy="116" r="9" />
-                            <circle cx="384" cy="304" r="9" />
-                            <circle cx="522" cy="210" r="9" />
-                        </svg>
-                        <div class="blueprint-label label-workflow">
-                            <small>01</small><strong>Workflows</strong><span>How writing moves</span>
-                        </div>
-                        <div class="blueprint-label label-files">
-                            <small>02</small><strong>File model</strong><span>How work stays yours</span>
-                        </div>
-                        <div class="blueprint-label label-interface">
-                            <small>03</small><strong>Interface</strong><span>How the room responds</span>
-                        </div>
-                        <footer><i></i><span>Defining before developing</span></footer>
-                    </div>
-                </div>
-                <div>
-                    <p class="eyebrow">The project today</p>
-                    <h2 id="status-title">Cabin is currently in product design.</h2>
-                    <p>Its workflows, file model and interface are being defined before development begins.</p>
-                    <nav class="inline-links" aria-label="Learn more about Cabin">
-                        <a href="/philosophy">Philosophy</a>
-                        <a href="/roadmap">Roadmap</a>
-                        <a href="/blog">Blog</a>
-                    </nav>
-                </div>
-            </section>
-
-            <section class="home-coda" aria-label="Cabin design aim">
-                <div class="coda-door" aria-hidden="true"><span></span></div>
-                <p>The software should disappear,<br /><em>leaving only the story.</em></p>
-            </section>
-        </main>
-
-        <template data-page-scripts>
-            <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-            <script src="/script.js?v=20261020-reading-progress"></script>
-            <script src="/js/experiences.js"></script>
-            <script type="module" src="/js/walkthrough.js"></script>
-        </template>
-        <script type="module" src="/js/router.js?v=20261020-reading-progress"></script>
-    </body>
+              </aside>
+            </div>
+            <div class="growth-footer">
+              <span>Illustrative preview · sample story</span
+              ><span>Your manuscript stays at the centre.</span>
+            </div>
+          </div>
+          <p class="stage-description" aria-live="polite">
+            A manuscript, a quiet page, and room for the next sentence.
+          </p>
+          <noscript
+            ><p>
+              Cabin starts with a single manuscript. Chapter navigation adds
+              structure. Dedicated notes, character tools and multi-panel
+              planning are planned for the future.
+            </p></noscript
+          >
+          <p class="development-note">
+            Writing and chapter organisation are implemented in the development
+            app. Dedicated notes, characters, research and multi-panel planning
+            are planned.
+          </p>
+        </div>
+      </section>
+      <section
+        class="writing-section wrap section-space"
+        id="writing"
+        aria-labelledby="writing-title"
+      >
+        <div class="writing-intro">
+          <h2 id="writing-title">Stay with<br /><em>the sentence.</em></h2>
+          <p>
+            Format a thought. Find your place in a chapter. Or enter Deep
+            Writing and let the navigation fall away.
+          </p>
+          <p>
+            Rich-text editing, a manuscript tree, and two ways to find your
+            focus. Nothing asking to be the main character.
+          </p>
+        </div>
+        <div class="writing-media">
+          <div
+            class="mode-controls"
+            role="group"
+            aria-label="Application screenshots"
+            hidden
+          >
+            <button type="button" data-mode="writing" aria-pressed="true">
+              Writing</button
+            ><button type="button" data-mode="formatting" aria-pressed="false">
+              Formatting</button
+            ><button type="button" data-mode="focus" aria-pressed="false">
+              Deep Writing
+            </button>
+          </div>
+          <figure class="product-media" data-product-media>
+            <img
+              id="writing-shot"
+              src="/assets/product/dawn-writing.png"
+              alt="Actual Cabin development app in Dawn: manuscript navigation beside the rich-text editor, with a sample titled Manuscript."
+              width="1380"
+              height="950"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption id="shot-caption">
+              From the development app. Writing mode, Dawn theme.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+      <section
+        class="workspace-section wrap section-space"
+        aria-labelledby="workspace-title"
+      >
+        <div class="workspace-statement">
+          <h2 id="workspace-title">A workspace.<br /><em>Your way.</em></h2>
+          <p>The right setup is the one that lets you keep writing.</p>
+        </div>
+        <div class="workspace-details">
+          <div>
+            <h3>For the first draft</h3>
+            <p>
+              Keep a single manuscript, or build a tree of chapters and scenes.
+              Rearrange the story as it takes shape.
+            </p>
+          </div>
+          <div>
+            <h3>For your own rhythm</h3>
+            <p>
+              Choose Dawn or Aurora. Adjust your manuscript’s typeface and line
+              spacing. Show, hide or resize the navigation.
+            </p>
+          </div>
+          <div>
+            <h3>
+              For a bigger world <span class="inline-planned">Planned</span>
+            </h3>
+            <p>
+              Dedicated research, notes and character tools are part of Cabin’s
+              direction. More space for your world, when those tools are ready.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section
+        class="ownership-section section-space"
+        id="philosophy"
+        aria-labelledby="ownership-title"
+      >
+        <div class="wrap ownership-layout">
+          <div class="ownership-copy">
+            <h2 id="ownership-title">
+              Your words.<br /><em>Yours to keep.</em>
+            </h2>
+            <p>
+              A story can take years. Your access to it shouldn’t depend on a
+              connection.
+            </p>
+            <p>
+              Cabin stores projects in a folder on your device. Write offline.
+              Keep your files. The manuscript lives independently of the app.
+            </p>
+            <p class="ownership-future">
+              Cloud features, if added, will be optional. Your local writing
+              comes first.
+            </p>
+          </div>
+          <div
+            class="file-illustration"
+            role="img"
+            aria-label="A project folder on your device containing manuscript chapters as readable Cabin XML files."
+          >
+            <div class="folder-tab"></div>
+            <div class="folder-content">
+              <svg
+                width="35"
+                height="30"
+                viewBox="0 0 35 30"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.3"
+                aria-hidden="true"
+              >
+                <path d="M2 7V3h11l4 5h16v20H2V7Z" /></svg
+              ><span class="folder-name">The Salt House</span
+              ><span class="folder-location">A folder on your device</span>
+              <div class="file-list">
+                <span>Manuscript</span><span>The house at low tide.xml</span
+                ><span>What the sea keeps.xml</span
+                ><span>A letter, unopened.xml</span>
+              </div>
+              <span class="file-note"
+                >Local files. Readable format. Your story.</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="closing wrap section-space"
+        id="availability"
+        aria-labelledby="closing-title"
+      >
+        <img
+          class="closing-mark"
+          src="/assets/logo.png"
+          alt=""
+          width="56"
+          height="56"
+          loading="lazy"
+        />
+        <h2 id="closing-title">Room for your<br /><em>next chapter.</em></h2>
+        <p>
+          Software that grows with the writer.<br />And leaves the writing to
+          you.
+        </p>
+        <div id="release-area">
+          <p class="release-status">Cabin is coming soon.</p>
+          <p class="release-detail">
+            Still being made, with care. Downloads will appear here when Cabin
+            is ready.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer wrap">
+      <a class="brand" href="/" aria-label="Cabin home"
+        ><img src="/assets/logo.png" width="30" height="30" alt="" /><span
+          >Cabin</span
+        ></a
+      >
+      <p>A quieter place for your story.</p>
+      <nav aria-label="Footer navigation">
+        <a href="#features">The workspace</a><a href="#philosophy">Philosophy</a
+        ><a href="https://github.com/CabinApp/writecabin.com">GitHub</a>
+      </nav>
+      <span class="copyright">© <span id="year">2026</span> Cabin</span>
+    </footer>
+  </body>
 </html>

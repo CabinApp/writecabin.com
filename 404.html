@@ -1,41 +1,31 @@
 <!doctype html>
-<html lang="en">
-<head>
- <meta charset="utf-8">
- <meta name="viewport" content="width=device-width,initial-scale=1">
- <meta name="robots" content="noindex">
- <meta name="description" content="A quiet wrong turn. Find your way back to Cabin.">
- <title>404 — A quiet wrong turn · Cabin</title>
- <link rel="icon" href="/assets/logo.png" type="image/png">
- <link rel="stylesheet" href="/css/not-found.css">
-</head>
-<body data-page="404">
- <main class="forest-error" id="main">
-  <div class="error-content">
-   <h1 class="sr-only">404 — Page not found</h1>
-   <svg class="forest-digits" viewBox="0 0 760 300" aria-hidden="true">
-    <defs><pattern id="woodgrain" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M0 4H12M0 10H12" stroke="#f1f4f0" stroke-width="1.5" opacity=".55"/></pattern></defs>
-    <g fill="none" stroke="#718b7c" stroke-width="21" stroke-linecap="round" stroke-linejoin="round">
-     <path d="M161 48L57 191H190M161 48V251"/>
-     <path d="M599 48L495 191H628M599 48V251" transform="translate(63 0)"/>
-     <path d="M381 41C328 41 301 78 301 150S328 260 381 260S461 222 461 150S434 41 381 41Z"/>
-    </g>
-    <g fill="none" stroke="#9aaa92" stroke-width="2" stroke-linecap="round">
-     <path d="M329 180L356 143L377 169L399 129L438 180M320 202Q373 179 443 204M324 214Q379 193 439 217"/>
-     <path d="M374 93L363 116H385ZM374 108L358 136H390ZM374 135V151"/>
-     <path d="M111 233L99 252H123ZM111 249V261M548 78L536 100H560ZM548 95L531 123H565ZM548 119V137"/>
-     <path d="M53 280Q192 266 257 280M498 280Q619 269 716 280"/>
-    </g>
-    <path d="M150 53L57 181H150Z" fill="url(#woodgrain)" opacity=".5"/>
-   </svg>
-   <p>A little off the trail.</p>
-   <nav aria-label="Find your way back"><a href="/">Back to Cabin <span aria-hidden="true">↗</span></a><button type="button" data-router-back>Go back <span aria-hidden="true">↶</span></button></nav>
-  </div>
- </main>
- <noscript><style>[data-router-back]{display:none}</style></noscript>
-<template data-page-scripts>
-
-</template>
-<script type="module" src="/js/router.js?v=20261020-reading-progress"></script>
-</body>
+<html lang="en-GB" data-theme="dawn">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found | Cabin</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/assets/logo.png" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/theme.js"></script>
+  </head>
+  <body>
+    <main class="closing wrap">
+      <img
+        class="closing-mark"
+        src="/assets/logo.png"
+        alt=""
+        width="56"
+        height="56"
+      />
+      <p>404</p>
+      <h1 style="font-size: clamp(42px, 7vw, 76px); margin: 24px 0">
+        A page turned.
+      </h1>
+      <p>
+        This page is no longer here.<br />You can find Cabin’s new home below.
+      </p>
+      <a class="button" href="/">Back to Cabin</a>
+    </main>
+  </body>
 </html>
