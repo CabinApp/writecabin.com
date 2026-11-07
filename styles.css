@@ -16,7 +16,14 @@
   font-family: Lora;
   src: url("/assets/fonts/lora-400.ttf") format("truetype");
   font-style: normal;
-  font-weight: 400 700;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Lora;
+  src: url("/assets/fonts/lora-500.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
   font-display: swap;
 }
 @font-face {
@@ -167,6 +174,7 @@ svg {
   gap: 9px;
   text-decoration: none;
   font-family: var(--serif);
+  font-weight: 500;
   font-size: 29px;
   letter-spacing: -1.6px;
   line-height: 1;
@@ -265,6 +273,7 @@ h1 {
   align-items: center;
   gap: 7px;
   font-family: var(--serif);
+  font-weight: 500;
   font-size: 21px;
   letter-spacing: -1px;
 }

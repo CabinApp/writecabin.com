@@ -14,6 +14,7 @@ Reading: a product marketing page for writers, using quiet editorial composition
 
 - Dawn only: the website uses the existing accessible Dawn UI System tokens. OS preferences and saved website themes cannot switch it to dark. Aurora exists only in one actual app screenshot, as requested.
 - Lora: connects the headlines to the manuscript; italic second lines provide a repeated literary voice. Geist: keeps navigation and explanations clear.
+- Wordmark: the Cabin name uses the app's actual Lora 500 font file in the header, footer, interface preview and social card.
 - Composition: the manuscript is the main image; generous margins and changing full-width/split/centred sections keep the page calm without repeating feature cards.
 - Spacing: major whitespace separates distinct product arguments; smaller spacing connects each claim to its demonstration.
 - Controls: flat rectangular actions distinguish navigation and state changes from product panels. No decorative badges or customer claims.
