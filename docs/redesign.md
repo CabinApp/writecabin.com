@@ -4,7 +4,7 @@
 
 Reviewed Cabin's Core Idea, Product Philosophy, UI Philosophy, Customisation Philosophy, File Philosophy and UI System tokens in the adjacent `App/Information` folder. Checked the actual application's README and verification assets in `App/Cabin App` to distinguish implemented functionality from future product direction.
 
-Actual development screenshots are copied from `verification/writing-polish/`: Dawn and Aurora, each in Writing, Formatting and focus mode. The source screenshots are preserved rather than enhanced or fabricated. The sample prose in the interactive reconstructions is fictional and visibly identified as sample content.
+Screenshots are captured from the actual adjacent app frontend using its existing browser-test storage bridge, with 292 words of sample fiction. There are three Dawn captures (Writing, Formatting and Deep Writing) and one Aurora writing example. No UI or screenshot pixels are fabricated. `scripts/capture-product.mjs` reproduces the captures without changing the app or existing projects.
 
 The implementation currently supports manuscript editing and hierarchy, writing modes and project typography preferences. Dedicated notes, research, character tools, arbitrary multi-panel layouts and cloud are not advertised as available. Optional AI is not a website selling point and no AI generation capability is claimed.
 
@@ -12,14 +12,14 @@ The implementation currently supports manuscript editing and hierarchy, writing 
 
 Reading: a product marketing page for writers, using quiet editorial composition. ENERGY 1 / RHYTHM 3 / MOTION 2.
 
-- Dawn/Aurora: existing accessible UI System tokens give the website and product previews the same identity. Accessible token variants replace the earlier low-contrast muted colours.
+- Dawn only: the website uses the existing accessible Dawn UI System tokens. OS preferences and saved website themes cannot switch it to dark. Aurora exists only in one actual app screenshot, as requested.
 - Lora: connects the headlines to the manuscript; italic second lines provide a repeated literary voice. Geist: keeps navigation and explanations clear.
 - Composition: the manuscript is the main image; generous margins and changing full-width/split/centred sections keep the page calm without repeating feature cards.
 - Spacing: major whitespace separates distinct product arguments; smaller spacing connects each claim to its demonstration.
 - Controls: flat rectangular actions distinguish navigation and state changes from product panels. No decorative badges or customer claims.
 - Accent: restrained sage ties literary emphasis and the availability action to Cabin's palette.
 - Product fragments: subtle borders and small radii reproduce the product's embedded panels; they are not floating decorative cards.
-- Folder drawing: demonstrates the documented local-file model; it is a conceptual illustration, not an operating-system screenshot.
+- Folder drawing: demonstrates actual `.cabinpage` filenames, with a visible, collapsible YAML and Cabin XML snippet checked against `formats.rs`. It is a conceptual illustration, not an operating-system screenshot.
 - Motion: one short hero entrance, one-time supporting section arrivals, pressed states and a brief manuscript transition. All content is visible without animation; reduced motion removes the effects. The workspace stages are controlled by the visitor.
 
 Concept: Cabin's progressive complexity becomes a manuscript that gains context when the visitor chooses it. The four states add chapter navigation, planned story notes, then a planned character panel. Every state retains the manuscript. On phones those panels stack into readable sections rather than shrinking the desktop layout.

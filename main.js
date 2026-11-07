@@ -2,55 +2,24 @@ import { release } from "./release.js";
 import { renderVideo } from "./media.js";
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
-const themeButton = $(".theme-toggle");
 let screenshotMode = "writing";
 function updateScreenshot() {
-  const theme = document.documentElement.dataset.theme;
-  const themeName = theme === "dawn" ? "Dawn" : "Aurora";
   const mode = {
     writing: "Writing",
     formatting: "Formatting",
     focus: "Deep Writing",
   }[screenshotMode];
   const shot = $("#writing-shot");
-  shot.src = `/assets/product/${theme}-${screenshotMode}.png`;
-  shot.alt = `Actual Cabin development app in ${themeName}: ${screenshotMode === "focus" ? "Deep Writing with the navigation hidden and the manuscript centred." : screenshotMode === "formatting" ? "rich-text editor with the Bold, Italic, Underline and More formatting toolbar visible." : "manuscript navigation beside the rich-text editor, with a sample titled Manuscript."}`;
+  shot.src = `/assets/product/dawn-${screenshotMode}.png`;
+  shot.alt = `Cabin in Dawn: ${screenshotMode === "focus" ? "a full sample chapter in Deep Writing, with navigation hidden and the manuscript centred." : screenshotMode === "formatting" ? "a full sample chapter with selected prose and the Bold, Italic, Underline and More formatting toolbar visible." : "a full chapter of The Salt House in the editor, beside three manuscript pages."}`;
   $("#shot-caption").textContent =
-    `From the development app. ${mode} mode, ${themeName} theme.`;
+    `The Cabin editor, with a sample chapter. ${mode} mode, Dawn.`;
   const figure = $("[data-product-media]");
   figure.querySelector("video")?.remove();
   shot.hidden = false;
-  renderVideo(figure, `${theme}-${screenshotMode}`);
+  renderVideo(figure, `dawn-${screenshotMode}`);
 }
-function updateTheme() {
-  const theme = document.documentElement.dataset.theme;
-  themeButton.setAttribute(
-    "aria-label",
-    `Switch to ${theme === "dawn" ? "Aurora" : "Dawn"} theme`,
-  );
-  $(".theme-name").textContent = theme === "dawn" ? "Dawn" : "Aurora";
-  $$('img[src="/assets/logo.png"], img[src="/assets/dark-logo.png"]').forEach(
-    (image) => {
-      image.src =
-        theme === "dawn" ? "/assets/logo.png" : "/assets/dark-logo.png";
-    },
-  );
-  $('meta[name="theme-color"]').content =
-    theme === "dawn" ? "#F1F4F0" : "#222A30";
-  updateScreenshot();
-}
-themeButton.hidden = false;
-themeButton.addEventListener("click", () => {
-  document.documentElement.dataset.theme =
-    document.documentElement.dataset.theme === "dawn" ? "aurora" : "dawn";
-  try {
-    localStorage.setItem("cabin-theme", document.documentElement.dataset.theme);
-  } catch {
-    /* The switch works without persistence. */
-  }
-  updateTheme();
-});
-updateTheme();
+updateScreenshot();
 const menuButton = $(".menu-toggle");
 const nav = $("#primary-nav");
 const narrow = matchMedia("(max-width: 599px)");

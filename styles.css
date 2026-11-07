@@ -47,24 +47,6 @@
   --sans: Geist, Arial, sans-serif;
   --ease: cubic-bezier(0.22, 0.68, 0.25, 1);
 }
-:root[data-theme="aurora"] {
-  color-scheme: dark;
-  --canvas: #222a30;
-  --surface: #252e34;
-  --paper: #29343a;
-  --navigation: #222a30;
-  --text: #dde5df;
-  --secondary: #a9b5ae;
-  --muted: #a1aea8;
-  --accent: #b0c4b5;
-  --accent-hover: #c7d7cb;
-  --selection: #304138;
-  --divider: #354149;
-  --control-edge: #76877d;
-  --focus: #9bafa1;
-  --on-accent: #202a24;
-  --field: #191f26;
-}
 * {
   box-sizing: border-box;
 }
@@ -211,23 +193,6 @@ svg {
 }
 .nav-availability {
   font-weight: 500;
-}
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 0;
-  background: transparent;
-  min-width: 44px;
-  min-height: 44px;
-  font-size: 13px;
-}
-.theme-toggle:hover {
-  background: var(--selection);
-}
-.theme-name {
-  display: none;
 }
 .menu-toggle {
   margin-left: auto;
@@ -731,7 +696,7 @@ h1 {
   margin-top: 20px;
 }
 .file-illustration {
-  max-width: 430px;
+  max-width: 490px;
   width: 100%;
   margin: auto;
   color: var(--accent);
@@ -779,6 +744,56 @@ h1 {
 }
 .file-list > span:not(:first-child) {
   padding-left: 15px;
+  overflow-wrap: anywhere;
+}
+.aurora-section {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+  padding-block: 12px 95px;
+}
+.aurora-section p {
+  max-width: 34ch;
+  margin-top: 25px;
+}
+.file-source {
+  margin-bottom: 26px;
+  color: var(--text);
+}
+.file-source summary {
+  min-height: 44px;
+  padding-block: 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.file-source summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+.file-source p {
+  font-size: 13px;
+  margin: 10px 0 14px;
+}
+.file-source pre {
+  margin: 0;
+  padding: 16px;
+  background: var(--canvas);
+  font:
+    12px/1.7 Consolas,
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.ownership-copy code {
+  font-family: inherit;
+  font-weight: 500;
+}
+@media (min-width: 900px) {
+  .aurora-section {
+    grid-template-columns: 0.8fr 1.45fr;
+    gap: 75px;
+    padding-bottom: 120px;
+  }
 }
 .file-note {
   font-size: 11px;
@@ -1004,9 +1019,6 @@ h1 {
   .copyright {
     width: auto;
     margin-left: auto;
-  }
-  .theme-name {
-    display: inline;
   }
 }
 @media (min-width: 1000px) {

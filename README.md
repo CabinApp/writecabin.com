@@ -35,7 +35,11 @@ Removed blog, roadmap and about routes intentionally return the branded 404. The
 
 ## Product imagery and future video
 
-`assets/product/` contains authentic development screenshots. Theme and writing-mode controls choose among them. The hero and progressive-complexity demonstration are explicitly labelled reconstructions with original sample fiction, based on the actual app and product documentation. Planned tools are labelled at the controls, in the preview and in permanent text.
+The website is fixed to Dawn, independently of operating-system preferences or previously saved website themes. `assets/product/` contains three Dawn editor captures (Writing, Formatting and Deep Writing) and exactly one Aurora example. All show a substantial sample chapter. The hero and progressive-complexity demonstration are labelled reconstructions; planned tools are explicitly identified.
+
+Regenerate the screenshots with `node scripts/capture-product.mjs`. This renders the actual adjacent app frontend with its existing test storage bridge and the sample fiction in `scripts/sample-manuscript.json`; it does not change app source or existing projects. Set `CABIN_APP_ROOT` if the app checkout is elsewhere. The website needs neither that app checkout nor the capture script at runtime.
+
+The ownership section shows actual `.cabinpage` terminology and a shortened YAML/frontmatter plus Cabin XML example, checked against the app's storage contract and parser.
 
 To introduce a real product video, add its configuration to `videos` in `media.js`, keyed by theme and mode, such as `dawn-writing`. Every video requires a source, poster and caption tracks. It receives native controls, optional playback, `preload="none"`, inline mobile support and a screenshot fallback on error. No player is displayed before a real asset is configured.
 

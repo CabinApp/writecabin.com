@@ -55,7 +55,6 @@
       crossorigin
     />
     <link rel="stylesheet" href="/styles.css" />
-    <script src="/theme.js"></script>
     <script type="module" src="/main.js"></script>
     <script type="application/ld+json">
       {
@@ -90,26 +89,6 @@
         ><a href="#philosophy">Our philosophy</a
         ><a class="nav-availability" href="#availability">Coming soon</a>
       </nav>
-      <button
-        class="theme-toggle"
-        type="button"
-        aria-label="Switch to Aurora theme"
-        hidden
-      >
-        <svg
-          viewBox="0 0 24 24"
-          width="19"
-          height="19"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          aria-hidden="true"
-        >
-          <path
-            d="M20.5 13.2A8.7 8.7 0 0 1 10.8 3.5a8.7 8.7 0 1 0 9.7 9.7Z"
-          /></svg
-        ><span class="theme-name">Dawn</span>
-      </button>
     </header>
     <main id="main">
       <section class="hero wrap" aria-labelledby="hero-title">
@@ -345,14 +324,14 @@
             <img
               id="writing-shot"
               src="/assets/product/dawn-writing.png"
-              alt="Actual Cabin development app in Dawn: manuscript navigation beside the rich-text editor, with a sample titled Manuscript."
-              width="1380"
-              height="950"
+              alt="Cabin in Dawn: a full chapter of The Salt House in the editor, beside three manuscript pages."
+              width="1440"
+              height="1000"
               loading="lazy"
               decoding="async"
             />
             <figcaption id="shot-caption">
-              From the development app. Writing mode, Dawn theme.
+              The Cabin editor, with a sample chapter. Writing mode, Dawn.
             </figcaption>
           </figure>
         </div>
@@ -391,6 +370,26 @@
           </div>
         </div>
       </section>
+      <section class="aurora-section wrap" aria-labelledby="aurora-title">
+        <div>
+          <h2 id="aurora-title">A quieter light<br /><em>after dark.</em></h2>
+          <p>
+            Prefer a darker writing space? Cabin also includes Aurora. The same
+            manuscript, in a different light.
+          </p>
+        </div>
+        <figure class="product-media">
+          <img
+            src="/assets/product/aurora-writing.png"
+            alt="The same sample chapter in Cabin’s Aurora theme, with a dark manuscript surface and light text."
+            width="1440"
+            height="1000"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>Aurora, the app’s darker theme.</figcaption>
+        </figure>
+      </section>
       <section
         class="ownership-section section-space"
         id="philosophy"
@@ -407,18 +406,15 @@
             </p>
             <p>
               Cabin stores projects in a folder on your device. Write offline.
-              Keep your files. The manuscript lives independently of the app.
+              Keep your files. Each manuscript page is a readable
+              <code>.cabinpage</code> file, independent of the app.
             </p>
             <p class="ownership-future">
               Cloud features, if added, will be optional. Your local writing
               comes first.
             </p>
           </div>
-          <div
-            class="file-illustration"
-            role="img"
-            aria-label="A project folder on your device containing manuscript chapters as readable Cabin XML files."
-          >
+          <div class="file-illustration">
             <div class="folder-tab"></div>
             <div class="folder-content">
               <svg
@@ -434,10 +430,27 @@
               ><span class="folder-name">The Salt House</span
               ><span class="folder-location">A folder on your device</span>
               <div class="file-list">
-                <span>Manuscript</span><span>The house at low tide.xml</span
-                ><span>What the sea keeps.xml</span
-                ><span>A letter, unopened.xml</span>
+                <span>Manuscript</span
+                ><span>The house at low tide.cabinpage</span
+                ><span>What the sea keeps.cabinpage</span
+                ><span>A letter, unopened.cabinpage</span>
               </div>
+              <details class="file-source" open>
+                <summary>Inside a .cabinpage file</summary>
+                <p>
+                  YAML keeps the page details. Cabin XML holds your words. A
+                  shortened sample:
+                </p>
+                <pre aria-label="Sample cabinpage file"><code>---
+id: 11111111-1111-4111-8111-111111111111
+title: The house at low tide
+order: 1
+created: 2026-11-07T09:00:00Z
+modified: 2026-11-07T09:00:00Z
+---
+&lt;paragraph&gt;By the time Mara reached the house,
+the sea had given back the path.&lt;/paragraph&gt;</code></pre>
+              </details>
               <span class="file-note"
                 >Local files. Readable format. Your story.</span
               >

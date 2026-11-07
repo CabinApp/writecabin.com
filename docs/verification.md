@@ -6,10 +6,11 @@ Verified locally on 7 November 2026 in installed Chromium, against the productio
 
 - `npm run build`: PASS. Validates release configuration, checks HTML asset references and creates a clean static output.
 - `npm test`: PASS, 15 check groups. Uses the actual browser against `dist/` and saves screenshots/results in ignored `qa/final/`.
-- Desktop/tablet/mobile: PASS at 320, 390, 600, 768, 1024 and 1440px in both themes. Checked every stage, chapter control, screenshot mode and focus toggle. No page or internal demo overflow.
+- Desktop/tablet/mobile: PASS at 320, 390, 600, 768, 1024 and 1440px under both light and dark OS preferences. The website remains Dawn. Checked every stage, chapter control, screenshot mode and focus toggle. No page or internal demo overflow.
 - Navigation: PASS. Menu selection and Escape close correctly; Escape returns focus. Hero actions, section links and both home links work.
 - Keyboard: PASS. Tab, Enter and Space operate controls; visible focus and the skip link were verified.
-- Contrast: PASS. Minimum tested text ratio 4.85:1 in Dawn and 5.11:1 in Aurora; button ratios 6.19:1 and 8.05:1; focus ratios 5.07:1 and 4.66:1. These are computed from the rendered theme token pairs, including selection and panel surfaces.
+- Contrast: PASS. Minimum tested text ratio 4.85:1, button ratio 6.19:1 and focus ratio 5.07:1. Computed from the rendered Dawn token pairs, including selection and panel surfaces.
+- Product evidence: PASS. Three Dawn screenshots and exactly one Aurora example, captured from the actual editor with 292 words of sample fiction. The file illustration uses `.cabinpage`; the visible, collapsible sample has the app's actual metadata and paragraph syntax.
 - Reduced motion: PASS. Animation is removed and smooth scrolling becomes automatic scrolling; workspace controls still work.
 - No JavaScript: PASS. Marketing copy, native navigation, development status, availability and the static demonstration remain readable; inactive enhancement controls stay hidden.
 - SEO/assets: PASS. Canonical URL, description, social card, structured data, sitemap, robots, single H1 and internal anchors checked. No homepage `noindex`.
@@ -20,7 +21,7 @@ Verified locally on 7 November 2026 in installed Chromium, against the productio
 
 ## Visual review
 
-Inspected rendered desktop, tablet and phone screenshots, including both themes. The manuscript is the visual anchor; headline and product sit on the same margins. Sections change from a broad demo to split editorial layouts and a centred close. Mobile changes the header to a labelled menu and stacks supporting workspace panels. The two-line headline remains intact at the three inspector widths.
+Inspected rendered desktop, tablet and phone screenshots. The website remains Dawn; one Aurora app screenshot demonstrates the available darker writing theme. The manuscript is the visual anchor; headline and product sit on the same margins. Mobile uses a labelled menu and stacks supporting panels.
 
 Before/after inspector measurements at 1440px:
 
@@ -37,7 +38,7 @@ Source visual lint: 0 failures. Browser visual inspector: 0 failures with `few-p
 ### Hard gate
 
 - R-02 PASS: authored website copy contains no em dashes.
-- R-03 PASS: browser assertions found no horizontal overflow at six widths and all demo stages in both themes.
+- R-03 PASS: browser assertions found no horizontal overflow at six widths and all demo stages under either OS colour preference.
 - R-17 PASS: no invented user counts, awards, statistics or performance claims.
 - R-18 PASS: no testimonials or customer avatars.
 - R-23 PASS: existing brand assets retained; reconstructed interfaces and local-folder illustration fulfil the supplied brief and are identified as previews/concepts.
@@ -48,7 +49,7 @@ Source visual lint: 0 failures. Browser visual inspector: 0 failures with `few-p
 - R-28 PASS: no template FAQ.
 - R-32 PASS: keyboard activation, Escape, skip link and focus outline verified in Chromium.
 - R-33 PASS: features were authored directly in source; automated formatting did not generate or patch features.
-- R-34 PASS: both themes checked across all stages and six widths; screenshot and logo assets change with the theme.
+- R-34 PASS: no website theme toggle or Aurora styles remain; saved dark preferences and dark OS settings cannot override Dawn. Exactly one Aurora screenshot is present.
 - R-35 PASS: production build and complete interactive click-through executed.
 - R-36 PASS: no invented security, compliance or customer claims.
 - R-37 PASS: design direction and ENERGY 1 / RHYTHM 3 / MOTION 2 were declared before implementation.
@@ -57,7 +58,7 @@ Source visual lint: 0 failures. Browser visual inspector: 0 failures with `few-p
 ### Purpose gate
 
 - R-01/R-07/R-09/R-10/R-12/R-13/R-14/R-22 PASS: no gradients, background patterns, decorative badges, glass panels, resting shadows, glows, repeated feature cards or stock illustrations.
-- R-04/R-08 PASS: icons only explain focus, theme and local-folder functions; the hero arrow indicates navigation to availability.
+- R-04/R-08 PASS: icons only explain focus and local-folder functions; the hero arrow indicates navigation to availability.
 - R-06 PASS: Geist and Lora are the documented brand faces; no decorative monospace/uppercase labels.
 - R-19 PASS: motion supports arrival and state change; no autoplaying background or scroll hijacking.
 

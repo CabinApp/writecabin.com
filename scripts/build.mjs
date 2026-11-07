@@ -6,7 +6,6 @@ const files = [
   "index.html",
   "404.html",
   "styles.css",
-  "theme.js",
   "main.js",
   "media.js",
   "release.js",

@@ -1,5 +1,5 @@
 // Add an entry only when a real, captioned product video exists.
-// Key: 'dawn-writing', 'aurora-focus', etc.
+// Key: 'dawn-writing', 'dawn-focus', etc.
 // Value: { src, poster, captions: [{ src, language, label }] }.
 export const videos = {};
 
