@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://writecabin.com/</loc></url>
+  <url><loc>https://writecabin.com/features/</loc></url>
+  <url><loc>https://writecabin.com/philosophy/</loc></url>
+  <url><loc>https://writecabin.com/pricing/</loc></url>
+  <url><loc>https://writecabin.com/roadmap/</loc></url>
+  <url><loc>https://writecabin.com/blog/</loc></url>
+  <url><loc>https://writecabin.com/blog/welcome-to-cabin/</loc></url>
+  <url><loc>https://writecabin.com/blog/defining-cabin/</loc></url>
+  <url><loc>https://writecabin.com/blog/the-minimum-lovable-cabin/</loc></url>
+  <url><loc>https://writecabin.com/blog/giving-cabin-its-shape/</loc></url>
+  <url><loc>https://writecabin.com/about/</loc></url>
 </urlset>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dawn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOUNCY BUTTONS</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --canvas: #F1F4F0;
+      --text: #202522;
+      --accent-ink: #405B49;
+      --focus: #3E6551;
+      --shadow-tool: 2px 2px 4px #d0d7d0, -2px -2px 4px #ffffff;
+      --shadow-low: 3px 3px 7px #d0d7d0, -3px -3px 7px #ffffff;
+      --shadow-inset: inset 3px 3px 6px #cbd4cb, inset -3px -3px 6px #ffffff;
+      --shadow-contact: inset 4px 4px 7px #bfccbf, inset -3px -3px 6px #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: 16px; background: var(--canvas); color: var(--text); font-family: Arial, sans-serif; }
+    h1 { margin: 0; font-size: 32px; }
+    p { margin: 0 0 16px; }
+    button { width: 44px; height: 44px; display: grid; place-items: center; padding: 8px; border: 1px solid transparent; border-radius: 8px; background: var(--canvas); color: var(--text); box-shadow: var(--shadow-tool); cursor: pointer; transition: background 180ms, color 180ms, box-shadow 180ms; -webkit-tap-highlight-color: transparent; }
+    button:hover { box-shadow: var(--shadow-low); }
+    button:active, button[aria-pressed="true"] { color: var(--accent-ink); box-shadow: var(--shadow-inset); }
+    button:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 2px; }
+    button.tactile-contact { transition: none !important; }
+    svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    button[aria-pressed="true"] svg { stroke-width: 2.4; }
+  </style>
+</head>
+<body>
+  <h1>BOUNCY BUTTONS</h1>
+  <p>Click that button!</p>
+  <button id="bold" type="button" aria-label="Bold" title="Bold" aria-pressed="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h7a4 4 0 0 1 0 8H6z"/><path d="M6 4h6a4 4 0 0 1 0 8H6z"/></svg>
+  </button>
+  <script>
+    // Original Cabin tactile press/release animation, scoped to the single button.
+    const control = document.getElementById('bold');
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    let state = null;
+    const pointers = new Set();
+    function clear() {
+      if (!state) return;
+      cancelAnimationFrame(state.frame);
+      state.animation?.cancel();
+      control.classList.remove('tactile-contact');
+      state = null;
+    }
+    function press() {
+      if (reducedMotion.matches) return;
+      clear();
+      control.classList.add('tactile-contact');
+      const shadow = getComputedStyle(control).boxShadow;
+      const contact = getComputedStyle(control).getPropertyValue('--shadow-contact').trim();
+      const current = { contact, frame: 0 };
+      current.animation = control.animate([
+        { scale: '1', translate: '0 0', boxShadow: shadow },
+        { scale: '.992', translate: '0 .55px', boxShadow: contact }
+      ], { duration: 75, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'forwards' });
+      state = current;
+    }
+    function release() {
+      if (reducedMotion.matches) return;
+      if (!state) press();
+      const current = state;
+      if (!current) return;
+      cancelAnimationFrame(current.frame);
+      current.frame = requestAnimationFrame(() => {
+        if (state !== current) return;
+        current.animation.cancel();
+        const shadow = getComputedStyle(control).boxShadow;
+        current.animation = control.animate([
+          { scale: '.992', translate: '0 .55px', boxShadow: current.contact, offset: 0 },
+          { scale: '1.001', translate: '0 -.12px', boxShadow: shadow, offset: .62 },
+          { scale: '1', translate: '0 0', boxShadow: shadow, offset: 1 }
+        ], { duration: 220, easing: 'cubic-bezier(.2,.65,.25,1)' });
+        current.animation.finished.then(() => { if (state === current) clear(); }).catch(() => {});
+      });
+    }
+    control.addEventListener('pointerdown', e => { if (e.button === 0) { pointers.add(e.pointerId); press(); } });
+    for (const type of ['pointerup', 'pointercancel']) document.addEventListener(type, e => {
+      if (pointers.delete(e.pointerId)) release();
+    }, true);
+    control.addEventListener('keydown', e => { if (!e.repeat && (e.key === 'Enter' || e.key === ' ')) press(); });
+    control.addEventListener('keyup', e => { if (e.key === 'Enter' || e.key === ' ') release(); });
+    control.addEventListener('click', () => {
+      control.setAttribute('aria-pressed', String(control.getAttribute('aria-pressed') !== 'true'));
+      release();
+    });
+    function reset() { clear(); pointers.clear(); }
+    reducedMotion.addEventListener('change', reset);
+    window.addEventListener('blur', reset);
+  </script>
+</body>
+</html>

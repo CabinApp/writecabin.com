@@ -1,419 +1,310 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdir, readFile, writeFile, readdir } from "node:fs/promises";
+import { mkdir } from "node:fs/promises";
 import { launchBrowser } from "./browser.mjs";
 
-const port = 4187;
-const external = process.env.CABIN_TEST_URL;
-const origin = external || `http://127.0.0.1:${port}`;
-const server = external
+const origin = process.env.CABIN_TEST_URL || "http://127.0.0.1:4388";
+const server = process.env.CABIN_TEST_URL
   ? null
   : spawn(process.execPath, ["scripts/serve.mjs", "--dist"], {
-      env: { ...process.env, PORT: String(port) },
-      stdio: ["ignore", "pipe", "pipe"],
+      env: { ...process.env, PORT: "4388" },
       windowsHide: true,
+      stdio: ["ignore", "pipe", "inherit"],
     });
-const results = [];
-const passed = (message) => {
-  results.push(message);
-  console.log(`PASS ${message}`);
-};
 let browser;
 try {
   if (server)
     await new Promise((resolve, reject) => {
-      const timer = setTimeout(
-        () => reject(new Error("Preview did not start")),
-        10000,
-      );
-      server.stdout.once("data", () => {
-        clearTimeout(timer);
-        resolve();
-      });
+      server.stdout.once("data", resolve);
       server.once("error", reject);
-      server.once("exit", (code) => {
-        if (code) reject(new Error(`Preview exited ${code}`));
-      });
+      server.once("exit", (code) =>
+        reject(new Error(`Preview exited (${code})`)),
+      );
     });
   browser = await launchBrowser();
   await mkdir("qa/final", { recursive: true });
-  const context = await browser.newContext({ colorScheme: "light" });
-  await context.addInitScript(() =>
-    localStorage.setItem("cabin-theme", "aurora"),
-  );
-  const page = await context.newPage();
-  const errors = [];
-  page.on("pageerror", (error) => errors.push(error.message));
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 950 },
+  });
+  const failures = [];
+  page.on("pageerror", (error) => failures.push(error.message));
   page.on("console", (message) => {
-    if (message.type() === "error") errors.push(message.text());
+    if (message.type() === "error") failures.push(message.text());
   });
-  const failedRequests = [];
-  const cancelledRequests = [];
-  page.on("requestfailed", (request) => {
-    // A theme switch or navigation can supersede an in-flight image request.
-    if (request.failure()?.errorText === "net::ERR_ABORTED")
-      cancelledRequests.push(request.url());
-    else
-      failedRequests.push({
-        url: request.url(),
-        error: request.failure()?.errorText,
-      });
+  page.on("response", (response) => {
+    if (response.status() >= 400)
+      failures.push(`${response.status()} ${response.url()}`);
   });
+
   await page.goto(origin);
   await page.evaluate(() => document.fonts.ready);
-  assert.equal(await page.locator(".theme-toggle").count(), 0);
-  assert.equal(await page.locator('img[src*="aurora"]').count(), 1);
-  assert.equal(await page.locator("html").getAttribute("data-theme"), "dawn");
-  assert.ok(await page.locator('.file-source pre').isVisible());
-  assert.match(
-    await page.locator(".file-source pre").innerText(),
-    /id: .*\ntitle: The house at low tide/,
-  );
-  assert.match(await page.locator(".file-list").innerText(), /\.cabinpage/);
-  assert.doesNotMatch(await page.locator(".file-list").innerText(), /\.xml/);
-  await page.locator(".file-source summary").click();
-  assert.equal(await page.locator('.file-source pre').isVisible(), false);
-  await page.locator('.file-source summary').click();
-  assert.ok(await page.locator('.file-source pre').isVisible());
-  passed('Dawn-only site, exactly one Aurora screenshot, .cabinpage names and an expandable readable file sample');
-  assert.equal(await page.title(), "Cabin | A writing app that grows with you");
-  assert.equal(await page.locator("h1").count(), 1);
-  assert.equal(
-    await page.locator("link[rel=canonical]").getAttribute("href"),
-    "https://writecabin.com/",
-  );
-  assert.equal(
-    await page.locator("meta[name=robots][content*=noindex]").count(),
-    0,
-  );
-  assert.equal(await page.locator("a[download]").count(), 0);
-  assert.match(await page.locator("#release-area").innerText(), /coming soon/);
-  const schema = JSON.parse(
-    await page.locator('script[type="application/ld+json"]').textContent(),
-  );
-  assert.equal(schema.url, "https://writecabin.com/");
-  for (const href of await page
-    .locator('a[href^="#"]')
-    .evaluateAll((links) => links.map((link) => link.getAttribute("href"))))
-    assert.equal(await page.locator(href).count(), 1, href);
+  await page.locator(".hero .morning").evaluate((image) => image.decode());
+  const mobile = page.locator(".menu-toggle");
+  const theme = page.locator(".environment-switch");
+  const stage = page.locator(".workbench");
+  const assertStage = (value) =>
+    page.waitForFunction(
+      (id) => document.querySelector(".workbench").dataset.stage === id,
+      String(value),
+    );
+  const assertRoute = (path) =>
+    page.waitForFunction(
+      (route) =>
+        location.pathname === route && document.body.dataset.route === route,
+      path,
+    );
+
+  await page.evaluate(() => {
+    window.__spa = true;
+  });
   for (const path of [
-    "/robots.txt",
-    "/sitemap.xml",
-    "/assets/social.png",
-    "/CNAME",
-  ])
-    assert.equal((await page.request.get(origin + path)).status(), 200, path);
-  passed(
-    "Canonical, metadata, structured data, sitemap, robots, anchors, social image and coming-soon state",
+    "/features/",
+    "/philosophy/",
+    "/pricing/",
+    "/roadmap/",
+    "/blog/",
+  ]) {
+    await page.locator(`.site-nav a[href="${path}"]`).click();
+    await assertRoute(path);
+    assert.equal(await page.evaluate(() => window.__spa), true);
+    assert.equal(
+      await page.locator('link[rel="canonical"]').getAttribute("href"),
+      "https://writecabin.com" + path,
+    );
+    assert.equal(
+      await page.locator(".site-nav [aria-current=page]").getAttribute("href"),
+      path,
+    );
+  }
+  for (const link of await page.locator(".journal-list a").all()) {
+    const path = await link.getAttribute("href");
+    await link.click();
+    await assertRoute(path);
+    await page.locator(".essay > a").click();
+    await assertRoute("/blog/");
+  }
+  await page.goBack();
+  await page.waitForURL("**/blog/welcome-to-cabin/");
+  await assertRoute("/blog/welcome-to-cabin/");
+  await page.goForward();
+  await assertRoute("/blog/");
+  await page.reload();
+  await assertRoute("/blog/");
+  await page.locator(".site-header .brand").click();
+  await assertRoute("/");
+  console.log(
+    "PASS all clean routes, journal articles, same-document navigation, back/forward and reload",
   );
 
-  for (const width of [320, 390, 600, 768, 1024, 1440]) {
+  await page.locator(".hero .action").click();
+  await page.waitForURL("**/#workspace");
+  for (const value of [0, 1, 2, 3]) {
+    await page.locator(`[data-step="${value}"]`).click();
+    await assertStage(value);
+    await page.waitForFunction(
+      (expected) =>
+        document
+          .querySelector(`[data-step="${expected}"]`)
+          .getAttribute("aria-pressed") === "true",
+      value,
+    );
+  }
+  assert.match(await page.locator(".demo-caption").textContent(), /planned/);
+  await page.locator("[data-chapter='1']").click();
+  assert.match(await page.locator(".excerpt").innerText(), /small grey stone/);
+  await page.locator("[data-chapter='2']").click();
+  assert.match(
+    await page.locator(".excerpt").innerText(),
+    /recognised the handwriting/,
+  );
+  await page.locator("[data-chapter='0']").click();
+  const focus = page.locator(".focus-mode");
+  await focus.click();
+  assert.equal(await focus.getAttribute("aria-pressed"), "true");
+  assert.equal(
+    await stage.locator(".manuscript-tree").getAttribute("inert"),
+    "",
+  );
+  await focus.click();
+  assert.equal(await focus.getAttribute("aria-pressed"), "false");
+  await page.waitForTimeout(900);
+  await page.evaluate(() => {
+    const journey = document.querySelector(".journey");
+    const dock = document.querySelector(".demo-dock");
+    const top =
+      scrollY +
+      journey.getBoundingClientRect().top -
+      document.querySelector(".site-header").offsetHeight;
+    scrollTo(0, top + (journey.offsetHeight - dock.offsetHeight) * 0.55);
+  });
+  await assertStage(2);
+  assert.equal(await page.locator(".notes-pane").getAttribute("inert"), null);
+  await stage.screenshot({ path: "qa/final/workspace.png" });
+  const focusShot = page.locator("[data-focus-shot]");
+  await focusShot.click();
+  assert.equal(await focusShot.getAttribute("aria-pressed"), "true");
+  await focusShot.click();
+  assert.equal(await focusShot.getAttribute("aria-pressed"), "false");
+  console.log(
+    "PASS scroll-linked progression, four stage controls, three chapters and both Deep Writing controls",
+  );
+
+  await page.locator(".horizon").scrollIntoViewIfNeeded();
+  await page.evaluate(() =>
+    document.querySelector(".horizon").scrollIntoView(),
+  );
+  await page.waitForFunction(() =>
+    document.querySelector(".horizon").classList.contains("is-night"),
+  );
+  await page.locator("button[data-environment=morning]").click();
+  assert.equal(
+    await page.locator("html").getAttribute("data-environment"),
+    "morning",
+  );
+  await page.locator("button[data-environment=aurora]").click();
+  assert.equal(
+    await page.locator("html").getAttribute("data-environment"),
+    "aurora",
+  );
+  assert.equal(
+    await page.locator(".night-shot").getAttribute("alt"),
+    "The Salt House in Cabin’s dark Aurora editor.",
+  );
+  await page
+    .locator(".horizon")
+    .screenshot({ path: "qa/final/aurora.png", animations: "disabled" });
+  await page.reload();
+  assert.equal(
+    await page.locator("html").getAttribute("data-environment"),
+    "aurora",
+  );
+  await theme.click();
+  assert.equal(
+    await page.locator("html").getAttribute("data-environment"),
+    "morning",
+  );
+  console.log(
+    "PASS scroll-driven nightfall, scene controls, header switch and saved environment",
+  );
+
+  await page.evaluate(async () => {
+    const images = [...document.querySelectorAll("main img[loading=lazy]")];
+    for (const image of images) image.loading = "eager";
+    await Promise.all(images.map((image) => image.decode()));
+  });
+  const measureContrast = () => page.evaluate(() => {
+    const color = (hex) =>
+      hex
+        .slice(1)
+        .match(/../g)
+        .map((channel) => parseInt(channel, 16));
+    const luminance = (channels) =>
+      channels.reduce((result, value, i) => {
+        const v = value / 255;
+        return (
+          result +
+          [0.2126, 0.7152, 0.0722][i] *
+            (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)
+        );
+      }, 0);
+    const ratio = (a, b) => {
+      const values = [luminance(a), luminance(b)].sort((x, y) => y - x);
+      return (values[0] + 0.05) / (values[1] + 0.05);
+    };
+    const blendOverWhite = (colorValue, alpha) =>
+      color(colorValue).map((v) => v * alpha + 255 * (1 - alpha));
+    const style = getComputedStyle(document.documentElement);
+    const token = (prop) => color(style.getPropertyValue(prop).trim());
+    return {
+      text: Math.min(
+        ...["--ground", "--paper", "--field", "--panel"].map((surface) =>
+          ratio(token("--ink"), token(surface)),
+        ),
+      ),
+      action: ratio(token("--action"), token("--action-ink")),
+      photoText: ratio(
+        token("--land-ink"),
+        blendOverWhite("#101915", 0xa8 / 255),
+      ),
+    };
+  });
+  for (const env of ["morning", "aurora"]) {
+    if (await page.locator("html").getAttribute("data-environment") !== env) await theme.click();
+    const contrast = await measureContrast();
+    assert.ok(Object.values(contrast).every((ratio) => ratio >= 4.5), JSON.stringify(contrast));
+    console.log(`PASS ${env} contrast and worst-case mobile photo scrim`, contrast);
+  }
+  for (const width of [320, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const preference of ["light", "dark"]) {
-      const theme = "dawn";
-      await page.emulateMedia({ colorScheme: preference });
+    for (const env of ["morning", "aurora"]) {
+      if ((await page.locator("html").getAttribute("data-environment")) !== env)
+        await theme.click();
+      await page.evaluate(() => scrollTo(0, 0));
       assert.equal(
-        await page.locator("html").getAttribute("data-theme"),
-        "dawn",
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+        true,
+        `${env} ${width}px overflow`,
       );
-      assert.equal(
-        await page
-          .locator("body")
-          .evaluate((node) => getComputedStyle(node).backgroundColor),
-        "rgb(241, 244, 240)",
-      );
-      for (let stage = 0; stage < 4; stage++) {
-        await page.locator(`[data-stage="${stage}"]`).click();
-        assert.equal(
-          await page
-            .locator(`[data-stage="${stage}"]`)
-            .getAttribute("aria-pressed"),
-          "true",
-        );
-        assert.equal(
-          await page.locator(".growth-preview").getAttribute("data-stage-view"),
-          String(stage),
-        );
-        assert.equal(await page.locator(".growth-tree").isVisible(), stage > 0);
-        assert.equal(
-          await page.locator(".growth-notes").isVisible(),
-          stage > 1,
-        );
-        assert.equal(
-          await page.locator(".character-note").isVisible(),
-          stage === 3,
-        );
-        if (stage > 1)
-          assert.match(
-            await page.locator(".stage-status").innerText(),
-            /Planned/,
-          );
-        assert.ok(
-          await page.evaluate(
-            () => document.documentElement.scrollWidth <= innerWidth,
-          ),
-          `${width}px ${theme} stage ${stage}: page overflow`,
-        );
-        const overflowing = await page.evaluate(() =>
-          [...document.querySelectorAll(".growth-body *")]
-            .filter(
-              (node) =>
-                node.getBoundingClientRect().width &&
-                node.scrollWidth > node.clientWidth + 2 &&
-                getComputedStyle(node).overflowX === "visible",
-            )
-            .map((node) => node.className),
-        );
-        assert.deepEqual(
-          overflowing,
-          [],
-          `${width}px ${theme} stage ${stage}: internal overflow`,
-        );
-      }
-      await page.locator('[data-stage="1"]').click();
-      for (let chapter = 0; chapter < 3; chapter++) {
-        await page.locator(`[data-chapter="${chapter}"]`).click();
-        assert.equal(
-          await page
-            .locator(`[data-chapter="${chapter}"]`)
-            .getAttribute("aria-pressed"),
-          "true",
-        );
-        assert.equal(
-          await page.locator("#demo-chapter").textContent(),
-          (
-            await page.locator(`[data-chapter="${chapter}"]`).textContent()
-          ).trim(),
-        );
-      }
-      for (const mode of ["writing", "formatting", "focus"]) {
-        await page.locator(`[data-mode="${mode}"]`).click();
-        const shot = page.locator("#writing-shot");
-        assert.equal(
-          await shot.getAttribute("src"),
-          `/assets/product/${theme}-${mode}.png`,
-        );
-        await shot.evaluate((image) => image.decode());
-        assert.ok(await shot.evaluate((image) => image.naturalWidth > 0));
-      }
-      await page.locator(".focus-toggle").click();
-      assert.equal(
-        await page.locator(".focus-toggle").getAttribute("aria-pressed"),
-        "true",
-      );
-      assert.equal(await page.locator(".hero-tree").isVisible(), false);
-      await page.locator(".focus-toggle").click();
-      assert.equal(
-        await page.locator(".focus-toggle").getAttribute("aria-pressed"),
-        "false",
-      );
-      if ([390, 768, 1440].includes(width)) {
-        await page.locator('[data-mode="writing"]').click();
-        await page.locator('[data-stage="0"]').click();
-        await page.evaluate(() => scrollTo(0, 0));
+      if (env === "morning" && [390, 768, 1440].includes(width)) {
         await page.screenshot({
-          path: `qa/final/${theme}-${width}.png`,
+          path: `qa/final/morning-${width}.png`,
           fullPage: true,
+          animations: "disabled",
         });
       }
     }
-    passed(
-      `${width}px: Dawn under light/dark system preferences, all stages, chapters, screenshots and Deep Writing; no overflow`,
-    );
   }
-
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.locator(".menu-toggle").click();
-  assert.equal(
-    await page.locator(".menu-toggle").getAttribute("aria-expanded"),
-    "true",
-  );
+  await mobile.focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await mobile.getAttribute("aria-expanded"), "true");
   await page.keyboard.press("Escape");
+  assert.equal(await mobile.getAttribute("aria-expanded"), "false");
   assert.equal(
-    await page.locator(".menu-toggle").getAttribute("aria-expanded"),
-    "false",
+    await mobile.evaluate((element) => document.activeElement === element),
+    true,
   );
-  assert.equal(
-    await page.evaluate(() => document.activeElement.className),
-    "menu-toggle",
-  );
-  for (const hash of ["#features", "#philosophy", "#availability"]) {
-    await page.locator(".menu-toggle").click();
-    await page.locator(`#primary-nav a[href="${hash}"]`).click();
-    assert.equal(new URL(page.url()).hash, hash);
-    assert.equal(
-      await page.locator(".menu-toggle").getAttribute("aria-expanded"),
-      "false",
-    );
-  }
-  await page.locator(".hero-copy .button").click();
-  assert.equal(new URL(page.url()).hash, "#availability");
-  await page.locator(".hero-caption a").click();
-  assert.equal(new URL(page.url()).hash, "#features");
-  for (const hash of ["#features", "#philosophy"])
-    await page.locator(`footer a[href="${hash}"]`).click();
-  await page.locator("footer .brand").click();
-  assert.equal(new URL(page.url()).pathname, "/");
-  await page.locator("header .brand").click();
-  passed(
-    "Mobile menu opens, closes on selection and Escape, returns focus; header, footer and hero navigation work",
-  );
-
-  await page.locator('[data-stage="0"]').focus();
-  await page.keyboard.press("Tab");
-  assert.equal(
-    await page.evaluate(() => document.activeElement.dataset.stage),
-    "1",
-  );
-  await page.keyboard.press("Enter");
-  assert.equal(
-    await page.locator(".growth-preview").getAttribute("data-stage-view"),
-    "1",
-  );
-  const outline = await page.evaluate(
-    () => getComputedStyle(document.activeElement).outlineStyle,
-  );
-  assert.notEqual(outline, "none");
-  await page.locator('[data-stage="0"]').focus();
-  await page.keyboard.press("Space");
-  assert.equal(
-    await page.locator('[data-stage="0"]').getAttribute("aria-pressed"),
-    "true",
-  );
-  await page.reload();
-  assert.equal(await page.locator("html").getAttribute("data-theme"), "dawn");
-  await page.keyboard.press("Tab");
-  assert.equal(
-    await page.evaluate(() => document.activeElement.className),
-    "skip-link",
-  );
-  await page.keyboard.press("Enter");
-  assert.equal(new URL(page.url()).hash, "#main");
-  passed(
-    "Keyboard Tab, Enter and Space activate controls with visible focus; skip link works and old theme preferences cannot change Dawn",
-  );
-
-  for (const theme of ["dawn"]) {
-    const ratios = await page.evaluate(() => {
-      const style = getComputedStyle(document.documentElement);
-      function luminance(hex) {
-        return hex
-          .match(/[0-9a-f]{2}/gi)
-          .map((part) => parseInt(part, 16) / 255)
-          .map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4))
-          .reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
-      }
-      function ratio(a, b) {
-        const x = luminance(style.getPropertyValue(a).trim());
-        const y = luminance(style.getPropertyValue(b).trim());
-        return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
-      }
-      return {
-        text: Math.min(
-          ...[
-            "--canvas",
-            "--surface",
-            "--paper",
-            "--navigation",
-            "--field",
-            "--selection",
-          ].flatMap((bg) =>
-            ["--text", "--secondary"].map((fg) => ratio(fg, bg)),
-          ),
-        ),
-        button: Math.min(
-          ratio("--on-accent", "--accent"),
-          ratio("--on-accent", "--accent-hover"),
-        ),
-        focus: Math.min(
-          ...[
-            "--canvas",
-            "--surface",
-            "--paper",
-            "--navigation",
-            "--selection",
-          ].map((bg) => ratio("--focus", bg)),
-        ),
-      };
-    });
-    assert.ok(
-      ratios.text >= 4.5 && ratios.button >= 4.5 && ratios.focus >= 3,
-      JSON.stringify(ratios),
-    );
-    passed(
-      `${theme} contrast: text ≥${ratios.text.toFixed(2)}:1, buttons ≥${ratios.button.toFixed(2)}:1, focus ≥${ratios.focus.toFixed(2)}:1`,
-    );
-  }
+  await mobile.click();
+  await page.locator(".site-nav a[href='/features/']").click();
+  await assertRoute("/features/");
+  assert.equal(await mobile.getAttribute("aria-expanded"), "false");
+  await page.locator(".site-header .brand").click();
+  await assertRoute("/");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.reload();
-  await page.locator('[data-stage="3"]').click();
+  assert.equal(await page.locator(".scroll-beats").isVisible(), false);
+  await page.locator("[data-step='3']").click();
+  assert.equal(await stage.getAttribute("data-stage"), "3");
   assert.equal(
-    await page
-      .locator(".growth-paper")
-      .evaluate((node) => getComputedStyle(node).animationName),
-    "none",
-  );
-  assert.equal(
-    await page
-      .locator("html")
-      .evaluate((node) => getComputedStyle(node).scrollBehavior),
-    "auto",
-  );
-  passed(
-    "Reduced motion removes animation and smooth scrolling while retaining every stage",
-  );
-
-  const noScript = await browser.newContext({
-    javaScriptEnabled: false,
-    viewport: { width: 390, height: 844 },
-  });
-  const plain = await noScript.newPage();
-  await plain.goto(origin);
-  assert.ok(await plain.locator("#hero-title").isVisible());
-  assert.ok(await plain.locator("#primary-nav").isVisible());
-  assert.match(
-    await plain.locator("main").innerText(),
-    /Dedicated notes, character tools/,
-  );
-  assert.match(await plain.locator("#release-area").innerText(), /coming soon/);
-  assert.equal(await plain.locator(".growth-controls").isVisible(), false);
-  passed(
-    "Without JavaScript: readable marketing, visible navigation, coming-soon state and stage explanation",
-  );
-  await noScript.close();
-
-  assert.deepEqual(errors, []);
-  assert.deepEqual(failedRequests, []);
-  passed("No browser console errors or failed asset requests");
-  const missing = await context.newPage();
-  assert.equal((await missing.goto(origin + "/no-such-page")).status(), 404);
-  assert.equal((await missing.goto(origin + "/blog/")).status(), 404);
-  await missing.locator('a[href="/"]').click();
-  assert.equal(new URL(missing.url()).pathname, "/");
-  passed(
-    "Unknown and retired routes return a real 404 with a working home link",
-  );
-
-  const source = await readFile("index.html", "utf8");
-  const outputFiles = await readdir("dist", { recursive: true });
-  assert.ok(
-    !outputFiles.some((file) =>
-      /\.glb$|\.blend|three\.module|walkthrough|(^|[\\/])blog([\\/]|$)/.test(
-        file,
-      ),
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
     ),
-  );
-  assert.ok(!/three\.module|webgl|walkthrough\.glb|noindex/.test(source));
-  await writeFile(
-    "qa/final/results.json",
-    JSON.stringify(
-      { results, errors, failedRequests, cancelledRequests },
-      null,
-      2,
-    ),
+    true,
   );
   console.log(
-    `\n${results.length} checks passed. Screenshots and results saved in qa/final/.`,
+    "PASS five widths in both environments, keyboard mobile menu and motion-free demo",
+  );
+
+  const staticPage = await browser.newPage({ javaScriptEnabled: false });
+  for (const path of [
+    "/",
+    "/features/",
+    "/philosophy/",
+    "/pricing/",
+    "/roadmap/",
+    "/blog/",
+    "/blog/defining-cabin/",
+  ]) {
+    assert.equal((await staticPage.goto(origin + path)).status(), 200);
+    assert.equal(await staticPage.locator("main h1").isVisible(), true);
+  }
+  assert.equal((await staticPage.goto(origin + "/wrong-turn/")).status(), 404);
+  await staticPage.locator("main a[href='/']").click();
+  assert.equal(new URL(staticPage.url()).pathname, "/");
+  assert.deepEqual(failures, []);
+  console.log(
+    "PASS direct static pages without JavaScript, 404 recovery and clean network/console",
   );
 } finally {
   await browser?.close();

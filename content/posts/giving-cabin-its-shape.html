@@ -1,0 +1,21 @@
+<p>It&#39;s been a long time since my last blog post. And I left with having this massive feature list and a foggy idea of how to implement it. Well, I&#39;ve done a lot of <strong>STUFF</strong> since then, and this is an update on all of that.</p>
+<h2>Storing Brainwaves</h2>
+<p>At the end of my <a href="https://writecabin.com/blog/the-minimum-lovable-cabin">last blog</a>, I mentioned that I still had to come up with a way to store data. I had defined all the features, but still no way to store it (considering Cabin is a local-first app). So after a lot of thinking, I settled on a few different file formats such as <code>.cabinpage</code>, <code>.cabinconfig</code>, and <code>.cabinnote</code>. Innovatively named, these formats are mashups of existing formats such as <a href="https://www.markdownguide.org/">Markdown</a>, <a href="https://www.w3schools.com/xml/xml_whatis.asp">XML</a>, and <a href="https://toml.io/en/">TOML</a>.</p>
+<p>After that, I built some simple project folder structures to see how a Cabin project would look like on your computer and created samples of the final file formats.</p>
+<h2>User Experience</h2>
+<p>The next problem I tackled was user experience. In one of my previous blogs, I introduced a beautiful term called <strong>progressive complexity</strong>. So I sat and actually translated the flowery English into actual stuff you can do on Cabin. The main concept was that you can add a component to the workspace when you feel like it.</p>
+<p>I explored different ways of adding components, such as a component library, a keyboard shortcut that opens a massive search, an always-visible component library, etc. I&#39;m still undecided, but I have an idea in my head about how a person would use it.</p>
+<p>I also took inspiration from, possibly my favourite app, <a href="https://obsidian.md">Obsidian</a> and thought about making each component a <em>panel</em>, and you can resize, rearrange, and dock these panels.</p>
+<h2>UI Design</h2>
+<p>I then moved onto UI design. Let it be known to the world, I am not a person with skills in making things look good. But I have a rough idea for software at least.</p>
+<p>I experimented on <a href="https://www.penpot.app">Penpot</a>, but later moved to prototyping with actual code using ChatGPT because it was easier to see my changes. Also, the Penpot designs looked like this:
+<img loading="lazy" src="/assets/journal-c121d349a.png" alt="Penpot Design"></p>
+<p>And I do not mean Penpot is bad, it&#39;s a wonderful tool, but it&#39;s just not meant for me. </p>
+<p>After playing around with code prototyping, I realised flat design wasn&#39;t really working. So I made a <strong>bold</strong> choice and moved to <a href="https://www.uxdesigninstitute.com/blog/neumorphism-in-ui-design/">neumorphism</a>. If you know a bit about web design and are familiar with a few trends, you may realise that this is a bit of a risky move.</p>
+<p>Conventionally, neumorphism has been criticised for its lack of accessibility, which I agree with. The soft shadows make it hard to distinguish elements for those with impaired vision. I tried to make my designs as accessible as possible, and will do a final web accessibility check (such as <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">WCAG</a>) before the final version of Cabin.</p>
+<p>Regardless, it was a major improvement:
+<img loading="lazy" src="/assets/journal-048a45c63.png" alt="Neumorphism design"></p>
+<h2>Bouncy Buttons</h2>
+<p>Another issue I found with neumorphism was that it was hard to distinguish between pressing a button and an already-pressed button. Therefore, I opted for <strong>BOUNCY BUTTONS</strong>. You can view a sample <a href="https://www.writecabin.com/bouncy-buttons">here</a>. This also adds the feeling of a tactile interface, so it feels like you are actually interacting and touching the interface. </p>
+<p>Alright, so that&#39;s all I&#39;ve done in the past few months. I now need to probably focus on using this new UI system to create actual mocks for the workspaces (just tiny web models) to see how the final interface would look.</p>
+<p>And then I have to build the actual thing, so that&#39;s there as well.</p>
